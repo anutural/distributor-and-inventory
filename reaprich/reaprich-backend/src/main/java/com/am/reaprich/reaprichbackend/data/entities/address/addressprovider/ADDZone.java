@@ -1,4 +1,4 @@
-package com.am.reaprich.reaprichbackend.data.entities.addressprovider;
+package com.am.reaprich.reaprichbackend.data.entities.address.addressprovider;
 
 import lombok.*;
 import javax.persistence.*;

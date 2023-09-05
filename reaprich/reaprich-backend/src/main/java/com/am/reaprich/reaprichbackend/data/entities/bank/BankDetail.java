@@ -1,4 +1,4 @@
-package com.am.reaprich.reaprichbackend.data.entities;
+package com.am.reaprich.reaprichbackend.data.entities.bank;
 
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
 import lombok.*;
@@ -48,6 +48,10 @@ public class BankDetail {
     @Column(name = "BANK_DETAIL_IFCS_CODE")
     @Getter
     @Setter
-    private  String IFCSCode;
+    private  String ifscCode;
 
+    @Column(name = "STATUS")
+    @Getter
+    @Setter
+    private boolean status;
 }

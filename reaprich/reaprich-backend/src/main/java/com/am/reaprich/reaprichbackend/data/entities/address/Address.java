@@ -1,9 +1,13 @@
-package com.am.reaprich.reaprichbackend.data.entities;
+package com.am.reaprich.reaprichbackend.data.entities.address;
 
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
+import com.am.reaprich.reaprichbackend.data.entities.address.addressprovider.ADDCountry;
+import com.am.reaprich.reaprichbackend.data.entities.address.addressprovider.ADDDist;
+import com.am.reaprich.reaprichbackend.data.entities.address.addressprovider.ADDState;
+import com.am.reaprich.reaprichbackend.data.entities.address.addressprovider.ADDZone;
 import lombok.*;
 import javax.persistence.*;
-import com.am.reaprich.reaprichbackend.data.entities.addressprovider.*;
+import com.am.reaprich.reaprichbackend.data.entities.address.addressprovider.*;
 
 @Entity
 @Table(name = "ADDRESS")
@@ -74,4 +78,9 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "ADD_COUNTRY", referencedColumnName = "ADD_COUNTRY_ID")
     private ADDCountry country;
+
+    @Column(name = "STATUS")
+    @Getter
+    @Setter
+    private boolean status;
 }

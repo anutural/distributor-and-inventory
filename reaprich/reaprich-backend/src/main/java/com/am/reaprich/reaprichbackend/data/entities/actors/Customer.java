@@ -1,6 +1,6 @@
 package com.am.reaprich.reaprichbackend.data.entities.actors;
 
-import com.am.reaprich.reaprichbackend.data.entities.Address;
+import com.am.reaprich.reaprichbackend.data.entities.address.Address;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.CustomerType;
 import lombok.Getter;

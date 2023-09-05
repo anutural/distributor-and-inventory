@@ -1,9 +1,11 @@
-package com.am.reaprich.reaprichbackend.data.entities;
+package com.am.reaprich.reaprichbackend.data.entities.kyc;
 
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
+import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCAddProofType;
+import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCIDType;
 import lombok.*;
 import javax.persistence.*;
-import com.am.reaprich.reaprichbackend.data.entities.kycprovider.*;
+import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.*;
 
 @Entity
 @Table(name = "KYC")
@@ -37,6 +39,11 @@ public class KYC {
     @Setter
     private String idNumber;
 
+    @Column(name = "KYC_ID_LINK")
+    @Getter
+    @Setter
+    private String kycIDLink;
+
     @Getter
     @Setter
     @ManyToOne
@@ -48,8 +55,18 @@ public class KYC {
     @Setter
     private String addProofNumber;
 
+    @Column(name = "KYC_ADD_PROOF_LINK")
+    @Getter
+    @Setter
+    private String kycAddProofLink;
+
     @Column(name = "DOC_LINK")
     @Getter
     @Setter
     private String documentLinks;
+
+    @Column(name = "STATUS")
+    @Getter
+    @Setter
+    private boolean status;
 }

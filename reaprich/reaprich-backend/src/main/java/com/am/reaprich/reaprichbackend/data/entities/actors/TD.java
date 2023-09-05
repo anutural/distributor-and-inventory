@@ -1,8 +1,8 @@
 package com.am.reaprich.reaprichbackend.data.entities.actors;
 
-import com.am.reaprich.reaprichbackend.data.entities.Address;
-import com.am.reaprich.reaprichbackend.data.entities.BankDetail;
-import com.am.reaprich.reaprichbackend.data.entities.KYC;
+import com.am.reaprich.reaprichbackend.data.entities.address.Address;
+import com.am.reaprich.reaprichbackend.data.entities.bank.BankDetail;
+import com.am.reaprich.reaprichbackend.data.entities.kyc.KYC;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -73,4 +73,9 @@ public class TD {
     @Getter
     @Setter
     private String password;
+
+    @Column(name = "STATUS")
+    @Getter
+    @Setter
+    private boolean status;
 }

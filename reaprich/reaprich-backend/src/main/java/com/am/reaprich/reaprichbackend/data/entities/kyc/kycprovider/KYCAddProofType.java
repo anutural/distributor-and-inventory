@@ -1,4 +1,4 @@
-package com.am.reaprich.reaprichbackend.data.entities.kycprovider;
+package com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider;
 
 import lombok.*;
 import javax.persistence.*;

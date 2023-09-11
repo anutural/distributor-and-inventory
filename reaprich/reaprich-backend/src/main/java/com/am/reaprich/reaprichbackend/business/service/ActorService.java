@@ -45,52 +45,14 @@ public class ActorService {
     @Autowired
     private BankService bankService;
 
-
-
-
-    public Iterable<OutletType> GetOutletTypes() { return this.outletTypeRepository.findAll(); }
-    public OutletType GetOutletTypesByID(String id) throws Exception {
-        Optional<OutletType> optionalOutletType = this.outletTypeRepository.findById(id);
-        if (optionalOutletType.isEmpty()) {
-            throw new java.lang.NullPointerException("Outlet type  not found");
-        }
-        return optionalOutletType.get();
-    }
-
-    public Iterable<CustomerType> GetCustomerTypes() { return  this.customerTypeRepository.findAll(); }
-    public CustomerType GetCustomerTypesByID(String id) throws Exception {
-        Optional<CustomerType> optionalCustomerType = this.customerTypeRepository.findById(id);
-        if (optionalCustomerType.isEmpty()) {
-            throw new java.lang.NullPointerException("Customer type not found");
-        }
-        return optionalCustomerType.get();
-    }
-
-
-    public Iterable<Outlet> GetAllOutlets() {
+    public Iterable<Outlet> GetOutlets() {
         return  this.outletRepository.findAll();
     }
-    public Iterable<TD> GetAllTDs() {
+    public Iterable<TD> GetTDs() {
         return this.tdRepository.findAll();
     }
-    public Iterable<Customer> GetAllCustomers() {
+    public Iterable<Customer> GetCustomers() {
         return this.customerRepository.findAll();
-    }
-
-
-    public boolean AddOutletType(OutletType outletType) throws Exception {
-        if (this.outletTypeRepository.existsById(outletType.getId())) {
-            throw new Exception("Outlet Type with same ID is already present");
-        }
-        this.outletTypeRepository.save(outletType);
-        return  true;
-    }
-    public boolean AddCustomerType(CustomerType customerType) throws Exception {
-        if (this.customerTypeRepository.existsById(customerType.getId())) {
-            throw new Exception("CustomerType with same ID is already present");
-        }
-        this.customerTypeRepository.save(customerType);
-        return  true;
     }
 
 
@@ -108,8 +70,8 @@ public class ActorService {
             }
         }
 
-        outlet.setActorType(this.providerService.GetActorTypeByID(outlet.getActorType().getId()));
-        outlet.setOutletType(this.GetOutletTypesByID(outlet.getOutletType().getId()));
+        outlet.setActorType(this.providerService.GetActorTypesByID(outlet.getActorType().getId()));
+        outlet.setOutletType(this.providerService.GetOutletTypesByID(outlet.getOutletType().getId()));
 
         outlet.setFirmAddress(this.addressService.GetAddressByID(outlet.getFirmAddress().getId()));
         this.addressService.SetAddressStatus(outlet.getFirmAddress().getId(), true);
@@ -128,10 +90,52 @@ public class ActorService {
     }
 
     public boolean AddTD(TD td) throws Exception {
-        throw new UnsupportedOperationException();
+        if (this.tdRepository.existsById(td.getId())) {
+            throw new Exception("TD with same ID is already present");
+        }
+        Iterable<TD> allTDs = this.tdRepository.findAll();
+        for(TD t : allTDs) {
+            if (t.getContactNumber() .equals(td.getContactNumber())){
+                throw new Exception("TD with same contact number is already present");
+            }
+            if (t.getEmail().equals(td.getEmail())){
+                throw new Exception("TD with same Contact number is already present");
+            }
+        }
+
+        td.setActorType(this.providerService.GetActorTypesByID(td.getActorType().getId()));
+
+        td.setAddress(this.addressService.GetAddressByID(td.getAddress().getId()));
+        this.addressService.SetAddressStatus(td.getAddress().getId(), true);
+
+        td.setBankDetails(this.bankService.GetBankDetailById(td.getBankDetails().getId()));
+        this.bankService.SetBankDetailStatus(td.getBankDetails().getId(), true);
+
+        td.setKYC(this.kycService.GetKYCByID(td.getKYC().getId()));
+        this.kycService.SetKYCStatus(td.getKYC().getId(), true);
+
+        this.tdRepository.save(td);
+        return true;
     }
 
     public boolean AddCustomer(Customer customer) throws Exception {
-        throw new UnsupportedOperationException();
+        if (this.customerRepository.existsById(customer.getId())) {
+            throw new Exception("Customer with same ID is already present");
+        }
+        Iterable<Customer> allCustomer = this.customerRepository.findAll();
+        for(Customer c : allCustomer) {
+            if (c.getContactNumber().equals(customer.getContactNumber())){
+                throw new Exception("Customer with same contact number is already present");
+            }
+        }
+
+        customer.setActorType(this.providerService.GetActorTypesByID(customer.getActorType().getId()));
+        customer.setCustomerType(this.providerService.GetCustomerTypesByID(customer.getCustomerType().getId()));
+
+        customer.setAddress(this.addressService.GetAddressByID(customer.getAddress().getId()));
+        this.addressService.SetAddressStatus(customer.getAddress().getId(), true);
+
+        this.customerRepository.save(customer);
+        return true;
     }
 }

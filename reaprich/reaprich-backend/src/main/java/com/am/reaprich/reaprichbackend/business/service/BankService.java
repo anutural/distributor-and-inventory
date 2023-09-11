@@ -39,7 +39,7 @@ public class BankService {
         if (this.bankDetailRepository.existsById(bankDetail.getId())) {
             throw new Exception("Bank Detail entry with the same ID already exist");
         }
-        bankDetail.setActorType(this.providerService.GetActorTypeByID(bankDetail.getActorType().getId()));
+        bankDetail.setActorType(this.providerService.GetActorTypesByID(bankDetail.getActorType().getId()));
         bankDetail.setStatus(false);
 
         this.bankDetailRepository.save(bankDetail);

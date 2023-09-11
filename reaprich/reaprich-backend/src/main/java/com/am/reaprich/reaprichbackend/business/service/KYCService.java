@@ -22,24 +22,9 @@ public class KYCService {
     @Autowired
     private KYCAddProofTypeRepository kycAddProofTypeRepository;
     @Autowired
-    protected ProviderService providerService;
+    private ProviderService providerService;
 
-    public Iterable<KYCIDType> GetKYCIDTypes() { return this.kycidTypeRepository.findAll(); }
-    public KYCIDType GetKYCIDTypeByID(String id) {
-        Optional<KYCIDType> optionalKYCIDType = this.kycidTypeRepository.findById(id);
-        if (optionalKYCIDType.isEmpty()) {
-            throw new java.lang.NullPointerException("KYC ID type not found");
-        }
-        return optionalKYCIDType.get();
-    }
-    public Iterable<KYCAddProofType> GetKYCAddProofTypes() { return this.kycAddProofTypeRepository.findAll(); }
-    public KYCAddProofType GetKYCAddProofTypesByID(String id) {
-        Optional<KYCAddProofType> optionalKYCAddProofType = this.kycAddProofTypeRepository.findById(id);
-        if (optionalKYCAddProofType.isEmpty()) {
-            throw new java.lang.NullPointerException("KYC Address proof type not found");
-        }
-        return optionalKYCAddProofType.get();
-    }
+
     public KYC GetKYCByID(String id) throws Exception {
         Optional<KYC> optionalKYC = this.kycRepository.findById(id);
         if (optionalKYC.isEmpty()) {
@@ -58,29 +43,16 @@ public class KYCService {
     }
 
 
-    public boolean AddKYCIDType(KYCIDType kycidType) throws Exception {
-        if (this.kycidTypeRepository.existsById(kycidType.getId())) {
-            throw new Exception("kyc id type entry with the same ID already exist");
-        }
-        this.kycidTypeRepository.save(kycidType);
-        return true;
-    }
-    public boolean AddKYCAddProofType(KYCAddProofType kycAddProofType) throws Exception {
-        if (this.kycAddProofTypeRepository.existsById(kycAddProofType.getId())) {
-            throw new Exception("KYC address proof type entry with the same ID already exist");
-        }
-        this.kycAddProofTypeRepository.save(kycAddProofType);
-        return true;
-    }
+
 
     public boolean AddKYC(KYC kyc) throws Exception {
         if (this.kycRepository.existsById(kyc.getId())) {
             throw new Exception("KYC entry with the same ID already exist");
         }
 
-        kyc.setActorType(this.providerService.GetActorTypeByID(kyc.getActorType().getId()));
-        kyc.setIdType(this.GetKYCIDTypeByID(kyc.getIdType().getId()));
-        kyc.setAddProofType(this.GetKYCAddProofTypesByID(kyc.getAddProofType().getId()));
+        kyc.setActorType(this.providerService.GetActorTypesByID(kyc.getActorType().getId()));
+        kyc.setIdType(this.providerService.GetKYCIDTypeByID(kyc.getIdType().getId()));
+        kyc.setAddProofType(this.providerService.GetKYCAddProofTypesByID(kyc.getAddProofType().getId()));
         kyc.setStatus(false);
 
         this.kycRepository.save(kyc);

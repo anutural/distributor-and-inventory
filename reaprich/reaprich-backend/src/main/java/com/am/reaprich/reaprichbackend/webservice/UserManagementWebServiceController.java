@@ -2,7 +2,9 @@ package com.am.reaprich.reaprichbackend.webservice;
 
 import com.am.reaprich.reaprichbackend.business.pojo.UserManagementProvider;
 import com.am.reaprich.reaprichbackend.business.service.*;
+import com.am.reaprich.reaprichbackend.data.entities.actors.Customer;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Outlet;
+import com.am.reaprich.reaprichbackend.data.entities.actors.TD;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.CustomerType;
 import com.am.reaprich.reaprichbackend.data.entities.actors.outletprovider.OutletType;
 import com.am.reaprich.reaprichbackend.data.entities.address.Address;
@@ -33,25 +35,24 @@ public class UserManagementWebServiceController {
     @Autowired
     private AddressService addressService;
     @Autowired
-    private UserManagementProviderService userManagementProviderService;
-
+    private  ProviderService providerService;
 
     @RequestMapping(path = "/provider", method = RequestMethod.GET)
     public UserManagementProvider GetProvider() {
-        return this.userManagementProviderService.GetProviderData();
+        return this.providerService.GetProviderData();
     }
 
 
     @PostMapping("/actor/provider/outlettype")
     @ResponseStatus(HttpStatus.CREATED)
     public UserManagementProvider AddOutletType(@RequestBody OutletType outletType) throws Exception {
-        this.actorService.AddOutletType(outletType);
+        this.providerService.AddOutletType(outletType);
         return GetProvider();
     }
     @PostMapping("/actor/provider/customertype")
     @ResponseStatus(HttpStatus.CREATED)
     public UserManagementProvider AddCustomerType(@RequestBody CustomerType customerType) throws Exception {
-        this.actorService.AddCustomerType(customerType);
+        this.providerService.AddCustomerType(customerType);
         return GetProvider();
     }
 
@@ -83,13 +84,13 @@ public class UserManagementWebServiceController {
     @PostMapping("/kyc/provider/idtype")
     @ResponseStatus(HttpStatus.CREATED)
     public UserManagementProvider AddKYCIdType(@RequestBody KYCIDType kycidType) throws Exception {
-        this.kycService.AddKYCIDType(kycidType);
+        this.providerService.AddKYCIDType(kycidType);
         return GetProvider();
     }
     @PostMapping("/kyc/provider/addprooftype")
     @ResponseStatus(HttpStatus.CREATED)
     public UserManagementProvider AddKYCAddProofType(@RequestBody KYCAddProofType kycAddProofType) throws Exception {
-        this.kycService.AddKYCAddProofType(kycAddProofType);
+        this.providerService.AddKYCAddProofType(kycAddProofType);
         return GetProvider();
     }
 
@@ -124,5 +125,17 @@ public class UserManagementWebServiceController {
     @ResponseStatus(HttpStatus.CREATED)
     public void AddOutlet(@RequestBody Outlet outlet) throws Exception {
         this.actorService.AddOutlet(outlet);
+    }
+
+    @PostMapping("/actor/td")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void AddTD(@RequestBody TD td) throws Exception {
+        this.actorService.AddTD(td);
+    }
+
+    @PostMapping("/actor/customer")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void AddCustomer(@RequestBody Customer customer) throws Exception {
+        this.actorService.AddCustomer(customer);
     }
 }

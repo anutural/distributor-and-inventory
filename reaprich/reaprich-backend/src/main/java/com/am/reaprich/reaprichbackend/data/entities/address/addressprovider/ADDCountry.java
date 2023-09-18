@@ -21,5 +21,7 @@ public class ADDCountry{
     private String id;
 
     @Column(name = "NAME")
+    @Getter
+    @Setter
     private String name;
 }

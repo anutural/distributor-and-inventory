@@ -13,6 +13,11 @@ public class OutletType {
     @Setter
     private String id;
 
+    @Column(name = "NAME")
+    @Getter
+    @Setter
+    private String name;
+
     @Column(name = "DISCOUNT")
     @Getter
     @Setter

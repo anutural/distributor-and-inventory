@@ -48,11 +48,32 @@ public class ActorService {
     public Iterable<Outlet> GetOutlets() {
         return  this.outletRepository.findAll();
     }
+    public Outlet GetOutletById(String id) throws Exception {
+        Optional<Outlet> optionalOutlet = this.outletRepository.findById(id);
+        if (optionalOutlet.isEmpty()) {
+            throw new java.lang.NullPointerException("Outlet not found");
+        }
+        return optionalOutlet.get();
+    }
     public Iterable<TD> GetTDs() {
         return this.tdRepository.findAll();
     }
+    public TD GetTDById(String id) throws Exception {
+        Optional<TD> optionalTD = this.tdRepository.findById(id);
+        if (optionalTD.isEmpty()) {
+            throw new java.lang.NullPointerException("TD not found");
+        }
+        return optionalTD.get();
+    }
     public Iterable<Customer> GetCustomers() {
         return this.customerRepository.findAll();
+    }
+    public Customer GetCustomerById(String id) throws Exception {
+        Optional<Customer> optionalCustomer = this.customerRepository.findById(id);
+        if (optionalCustomer.isEmpty()) {
+            throw new java.lang.NullPointerException("Customer not found");
+        }
+        return optionalCustomer.get();
     }
 
 

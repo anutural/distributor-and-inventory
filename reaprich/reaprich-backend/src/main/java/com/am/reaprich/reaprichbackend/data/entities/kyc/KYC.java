@@ -3,9 +3,11 @@ package com.am.reaprich.reaprichbackend.data.entities.kyc;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
 import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCAddProofType;
 import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCIDType;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
-import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.*;
 
 @Entity
 @Table(name = "KYC")

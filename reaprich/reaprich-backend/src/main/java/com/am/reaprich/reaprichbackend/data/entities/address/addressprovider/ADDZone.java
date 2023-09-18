@@ -14,5 +14,13 @@ public class ADDZone{
     private String id;
 
     @Column(name = "NAME")
+    @Getter
+    @Setter
     private String name;
+
+    @Getter
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "ADD_STATE", referencedColumnName = "ADD_STATE_ID")
+    private ADDState state;
 }

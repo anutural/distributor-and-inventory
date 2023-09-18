@@ -91,21 +91,24 @@ public class AddressService {
         if (this.addStateRepository.existsById(State.getId())) {
             throw new Exception("State with the same ID already exist.");
         }
+        State.setCountry(GetContryByID(State.getCountry().getId()));
         this.addStateRepository.save(State);
         return true;
     }
-    public boolean AddZone(ADDZone Zone) throws Exception {
-        if (this.addZoneRepository.existsById(Zone.getId())) {
+    public boolean AddZone(ADDZone zone) throws Exception {
+        if (this.addZoneRepository.existsById(zone.getId())) {
             throw new Exception("Zone with the same ID already exist.");
         }
-        this.addZoneRepository.save(Zone);
+        zone.setState(GetStateByID(zone.getState().getId()));
+        this.addZoneRepository.save(zone);
         return true;
     }
-    public boolean AddDist(ADDDist Dist) throws Exception {
-        if (this.addDistRepository.existsById(Dist.getId())) {
-            throw new Exception("Dist with the same ID already exist.");
+    public boolean AddDist(ADDDist dist) throws Exception {
+        if (this.addDistRepository.existsById(dist.getId())) {
+            throw new Exception("District with the same ID already exist.");
         }
-        this.addDistRepository.save(Dist);
+        dist.setZone(GetZoneByID(dist.getZone().getId()));
+        this.addDistRepository.save(dist);
         return true;
     }
 

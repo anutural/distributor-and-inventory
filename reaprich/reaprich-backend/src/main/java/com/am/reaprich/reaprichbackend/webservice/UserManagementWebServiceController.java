@@ -18,7 +18,9 @@ import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCAddProof
 import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCIDType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -110,6 +112,24 @@ public class UserManagementWebServiceController {
         kyc.setId(id);
         this.kycService.AddKYC(kyc);
         return id;
+    }
+
+    @PostMapping("/kycdocupload")
+    @ResponseStatus(HttpStatus.OK)
+    public void UploadKYCDoc(@RequestParam("file") MultipartFile file,
+                                               String actorID, String kycID, String userType, String documentType) throws Exception {
+        if (kycID == null ||  kycID.isEmpty()) {
+            switch (userType.toLowerCase()) {
+                case "outlet":
+                    kycID = this.actorService.GetOutletById(actorID).getOwnerKYC().getId();
+                    break;
+                case "td":
+                    kycID = this.actorService.GetTDById(actorID).getKYC().getId();
+                default:
+                    throw new Exception("Invalid user type submitted while uploading the KYC document");
+            }
+        }
+        kycService.AddKYCDoc(actorID, kycID, userType, documentType, file);
     }
 
     @PostMapping("/address")

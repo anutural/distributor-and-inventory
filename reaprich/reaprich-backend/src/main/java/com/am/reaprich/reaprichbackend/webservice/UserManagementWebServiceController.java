@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/v1/user")
 public class UserManagementWebServiceController {
     @Autowired

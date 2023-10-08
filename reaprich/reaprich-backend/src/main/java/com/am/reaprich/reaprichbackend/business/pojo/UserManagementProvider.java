@@ -9,12 +9,12 @@ import com.am.reaprich.reaprichbackend.data.entities.address.addressprovider.ADD
 import com.am.reaprich.reaprichbackend.data.entities.address.addressprovider.ADDZone;
 import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCAddProofType;
 import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCIDType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserManagementProvider {
     @Getter
@@ -52,5 +52,9 @@ public class UserManagementProvider {
     @Getter
     @Setter
     private Iterable<KYCAddProofType> kycAddProofType;
+
+    @Getter
+    @Setter
+    private String error;
 
 }

@@ -1,11 +1,15 @@
 package com.am.reaprich.reaprichbackend.business.service;
 
+import com.am.reaprich.reaprichbackend.business.pojo.auth.AppUserRegisterRequest;
+import com.am.reaprich.reaprichbackend.business.pojo.auth.AuthenticationResponse;
+import com.am.reaprich.reaprichbackend.business.service.auth.AuthenticationService;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Customer;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Outlet;
 import com.am.reaprich.reaprichbackend.data.entities.actors.TD;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.CustomerType;
 import com.am.reaprich.reaprichbackend.data.entities.actors.outletprovider.OutletType;
+import com.am.reaprich.reaprichbackend.data.entities.auth.Role;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.CustomerRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.OutletRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.TDRepository;
@@ -24,6 +28,8 @@ import java.util.Optional;
 
 @Service
 public class ActorService {
+    @Autowired
+    private AuthenticationService authenticationService;
     @Autowired
     private ActorTypeRepository actorTypeRepository;
     @Autowired
@@ -81,14 +87,11 @@ public class ActorService {
         if (this.outletRepository.existsById(outlet.getId())) {
             throw new Exception("Outlet with same ID is already present");
         }
-        Iterable<Outlet> allOutlets = this.outletRepository.findAll();
-        for(Outlet o : allOutlets) {
-            if (o.getFirmContactNumber().equals(outlet.getFirmContactNumber())){
-                throw new Exception("Outlet with same Firm contact number is already present");
-            }
-            if (o.getEmail().equals(outlet.getEmail())){
-                throw new Exception("Outlet with same Contact number is already present");
-            }
+        if (!this.outletRepository.findByEmail(outlet.getEmail()).isEmpty()){
+            throw new Exception("Outlet with same email address is already present");
+        }
+        if (!this.outletRepository.findByOwnerContactNumber(outlet.getOwnerContactNumber()).isEmpty()) {
+            throw new Exception("Outlet with same owner contact number is already present");
         }
 
         outlet.setActorType(this.providerService.GetActorTypesByID(outlet.getActorType().getId()));
@@ -106,6 +109,15 @@ public class ActorService {
         outlet.setOwnerKYC(this.kycService.GetKYCByID(outlet.getOwnerKYC().getId()));
         this.kycService.SetKYCStatus(outlet.getOwnerKYC().getId(), true);
 
+        Role role = outlet.getOutletType().getId() == "Pl" ? Role.SP_OUTLET : Role.OUTLET;
+
+        AuthenticationResponse authenticationResponse = authenticationService.register(
+                AppUserRegisterRequest.builder()
+                        .email(outlet.getEmail())
+                        .password(outlet.getPassword())
+                        .role(role)
+                        .build());
+
         this.outletRepository.save(outlet);
         return true;
     }
@@ -114,14 +126,11 @@ public class ActorService {
         if (this.tdRepository.existsById(td.getId())) {
             throw new Exception("TD with same ID is already present");
         }
-        Iterable<TD> allTDs = this.tdRepository.findAll();
-        for(TD t : allTDs) {
-            if (t.getContactNumber() .equals(td.getContactNumber())){
-                throw new Exception("TD with same contact number is already present");
-            }
-            if (t.getEmail().equals(td.getEmail())){
-                throw new Exception("TD with same Contact number is already present");
-            }
+        if (!this.tdRepository.findByEmail(td.getEmail()).isEmpty()){
+            throw new Exception("TD with same email is already present");
+        }
+        if (!this.tdRepository.findByContactNumber(td.getContactNumber()).isEmpty()){
+            throw new Exception("TD with same contact number is already present");
         }
 
         td.setActorType(this.providerService.GetActorTypesByID(td.getActorType().getId()));
@@ -135,6 +144,15 @@ public class ActorService {
         td.setKYC(this.kycService.GetKYCByID(td.getKYC().getId()));
         this.kycService.SetKYCStatus(td.getKYC().getId(), true);
 
+        Role role = Role.TD;
+
+        AuthenticationResponse authenticationResponse = authenticationService.register(
+                AppUserRegisterRequest.builder()
+                        .email(td.getEmail())
+                        .password(td.getPassword())
+                        .role(role)
+                        .build());
+
         this.tdRepository.save(td);
         return true;
     }
@@ -143,11 +161,8 @@ public class ActorService {
         if (this.customerRepository.existsById(customer.getId())) {
             throw new Exception("Customer with same ID is already present");
         }
-        Iterable<Customer> allCustomer = this.customerRepository.findAll();
-        for(Customer c : allCustomer) {
-            if (c.getContactNumber().equals(customer.getContactNumber())){
-                throw new Exception("Customer with same contact number is already present");
-            }
+        if (!this.customerRepository.findByContactNumber(customer.getContactNumber()).isEmpty()){
+            throw new Exception("Customer with same contact number is already present");
         }
 
         customer.setActorType(this.providerService.GetActorTypesByID(customer.getActorType().getId()));

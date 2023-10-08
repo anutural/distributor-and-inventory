@@ -9,6 +9,7 @@ import lombok.*;
 import javax.persistence.*;
 
 
+@Data
 @Entity
 @Table(name="OUTLET")
 @NoArgsConstructor

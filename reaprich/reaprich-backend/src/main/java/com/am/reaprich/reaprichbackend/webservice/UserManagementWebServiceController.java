@@ -99,12 +99,12 @@ public class UserManagementWebServiceController {
 
     @PostMapping("/actor/outlet")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity addOutlet(@RequestBody Outlet outlet) throws Exception {
+    public ResponseEntity<String> addOutlet(@RequestBody Outlet outlet) throws Exception {
         String id = java.util.UUID.randomUUID().toString();
         outlet.setId(id);
         try {
             this.actorService.AddOutlet(outlet);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(id);
         }
         catch (Exception ex) {
             return  getStringForInternalServerError(ex);
@@ -113,12 +113,12 @@ public class UserManagementWebServiceController {
 
     @PostMapping("/actor/td")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity addTD(@RequestBody TD td) throws Exception {
+    public ResponseEntity<String> addTD(@RequestBody TD td) throws Exception {
         String id = java.util.UUID.randomUUID().toString();
         td.setId(id);
         try {
             this.actorService.AddTD(td);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(id);
         }
         catch (Exception ex) {
             return getStringForInternalServerError(ex);
@@ -127,12 +127,12 @@ public class UserManagementWebServiceController {
 
     @PostMapping("/actor/customer")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity addCustomer(@RequestBody Customer customer) throws Exception {
+    public ResponseEntity<String> addCustomer(@RequestBody Customer customer) throws Exception {
         String id = java.util.UUID.randomUUID().toString();
         customer.setId(id);
         try {
             this.actorService.AddCustomer(customer);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(id);
         }
         catch (Exception ex) {
             return getStringForInternalServerError(ex);

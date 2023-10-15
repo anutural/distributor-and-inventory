@@ -1,11 +1,9 @@
 package com.am.reaprich.reaprichbackend.business.service;
 
-import com.am.reaprich.reaprichbackend.business.pojo.UserManagementProvider;
-import com.am.reaprich.reaprichbackend.data.entities.actors.Customer;
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UserManagementProvider;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.CustomerType;
 import com.am.reaprich.reaprichbackend.data.entities.actors.outletprovider.OutletType;
-import com.am.reaprich.reaprichbackend.data.entities.address.Address;
 import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCAddProofType;
 import com.am.reaprich.reaprichbackend.data.entities.kyc.kycprovider.KYCIDType;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.actorprovider.ActorTypeRepository;

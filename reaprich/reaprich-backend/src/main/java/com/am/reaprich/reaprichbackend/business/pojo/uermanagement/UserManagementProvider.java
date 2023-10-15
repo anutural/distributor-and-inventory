@@ -1,4 +1,4 @@
-package com.am.reaprich.reaprichbackend.business.pojo;
+package com.am.reaprich.reaprichbackend.business.pojo.uermanagement;
 
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.CustomerType;

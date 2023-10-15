@@ -1,6 +1,6 @@
 package com.am.reaprich.reaprichbackend.webservice;
 
-import com.am.reaprich.reaprichbackend.business.pojo.UserManagementProvider;
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UserManagementProvider;
 import com.am.reaprich.reaprichbackend.business.service.*;
 import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.CustomerType;
 import com.am.reaprich.reaprichbackend.data.entities.actors.outletprovider.OutletType;

@@ -2,6 +2,10 @@ package com.am.reaprich.reaprichbackend.business.service;
 
 import com.am.reaprich.reaprichbackend.business.pojo.auth.AppUserRegisterRequest;
 import com.am.reaprich.reaprichbackend.business.pojo.auth.AuthenticationResponse;
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.OutletDetailResponse;
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.TDDetailResponse;
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UpdateOutletDetailRequest;
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UpdateTDDetailRequest;
 import com.am.reaprich.reaprichbackend.business.service.auth.AuthenticationService;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Customer;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Outlet;
@@ -61,6 +65,18 @@ public class ActorService {
         }
         return optionalOutlet.get();
     }
+    public Outlet getOutletByEmail(String email) throws Exception{
+        Optional<Outlet> outletOptional = this.outletRepository.findByEmail(email);
+        if (outletOptional.isEmpty())
+        {
+            throw new Exception("No outlet found with the passed email address");
+        }
+        return outletOptional.get();
+    }
+    public OutletDetailResponse getOutletDetailByUserEamil(String email) throws Exception{
+        return OutletDetailResponse.getOutletDetailResponseFromOutletEntity(getOutletByEmail(email));
+    }
+
     public Iterable<TD> GetTDs() {
         return this.tdRepository.findAll();
     }
@@ -71,6 +87,18 @@ public class ActorService {
         }
         return optionalTD.get();
     }
+    public TD getTDByEmail(String email) throws Exception {
+        Optional<TD> optionalTD = this.tdRepository.findByEmail(email);
+        if (optionalTD.isEmpty())
+        {
+            throw new Exception("No TD found with the passed email address");
+        }
+        return optionalTD.get();
+    }
+    public TDDetailResponse getTDDetailByUserEamil(String email) throws Exception{
+        return TDDetailResponse.getTDDetailResponseFromOutletEntity(getTDByEmail(email));
+    }
+
     public Iterable<Customer> GetCustomers() {
         return this.customerRepository.findAll();
     }
@@ -121,6 +149,20 @@ public class ActorService {
         this.outletRepository.save(outlet);
         return true;
     }
+    public void updateOutlet (Outlet outlet) throws Exception {
+        if (this.outletRepository.findById(outlet.getId()).isEmpty()) {
+            throw new java.lang.NullPointerException("Outlet not found");
+        }
+        this.outletRepository.save(outlet);
+    }
+    public OutletDetailResponse updateOutletDetail(String email, UpdateOutletDetailRequest updateOutletDetailRequest) throws Exception{
+        Outlet outlet = getOutletByEmail(email);
+        outlet.update(updateOutletDetailRequest);
+        updateOutlet(outlet);
+
+        return OutletDetailResponse.getOutletDetailResponseFromOutletEntity(outlet);
+    }
+
 
     public boolean AddTD(TD td) throws Exception {
         if (this.tdRepository.existsById(td.getId())) {
@@ -156,6 +198,19 @@ public class ActorService {
         this.tdRepository.save(td);
         return true;
     }
+    public void updateTD (TD td) throws Exception {
+        if (this.tdRepository.findById(td.getId()).isEmpty()) {
+            throw new java.lang.NullPointerException("TD not found");
+        }
+        this.tdRepository.save(td);
+    }
+    public TDDetailResponse updateTDDetail(String email, UpdateTDDetailRequest updateTDDetailRequest) throws  Exception {
+        TD td = getTDByEmail(email);
+        td.update(updateTDDetailRequest);
+        updateTD(td);
+
+        return TDDetailResponse.getTDDetailResponseFromOutletEntity(td);
+    }
 
     public boolean AddCustomer(Customer customer) throws Exception {
         if (this.customerRepository.existsById(customer.getId())) {
@@ -174,4 +229,18 @@ public class ActorService {
         this.customerRepository.save(customer);
         return true;
     }
+
+    public void updateCustomer (Customer customer) throws Exception {
+        if (this.tdRepository.findById(customer.getId()).isEmpty()) {
+            throw new java.lang.NullPointerException("Customer not found");
+        }
+        this.customerRepository.save(customer);
+    }
+
+
+
+
+
+
+
 }

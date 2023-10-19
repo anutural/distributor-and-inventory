@@ -54,4 +54,14 @@ public class BankDetail {
     @Getter
     @Setter
     private boolean status;
+
+    public void update(BankDetail bankDetail) {
+        this.actorType = bankDetail.getActorType();
+        this.name = bankDetail.getName();
+        this.acNumber = bankDetail.getAcNumber();
+        this.acType = bankDetail.getAcType();
+        this.bankName = bankDetail.getBankName();
+        this.branchName = bankDetail.getBranchName();
+        this.ifscCode = bankDetail.getIfscCode();
+    }
 }

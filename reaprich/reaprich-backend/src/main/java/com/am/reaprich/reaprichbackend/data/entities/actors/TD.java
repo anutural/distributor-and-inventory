@@ -1,5 +1,6 @@
 package com.am.reaprich.reaprichbackend.data.entities.actors;
 
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UpdateTDDetailRequest;
 import com.am.reaprich.reaprichbackend.data.entities.address.Address;
 import com.am.reaprich.reaprichbackend.data.entities.bank.BankDetail;
 import com.am.reaprich.reaprichbackend.data.entities.kyc.KYC;
@@ -78,4 +79,15 @@ public class TD {
     @Getter
     @Setter
     private boolean status;
+
+    public void update(UpdateTDDetailRequest updateTDDetailRequest) {
+        this.setFirstName(updateTDDetailRequest.getFirstName());
+        this.setLastName(updateTDDetailRequest.getLastName());
+        this.setContactNumber(updateTDDetailRequest.getContactNumber());
+
+        this.getBankDetails().update(updateTDDetailRequest.getBankDetails());
+
+        this.getAddress().update(updateTDDetailRequest.getAddress());
+
+    }
 }

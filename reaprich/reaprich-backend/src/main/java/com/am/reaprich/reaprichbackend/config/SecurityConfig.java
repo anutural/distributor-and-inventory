@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .antMatchers("/v1/auth/**","/v1/provider/")
                 .permitAll()
 
+                .antMatchers("/v1/self/**").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name())
 
                 .antMatchers("/v1/user/**").hasAnyRole(ADMIN.name())
                 .antMatchers("/v1/provider/**").hasAnyRole(ADMIN.name())

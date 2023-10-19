@@ -83,4 +83,19 @@ public class Address {
     @Getter
     @Setter
     private boolean status;
+
+    public void update(Address address) {
+        this.actorType = address.getActorType();
+        this.name = address.getName();
+        this.addressLine1 = address.getAddressLine1();
+        this.addressLine2 = address.getAddressLine2();
+        this.city = address.getCity();
+        this.taluka = address.getTaluka();
+        this.pinCode = address.getPinCode();
+
+        this.dist = address.getDist();
+        this.zone = address.getZone();
+        this.state = address.getState();
+        this.country = address.getCountry();
+    }
 }

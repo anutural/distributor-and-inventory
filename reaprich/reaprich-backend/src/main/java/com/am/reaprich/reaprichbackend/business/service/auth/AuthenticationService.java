@@ -3,6 +3,7 @@ package com.am.reaprich.reaprichbackend.business.service.auth;
 import com.am.reaprich.reaprichbackend.business.pojo.auth.AppUserRegisterRequest;
 import com.am.reaprich.reaprichbackend.business.pojo.auth.AuthenticationRequest;
 import com.am.reaprich.reaprichbackend.business.pojo.auth.AuthenticationResponse;
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.ResetPasswordRequest;
 import com.am.reaprich.reaprichbackend.data.entities.auth.AppUser;
 import com.am.reaprich.reaprichbackend.data.entities.auth.Token;
 import com.am.reaprich.reaprichbackend.data.entities.auth.TokenType;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -99,6 +101,17 @@ public class AuthenticationService {
         }
     }
 
+    public void resetPassword(ResetPasswordRequest resetPasswordRequest) throws Exception {
+        AppUser appUser = getAppUserByEmail(resetPasswordRequest.getEmail());
+
+        final String oldPassword = passwordEncoder.encode(resetPasswordRequest.getOldPassword());
+        if (appUser.getPassword() != oldPassword) {
+            throw new IllegalArgumentException("Email or password is incorrect");
+        }
+        appUser.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
+        appUserRepository.save(appUser);
+    }
+
     private void saveUserToken(AppUser user, String jwtToken) {
         var token = Token.builder()
                 .id(java.util.UUID.randomUUID().toString())
@@ -121,5 +134,12 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
+    private AppUser getAppUserByEmail(String email) throws Exception {
+        Optional<AppUser> optionalAppUser = this.appUserRepository.findByEmail(email);
+        if (optionalAppUser.isEmpty()) {
+            throw new IllegalArgumentException("User with the specified email address doesn't exist");
+        }
+        return optionalAppUser.get();
+    }
 
 }

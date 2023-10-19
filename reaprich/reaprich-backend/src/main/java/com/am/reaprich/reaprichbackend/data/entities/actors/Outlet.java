@@ -1,5 +1,6 @@
 package com.am.reaprich.reaprichbackend.data.entities.actors;
 
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UpdateOutletDetailRequest;
 import com.am.reaprich.reaprichbackend.data.entities.address.Address;
 import com.am.reaprich.reaprichbackend.data.entities.bank.BankDetail;
 import com.am.reaprich.reaprichbackend.data.entities.kyc.KYC;
@@ -96,6 +97,11 @@ public class Outlet {
     @JoinColumn(name = "OWNER_ADD", referencedColumnName = "ADD_ID")
     private Address ownerAddress;
 
+    @Column(name = "TD_EMAIL")
+    @Getter
+    @Setter
+    private String tdEmail;
+
     @Column(name = "EMAIL")
     @Getter
     @Setter
@@ -110,4 +116,18 @@ public class Outlet {
     @Getter
     @Setter
     private boolean status;
+
+    public void update(UpdateOutletDetailRequest updateOutletDetailRequest) {
+        this.setOwnerFirstName(updateOutletDetailRequest.getOwnerFirstName());
+        this.setOwnerLastName(updateOutletDetailRequest.getOwnerLastName());
+        this.setOwnerContactNumber(updateOutletDetailRequest.getOwnerContactNumber());
+
+        this.getOwnerAddress().update(updateOutletDetailRequest.getOwnerAddress());
+
+        this.setFirmName(updateOutletDetailRequest.getFirmName());
+        this.setFirmContactNumber(updateOutletDetailRequest.getFirmContactNumber());
+
+        this.getFirmAddress().update(updateOutletDetailRequest.getFirmAddress());
+        this.getFirmBankDetails().update(updateOutletDetailRequest.getFirmBankDetails());
+    }
 }

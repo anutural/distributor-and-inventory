@@ -7,8 +7,14 @@ import { Customer } from '../customer.model';
   styleUrls: ['./customer-list.component.css']
 })
 export class CustomerListComponent {
+  toAddCustomer : boolean = false;
+
   customers : Customer[] = [
-    new Customer("customer1", "regular1","arpit1", "gupta1","gujarat", "no team developer"),
-    new Customer("customer2", "regular2","arpit2", "gupta2","gujarat", "no team developer")
+    new Customer("Customer", "regular1","arpit1", "gupta1","gujarat", "no team developer"),
+    new Customer("Customer", "regular2","arpit2", "gupta2","gujarat", "no team developer")
   ]; 
+
+  onAddCustomer() {
+    this.toAddCustomer = !this.toAddCustomer;
+  }
 }

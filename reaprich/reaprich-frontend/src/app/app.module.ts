@@ -10,6 +10,7 @@ import { CustomerComponent } from './customer/customer.component';
 import { OutletComponent } from './outlet/outlet.component';
 import { TeamdevComponent } from './teamdev/teamdev.component';
 import { RouterModule, Routes } from '@angular/router';
+import { CustomerEditComponent } from './customer/customer-edit/customer-edit.component';
 
 const appRoutes: Routes= [
   { path: '', component: CustomerComponent},
@@ -27,7 +28,8 @@ const appRoutes: Routes= [
     TeamdevListComponent,
     CustomerComponent,
     OutletComponent,
-    TeamdevComponent
+    TeamdevComponent,
+    CustomerEditComponent
   ],
   imports: [
     BrowserModule,

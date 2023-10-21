@@ -1,12 +1,10 @@
 package com.am.reaprich.reaprichbackend.business.service;
 
-import com.am.reaprich.reaprichbackend.data.entities.address.Address;
+import com.am.reaprich.reaprichbackend.business.service.usermanagement.ProviderService;
 import com.am.reaprich.reaprichbackend.data.entities.bank.BankDetail;
-import com.am.reaprich.reaprichbackend.data.repositories.actors.actorprovider.ActorTypeRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.bank.BankDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 

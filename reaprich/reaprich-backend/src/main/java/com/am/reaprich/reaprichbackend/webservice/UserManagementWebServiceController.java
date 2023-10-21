@@ -1,6 +1,7 @@
 package com.am.reaprich.reaprichbackend.webservice;
 
 import com.am.reaprich.reaprichbackend.business.service.*;
+import com.am.reaprich.reaprichbackend.business.service.usermanagement.ActorService;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Customer;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Outlet;
 import com.am.reaprich.reaprichbackend.data.entities.actors.TD;
@@ -99,7 +100,7 @@ public class UserManagementWebServiceController {
 
     @PostMapping("/actor/outlet")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> addOutlet(@RequestBody Outlet outlet) throws Exception {
+    public ResponseEntity<String> addOutlet(@RequestBody Outlet outlet) {
         String id = java.util.UUID.randomUUID().toString();
         outlet.setId(id);
         try {
@@ -108,6 +109,17 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             return  getStringForInternalServerError(ex);
+        }
+    }
+    @PutMapping("/actor/outlet")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> updateOutlet(@RequestBody Outlet outlet) {
+        try {
+            this.actorService.updateOutlet(outlet);
+            return ResponseEntity.status(HttpStatus.OK).body(outlet.getId());
+        }
+        catch (Exception ex) {
+            return getStringForInternalServerError(ex);
         }
     }
 
@@ -119,6 +131,17 @@ public class UserManagementWebServiceController {
         try {
             this.actorService.AddTD(td);
             return ResponseEntity.status(HttpStatus.CREATED).body(id);
+        }
+        catch (Exception ex) {
+            return getStringForInternalServerError(ex);
+        }
+    }
+    @PutMapping("/actor/td")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> updateTD(@RequestBody TD td) {
+        try {
+            this.actorService.updateTD(td);
+            return ResponseEntity.status(HttpStatus.OK).body(td.getId());
         }
         catch (Exception ex) {
             return getStringForInternalServerError(ex);
@@ -138,10 +161,25 @@ public class UserManagementWebServiceController {
             return getStringForInternalServerError(ex);
         }
     }
+    @PutMapping("/actor/customer")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> updateCustomer(@RequestBody Customer customer) {
+        try {
+            this.actorService.updateCustomer(customer);
+            return ResponseEntity.status(HttpStatus.OK).body(customer.getId());
+        }
+        catch (Exception ex) {
+            return getStringForInternalServerError(ex);
+        }
+    }
 
 
     private ResponseEntity<String> getStringForInternalServerError(Exception ex) {
+        if (ex.getClass() == IllegalArgumentException.class)
+        {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
         return ResponseEntity.internalServerError()
-                .body(ex.getMessage());
+                .body("Something went wrong!");
     }
 }

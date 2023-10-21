@@ -2,13 +2,10 @@ package com.am.reaprich.reaprichbackend.webservice;
 
 
 import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.*;
-import com.am.reaprich.reaprichbackend.business.service.ActorService;
+import com.am.reaprich.reaprichbackend.business.service.usermanagement.ActorService;
 import com.am.reaprich.reaprichbackend.business.service.auth.AuthenticationService;
 import com.am.reaprich.reaprichbackend.business.service.auth.JwtService;
-import com.am.reaprich.reaprichbackend.business.service.usermanagement.SelfService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,9 +45,6 @@ public class SelfManagementWebSericeController {
             String userEmail = getUserNameFromAuthHeader();
             return ResponseEntity.ok(this.actorService.getTDDetailByUserEamil(userEmail));
         }
-        catch (IllegalArgumentException ex) {
-            return getTDDetailRespForBadRequestError(ex);
-        }
         catch (Exception ex) {
             return  getTDDetailRespForInternalServerError(ex);
         }
@@ -79,9 +73,6 @@ public class SelfManagementWebSericeController {
             String userEmail = getUserNameFromAuthHeader();
             TDDetailResponse resp = this.actorService.updateTDDetail(userEmail, updateTDDetailRequest);
             return ResponseEntity.status(HttpStatus.OK).body(resp);
-        }
-        catch (IllegalArgumentException ex) {
-            return getTDDetailRespForBadRequestError(ex);
         }
         catch (Exception ex) {
             return  getTDDetailRespForInternalServerError(ex);
@@ -120,16 +111,15 @@ public class SelfManagementWebSericeController {
     }
 
     private ResponseEntity<TDDetailResponse> getTDDetailRespForInternalServerError(Exception ex) {
+        if (ex.getClass() == IllegalArgumentException.class)
+        {
+            return ResponseEntity.badRequest().body(TDDetailResponse.builder()
+                    .error(ex.getMessage())
+                    .build());
+        }
         return ResponseEntity.internalServerError().body(
                 TDDetailResponse.builder()
-                        .error(ex.getMessage())
-                        .build()
-        );
-    }
-    private ResponseEntity<TDDetailResponse> getTDDetailRespForBadRequestError(Exception ex) {
-        return ResponseEntity.badRequest().body(
-                TDDetailResponse.builder()
-                        .error(ex.getMessage())
+                        .error("Something went wrong")
                         .build()
         );
     }

@@ -1,4 +1,4 @@
-package com.am.reaprich.reaprichbackend.business.service;
+package com.am.reaprich.reaprichbackend.business.service.usermanagement;
 
 import com.am.reaprich.reaprichbackend.business.pojo.auth.AppUserRegisterRequest;
 import com.am.reaprich.reaprichbackend.business.pojo.auth.AuthenticationResponse;
@@ -6,13 +6,13 @@ import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.OutletDetailR
 import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.TDDetailResponse;
 import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UpdateOutletDetailRequest;
 import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UpdateTDDetailRequest;
+import com.am.reaprich.reaprichbackend.business.service.AddressService;
+import com.am.reaprich.reaprichbackend.business.service.BankService;
+import com.am.reaprich.reaprichbackend.business.service.KYCService;
 import com.am.reaprich.reaprichbackend.business.service.auth.AuthenticationService;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Customer;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Outlet;
 import com.am.reaprich.reaprichbackend.data.entities.actors.TD;
-import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorType;
-import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.CustomerType;
-import com.am.reaprich.reaprichbackend.data.entities.actors.outletprovider.OutletType;
 import com.am.reaprich.reaprichbackend.data.entities.auth.Role;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.CustomerRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.OutletRepository;
@@ -20,14 +20,9 @@ import com.am.reaprich.reaprichbackend.data.repositories.actors.TDRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.actorprovider.ActorTypeRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.actorprovider.CustomerTypeRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.outletprovider.OutletTypeRepository;
-import jdk.jshell.spi.ExecutionControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,7 +42,8 @@ public class ActorService {
     @Autowired
     private  CustomerRepository customerRepository;
 
-    @Autowired ProviderService providerService;
+    @Autowired
+    ProviderService providerService;
     @Autowired
     private KYCService kycService;
     @Autowired
@@ -61,7 +57,7 @@ public class ActorService {
     public Outlet GetOutletById(String id) throws Exception {
         Optional<Outlet> optionalOutlet = this.outletRepository.findById(id);
         if (optionalOutlet.isEmpty()) {
-            throw new java.lang.NullPointerException("Outlet not found");
+            throw new IllegalArgumentException("Outlet not found");
         }
         return optionalOutlet.get();
     }
@@ -69,7 +65,7 @@ public class ActorService {
         Optional<Outlet> outletOptional = this.outletRepository.findByEmail(email);
         if (outletOptional.isEmpty())
         {
-            throw new Exception("No outlet found with the passed email address");
+            throw new IllegalArgumentException("No outlet found with the passed email address");
         }
         return outletOptional.get();
     }
@@ -83,7 +79,7 @@ public class ActorService {
     public TD GetTDById(String id) throws Exception {
         Optional<TD> optionalTD = this.tdRepository.findById(id);
         if (optionalTD.isEmpty()) {
-            throw new java.lang.NullPointerException("TD not found");
+            throw new IllegalArgumentException("TD not found");
         }
         return optionalTD.get();
     }
@@ -91,7 +87,7 @@ public class ActorService {
         Optional<TD> optionalTD = this.tdRepository.findByEmail(email);
         if (optionalTD.isEmpty())
         {
-            throw new Exception("No TD found with the passed email address");
+            throw new IllegalArgumentException("No TD found with the passed email address");
         }
         return optionalTD.get();
     }
@@ -105,7 +101,7 @@ public class ActorService {
     public Customer GetCustomerById(String id) throws Exception {
         Optional<Customer> optionalCustomer = this.customerRepository.findById(id);
         if (optionalCustomer.isEmpty()) {
-            throw new java.lang.NullPointerException("Customer not found");
+            throw new IllegalArgumentException("Customer not found");
         }
         return optionalCustomer.get();
     }
@@ -113,13 +109,13 @@ public class ActorService {
 
     public boolean AddOutlet(Outlet outlet) throws Exception {
         if (this.outletRepository.existsById(outlet.getId())) {
-            throw new Exception("Outlet with same ID is already present");
+            throw new IllegalArgumentException("Outlet with same ID is already present");
         }
         if (!this.outletRepository.findByEmail(outlet.getEmail()).isEmpty()){
-            throw new Exception("Outlet with same email address is already present");
+            throw new IllegalArgumentException("Outlet with same email address is already present");
         }
         if (!this.outletRepository.findByOwnerContactNumber(outlet.getOwnerContactNumber()).isEmpty()) {
-            throw new Exception("Outlet with same owner contact number is already present");
+            throw new IllegalArgumentException("Outlet with same owner contact number is already present");
         }
 
         outlet.setActorType(this.providerService.GetActorTypesByID(outlet.getActorType().getId()));
@@ -151,7 +147,7 @@ public class ActorService {
     }
     public void updateOutlet (Outlet outlet) throws Exception {
         if (this.outletRepository.findById(outlet.getId()).isEmpty()) {
-            throw new java.lang.NullPointerException("Outlet not found");
+            throw new IllegalArgumentException("Outlet not found");
         }
         this.outletRepository.save(outlet);
     }
@@ -166,13 +162,13 @@ public class ActorService {
 
     public boolean AddTD(TD td) throws Exception {
         if (this.tdRepository.existsById(td.getId())) {
-            throw new Exception("TD with same ID is already present");
+            throw new IllegalArgumentException("TD with same ID is already present");
         }
         if (!this.tdRepository.findByEmail(td.getEmail()).isEmpty()){
-            throw new Exception("TD with same email is already present");
+            throw new IllegalArgumentException("TD with same email is already present");
         }
         if (!this.tdRepository.findByContactNumber(td.getContactNumber()).isEmpty()){
-            throw new Exception("TD with same contact number is already present");
+            throw new IllegalArgumentException("TD with same contact number is already present");
         }
 
         td.setActorType(this.providerService.GetActorTypesByID(td.getActorType().getId()));
@@ -200,7 +196,7 @@ public class ActorService {
     }
     public void updateTD (TD td) throws Exception {
         if (this.tdRepository.findById(td.getId()).isEmpty()) {
-            throw new java.lang.NullPointerException("TD not found");
+            throw new IllegalArgumentException("TD not found");
         }
         this.tdRepository.save(td);
     }
@@ -214,10 +210,10 @@ public class ActorService {
 
     public boolean AddCustomer(Customer customer) throws Exception {
         if (this.customerRepository.existsById(customer.getId())) {
-            throw new Exception("Customer with same ID is already present");
+            throw new IllegalArgumentException("Customer with same ID is already present");
         }
         if (!this.customerRepository.findByContactNumber(customer.getContactNumber()).isEmpty()){
-            throw new Exception("Customer with same contact number is already present");
+            throw new IllegalArgumentException("Customer with same contact number is already present");
         }
 
         customer.setActorType(this.providerService.GetActorTypesByID(customer.getActorType().getId()));
@@ -232,7 +228,7 @@ public class ActorService {
 
     public void updateCustomer (Customer customer) throws Exception {
         if (this.tdRepository.findById(customer.getId()).isEmpty()) {
-            throw new java.lang.NullPointerException("Customer not found");
+            throw new IllegalArgumentException("Customer not found");
         }
         this.customerRepository.save(customer);
     }

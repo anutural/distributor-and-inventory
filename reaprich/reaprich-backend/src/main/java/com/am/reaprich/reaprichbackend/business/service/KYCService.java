@@ -1,5 +1,6 @@
 package com.am.reaprich.reaprichbackend.business.service;
 
+import com.am.reaprich.reaprichbackend.business.service.usermanagement.ProviderService;
 import com.am.reaprich.reaprichbackend.data.entities.kyc.KYC;
 import com.am.reaprich.reaprichbackend.data.repositories.kyc.KYCRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.kyc.kycprovider.KYCAddProofTypeRepository;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service

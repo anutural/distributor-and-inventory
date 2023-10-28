@@ -1,23 +1,26 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a href="#" class="navbar-brand">Reaprich</a>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li role="presentation"><a routerLink="/outlets">Outlets</a></li>
-                <li role="presentation"><a routerLink="/teamdevs">Team Developers</a></li>
-                <li role="presentation"><a routerLink="/customers">Customers</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Save Data</a></li>
-                        <li><a href="#">Fetch Data Data</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+<nav class="nav">
+    <h1><a class="mainCornerImage" (click)="onHomeClick()">Reaprich</a></h1>
+    <div class="nav-search">
+        <input #searchInput type="text" placeholder="Search Something" />
+        <button >Search</button>
+        
     </div>
+    <div [ngSwitch]="menuType">
+        <ul *ngSwitchCase="'default'">
+            <li><a routerLink="/actor-auth">Login/Sign-up</a></li>
+            <li><a routerLink="/product-home">Our Products</a></li>
+            <li><a routerLink="/about-us">About Us</a></li>
+            <li><a routerLink="/contact-us">Contact-Us</a></li>
+        </ul>
+
+        <ul *ngSwitchCase="'admin'">
+            <li><a routerLink="/customer-home">Customers</a></li>
+            <li><a routerLink="/outlet-home">Outlets</a></li>
+            <li><a routerLink="/teamdev-home">Team Developers</a></li>
+            <li><a (click)="logout()">Logout</a></li>
+            <li><a routerLink="/">Contact-Us</a></li>
+            <li><a routerLink="/">Welcome Admin!</a></li>
+        </ul>
+    </div>
+    
 </nav>

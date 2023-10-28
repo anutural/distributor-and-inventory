@@ -1,0 +1,13 @@
+<div class="edit-customer">
+    <h1>Edit Customer</h1>
+    <p class="message-p"></p>
+    <form #addCustomer="ngForm"  class="common-form" (ngSubmit)="submit(addCustomer.value)">
+        <input class="form-input" type="text" placeholder="Actor Type" name="actorType" ngModel="{{customerData?.actorType}}">
+        <input class="form-input" type="text" placeholder="Customer Type" name="customerType" ngModel="{{customerData?.customerType}}">
+        <input class="form-input" type="text" placeholder="First Name" name="firstName" ngModel="{{customerData?.firstName}}">
+        <input class="form-input" type="text" placeholder="Last Name" name="lastName" ngModel="{{customerData?.lastName}}">
+        <textarea class="form-input" type="text" placeholder="Contact Number" name="contactNumber" ngModel="{{customerData?.contactNumber}}"></textarea>    
+        <input class="form-input" type="text" placeholder="Tead Developer Id" name="teamDevId" ngModel="{{customerData?.teamDevId }}" />
+        <button class="form-button">Update Customer Details</button>
+    </form>
+</div>

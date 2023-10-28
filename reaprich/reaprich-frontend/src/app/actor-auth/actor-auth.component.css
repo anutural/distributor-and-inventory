@@ -1,0 +1,23 @@
+.user-login  h1{    
+    margin-bottom: 50px;
+    margin-top: 80px;
+    color: blueviolet;
+    text-align: center;
+}
+
+.sign-up h1 {
+    margin-bottom: 50px;
+    margin-top: 80px;
+    color: blueviolet;
+    text-align: center; 
+}
+
+
+.actor-auth{
+    margin-bottom: 100px;
+}
+
+.common-form{
+    color: blueviolet;
+    cursor: pointer;
+}

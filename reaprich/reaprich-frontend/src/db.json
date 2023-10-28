@@ -1,0 +1,12 @@
+{
+  "customers": [
+    {
+      "actorType": "1",
+      "cutomerType": "1",
+      "firstName": "arpit",
+      "lastName": "gupta",
+      "contactNumber": "123456789",
+      "teamDevName" : "1"
+    }
+  ]
+}

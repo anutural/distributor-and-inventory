@@ -1,0 +1,10 @@
+.product-header-img {
+    object-fit: contain;
+    height: 600px;
+    width: 100%;
+}
+
+h1 {
+    margin-top: 20px;
+    color: blueviolet;
+}

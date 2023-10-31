@@ -10,10 +10,12 @@ import com.am.reaprich.reaprichbackend.business.service.AddressService;
 import com.am.reaprich.reaprichbackend.business.service.BankService;
 import com.am.reaprich.reaprichbackend.business.service.KYCService;
 import com.am.reaprich.reaprichbackend.business.service.auth.AuthenticationService;
+import com.am.reaprich.reaprichbackend.business.service.inventory.InventoryService;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Customer;
 import com.am.reaprich.reaprichbackend.data.entities.actors.Outlet;
 import com.am.reaprich.reaprichbackend.data.entities.actors.TD;
 import com.am.reaprich.reaprichbackend.data.entities.auth.Role;
+import com.am.reaprich.reaprichbackend.data.entities.inventory.Warehouse;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.CustomerRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.OutletRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.TDRepository;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ActorService {
@@ -50,6 +53,9 @@ public class ActorService {
     private AddressService addressService;
     @Autowired
     private BankService bankService;
+
+    @Autowired
+    private InventoryService inventoryService;
 
     public Iterable<Outlet> GetOutlets() {
         return  this.outletRepository.findAll();
@@ -143,6 +149,17 @@ public class ActorService {
                         .build());
 
         this.outletRepository.save(outlet);
+
+        this.inventoryService.addWarehouse(
+                Warehouse
+                        .builder()
+                        .id(UUID.randomUUID().toString())
+                        .outlet(outlet)
+                        .contactNumber(outlet.getFirmContactNumber())
+                        .address(outlet.getFirmAddress())
+                        .isCompany(false)
+                        .status(true)
+                        .build());
         return true;
     }
     public void updateOutlet (Outlet outlet) throws Exception {

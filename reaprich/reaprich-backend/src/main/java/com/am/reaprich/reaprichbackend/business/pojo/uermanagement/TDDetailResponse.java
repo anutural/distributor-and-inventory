@@ -12,6 +12,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @Builder
 public class TDDetailResponse {
+    private String id;
     private ActorType actorType;
 
     private String firstName;
@@ -36,6 +37,7 @@ public class TDDetailResponse {
 
     public static TDDetailResponse getTDDetailResponseFromOutletEntity(TD td) {
         return TDDetailResponse.builder()
+                .id(td.getId())
                 .actorType(td.getActorType())
                 .firstName(td.getFirstName())
                 .lastName(td.getLastName())

@@ -102,12 +102,14 @@ public class AuthenticationService {
     }
 
     public void resetPassword(ResetPasswordRequest resetPasswordRequest) throws Exception {
-        AppUser appUser = getAppUserByEmail(resetPasswordRequest.getEmail());
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        resetPasswordRequest.getEmail(),
+                        resetPasswordRequest.getOldPassword()
+                )
+        );
 
-        final String oldPassword = passwordEncoder.encode(resetPasswordRequest.getOldPassword());
-        if (appUser.getPassword() != oldPassword) {
-            throw new IllegalArgumentException("Email or password is incorrect");
-        }
+        AppUser appUser = getAppUserByEmail(resetPasswordRequest.getEmail());
         appUser.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
         appUserRepository.save(appUser);
     }

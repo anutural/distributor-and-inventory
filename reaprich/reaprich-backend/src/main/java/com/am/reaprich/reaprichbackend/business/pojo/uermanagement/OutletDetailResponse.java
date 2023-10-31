@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 @RequiredArgsConstructor
 @Builder
 public class OutletDetailResponse {
+    private String id;
     private OutletType outletType;
     private String firmName;
     private String firmContactNumber;
@@ -37,6 +38,7 @@ public class OutletDetailResponse {
 
     public  static OutletDetailResponse getOutletDetailResponseFromOutletEntity(Outlet outlet) {
         return OutletDetailResponse.builder()
+                .id(outlet.getId())
                 .outletType(outlet.getOutletType())
                 .firmName(outlet.getFirmName())
                 .firmContactNumber(outlet.getFirmContactNumber())

@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .antMatchers("/v1/user/**").hasAnyRole(ADMIN.name())
                 .antMatchers("/v1/provider/**").hasAnyRole(ADMIN.name())
                 .antMatchers("/v1/self/**").hasAnyRole(ADMIN.name())
+                .antMatchers("v1/inventory/**").hasAnyRole((ADMIN.name()))
 
                 .antMatchers(GET, "/v1/user/**").hasAnyAuthority(ADMIN_READ.name(), TD_READ.name())
                 .antMatchers(POST, "/v1/user/**").hasAnyAuthority(ADMIN_CREATE.name())
@@ -77,8 +78,13 @@ public class SecurityConfig {
                 .antMatchers(PUT, "/v1/user/kycdetail").hasAnyAuthority(TD_UPDATE.name(), SP_OUTLET_UPDATE.name())
                 .antMatchers("/v1/user/kycdetail").hasAnyAuthority(TD_DELETE.name(), SP_OUTLET_DELETE.name())
 
-                .antMatchers(GET, "/v1/self/**").hasAnyAuthority(TD_READ.name(), SP_OUTLET_READ.name(), OUTLET_READ.name(), ADMIN_READ.name())
-                .antMatchers(PUT, "/v1/self/**").hasAnyAuthority(TD_UPDATE.name(), SP_OUTLET_UPDATE.name(), OUTLET_UPDATE.name(), ADMIN_UPDATE.name())
+                .antMatchers(GET, "/v1/self/**").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(PUT, "/v1/self/**").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+
+                .antMatchers(GET, "/v1/inventory/item").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(GET, "/v1/inventory/allitem").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(GET, "/v1/inventory/itemoffer").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(GET, "/v1/inventory/itemoffer/all").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
 
                 .anyRequest()
                 .authenticated()

@@ -81,13 +81,15 @@ public class SelfManagementWebSericeController {
 
     @PutMapping("/resetpassword")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity resetPassword(@RequestBody ResetPasswordRequest restPasswordRequest) {
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest restPasswordRequest) {
         try {
             this.authenticationService.resetPassword(restPasswordRequest);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body("Success");
         }
         catch (IllegalArgumentException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
+            return ResponseEntity.badRequest().body(
+                    ex.getMessage()
+            );
         }
         catch (Exception ex) {
             return  ResponseEntity.internalServerError().body(ex.getMessage());

@@ -1,12 +1,138 @@
 {
-  "customers": [
+  "usersreaprich": [
     {
-      "actorType": "1",
-      "cutomerType": "1",
-      "firstName": "arpit",
-      "lastName": "gupta",
-      "contactNumber": "123456789",
-      "teamDevName" : "1"
+      "name": "Arpit",
+      "password": "Master@123",
+      "email": "abc@tbs.com",
+      "id": 1
+    }
+  ],
+  "teamdev": [],
+  "outlet": [],
+
+  "provider": [
+    {
+      "actorType": [
+        {
+          "id": "Customer",
+          "desc": "Customer"
+        },
+        {
+          "id": "Outlet",
+          "desc": "Outlet"
+        },
+        {
+          "id": "TD",
+          "desc": "TD"
+        }
+      ],
+      "outletType": [
+        {
+          "id": "gd",
+          "name": "gold",
+          "discount": 10.0
+        },
+        {
+          "id": "pl",
+          "name": "platinum",
+          "discount": 5.0
+        },
+        {
+          "id": "sl",
+          "name": "silver",
+          "discount": 3.0
+        },
+        {
+          "id": "slp",
+          "name": "silver plus",
+          "discount": 4.0
+        }
+      ],
+      "customerType": [
+        {
+          "id": "sp",
+          "discount": 15.0,
+          "desc": "Special Customer"
+        },
+        {
+          "id": "spplus",
+          "discount": 20.0,
+          "desc": "Special Plus"
+        }
+      ],
+      "addDistList": [
+        {
+          "id": "AND",
+          "name": "Anand",
+          "zone": {
+            "id": "CGUJ",
+            "name": "Central Gujarat",
+            "state": {
+              "id": "GUJ",
+              "name": "Gujarat",
+              "country": {
+                "id": "IND",
+                "name": "India"
+              }
+            }
+          }
+        }
+      ],
+      "addZoneList": [
+        {
+          "id": "CGUJ",
+          "name": "Central Gujarat",
+          "state": {
+            "id": "GUJ",
+            "name": "Gujarat",
+            "country": {
+              "id": "IND",
+              "name": "India"
+            }
+          }
+        }
+      ],
+      "addStateList": [
+        {
+          "id": "GUJ",
+          "name": "Gujarat",
+          "country": {
+            "id": "IND",
+            "name": "India"
+          }
+        }
+      ],
+      "addCountryList": [
+        {
+          "id": "",
+          "name": "Pakistan"
+        },
+        {
+          "id": "IND",
+          "name": "India"
+        },
+        {
+          "id": "PAK",
+          "name": "Pakistan"
+        },
+        {
+          "id": "SRL",
+          "name": "Sri Lanka"
+        }
+      ],
+      "kycIdTypes": [
+        {
+          "id": "PAN",
+          "idDesc": "Pan card"
+        }
+      ],
+      "kycAddProofType": [
+        {
+          "id": "AADHAR",
+          "idDesc": "Aadhar card"
+        }
+      ],
+      "error": null
     }
   ]
 }

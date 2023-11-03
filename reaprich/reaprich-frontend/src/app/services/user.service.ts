@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { ILogin, ISignUp } from '../data-type';
-import { HttpClient } from '@angular/common/http';
+import { IAddress, ILogin, ISignUp } from '../data-type';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
@@ -15,12 +15,13 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router) { }
 
   userLogin(data: ILogin){
-    this.http.get<ISignUp[]>(`http://localhost:3000/usersreaprich?email=${data.email}&password=${data.password}`,
+    this.http.post(`http://localhost:8080/v1/auth/authenticate`,data,
     {observe:'response'})
     .subscribe((result) => {
-      if(result && result.body?.length){
-        this.isUserLoggedIn.next(true);
-        localStorage.setItem('usersreaprich', JSON.stringify(result.body[0]));        
+      console.warn('login res' + result);
+      if(result && result.body){
+        this.isUserLoggedIn.next(true);        
+        localStorage.setItem('usersreaprich', JSON.stringify(result.body));        
         this.router.navigate(['/user-login-home']);        
       }
       else{
@@ -31,7 +32,7 @@ export class UserService {
   }
 
   userSignUp(data: ISignUp){
-    this.http.post("http://localhost:3000/usersreaprich", data, {observe: 'response'})
+    this.http.post("http://localhost:8080/usersreaprich", data, {observe: 'response'})
     .subscribe((result) => {
       console.warn(result);
       if (result) {
@@ -41,6 +42,9 @@ export class UserService {
       }
     })
   }
+
+
+
 
 
 }

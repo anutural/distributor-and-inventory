@@ -9,6 +9,7 @@ import { UserLoginHomeComponent } from './user-login-home/user-login-home.compon
 import { AuthGuard } from './auth.guard';
 import { OutletHomeComponent } from './outlet/outlet-home/outlet-home.component';
 import { TeamdevHomeComponent } from './teamdev/teamdev-home/teamdev-home.component';
+import { OutletAddComponent } from './outlet/outlet-add/outlet-add.component';
 
 
 const routes: Routes = [
@@ -49,6 +50,10 @@ const routes: Routes = [
     path:'teamdev-home',
     component : TeamdevHomeComponent,
     canActivate : [AuthGuard]
+  },
+  {
+    path: 'outlet-add',
+    component: OutletAddComponent,
   }
 ]
 

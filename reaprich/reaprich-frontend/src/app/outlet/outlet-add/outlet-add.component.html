@@ -1,0 +1,152 @@
+<div class="add-outlet">
+    <h1>Add New Outlet</h1>
+    <p class="message-p">{{addOutletMessage}}</p>
+    <form #addCustomer="ngForm" (ngSubmit)="addOutletSubmit(addCustomer.value)" class="common-form">
+        <table>
+            <tr>
+                <td>
+                    <input class="form-input" type="text" placeholder="Actor Type" name="firmName" value="Outlet"
+                        ngModel>
+                </td>
+                <td>
+                    <select class="form-input" aria-label="Outlet type" name="outletType">
+                        <option value=null selected disabled value="Outlet Type">Outlet Type</option>
+                        <option *ngFor="let item of providerInfo?.outletType" value="{{item.id}}">
+                            {{item.name}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+
+
+            <p>Adress Module Here</p>
+
+
+
+            <div class="address-module">
+                <textarea name="" id="" cols="50" rows="5" disabled></textarea>
+                <input type="button" value="sendAddress" (click)="open(content)">
+            </div>
+            <tr>
+
+
+                <td>
+                    <input class="form-input" type="text" placeholder="Firm Bank Details" name="firmBankDetails"
+                        ngModel>
+                </td>
+            </tr>
+
+
+            <button class="form-button">Add Outlet</button>
+
+            <!--Firm Addrees-->
+
+
+        </table>
+
+    </form>
+</div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add Address</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #addFirmAddress="ngForm"  (ngSubmit)="submitFirmAddress(addFirmAddress.value)" >
+            <p class="error-p">{{firmAddressModuleError}}</p>
+            <div class="form-group" formGroupName="actorType" ngModelGroup="actorType">
+                <select class="form-input addModuleDropdown" aria-label="Actor Type" name="id" ngModel>
+                    <option value=null selected disabled value="Actor Type">Actor Type</option>
+                    <option *ngFor="let item of providerInfo?.actorType" value="{{item.id}}">
+                        {{item.desc}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Firm Name</label>
+                <div class="input-group">
+                    <input name="name" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address Line 1</label>
+                <div class="input-group">
+                    <input name="addressLine1" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address Line 2</label>
+                <div class="input-group">
+                    <input name="addressLine2" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <div class="input-group">
+                    <input name="city" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Taluka</label>
+                <div class="input-group">
+                    <input name="taluka" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Pin Code</label>
+                <div class="input-group">
+                    <input name="pinCode" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4"  formGroupName="dist" ngModelGroup="dist">
+                            <select class="form-input addModuleDropdown" aria-label="District" name="id" ngModel>
+                                <option value=null selected disabled value="District">District</option>
+                                <option *ngFor="let item of providerInfo?.addDistList" value="{{item.id}}">
+                                    {{item.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4"  formGroupName="zone" ngModelGroup="zone">
+                            <select class="form-input addModuleDropdown" aria-label="Zone" name="id" ngModel>
+                                <option value=null selected disabled value="Zone">Zone</option>
+                                <option *ngFor="let item of providerInfo?.addZoneList" value="{{item.id}}">
+                                    {{item.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4"   formGroupName="state" ngModelGroup="state">
+                            <select class="form-input addModuleDropdown" aria-label="State" name="id" ngModel>
+                                <option value=null selected disabled value="State">State</option>
+                                <option *ngFor="let item of providerInfo?.addStateList" value="{{item.id}}">
+                                    {{item.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4"  formGroupName="country" ngModelGroup="country">
+                            <select class="form-input addModuleDropdown" aria-label="Country" name="id" ngModel>
+                                <option value=null selected disabled value="Country">Country</option>
+                                <option *ngFor="let item of providerInfo?.addCountryList" value="{{item.id}}">
+                                    {{item.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="form-button" class="btn btn-outline-dark" >Save</button>
+                <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> -->
+            </div>
+        </form>
+    </div>
+
+</ng-template>

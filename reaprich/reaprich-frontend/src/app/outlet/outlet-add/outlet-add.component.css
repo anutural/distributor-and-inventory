@@ -1,0 +1,15 @@
+.address-container {
+    display: fle;
+    flex-direction: row;
+    justify-content: space-between ;
+}
+
+.add-outlet{
+    text-align: center;
+    margin-top: 50px;
+    
+}
+
+.addModuleDropdown {
+    margin-top: 20px;
+}

@@ -2,10 +2,7 @@ package com.am.reaprich.reaprichbackend.business.service.usermanagement;
 
 import com.am.reaprich.reaprichbackend.business.pojo.auth.AppUserRegisterRequest;
 import com.am.reaprich.reaprichbackend.business.pojo.auth.AuthenticationResponse;
-import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.OutletDetailResponse;
-import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.TDDetailResponse;
-import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UpdateOutletDetailRequest;
-import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.UpdateTDDetailRequest;
+import com.am.reaprich.reaprichbackend.business.pojo.uermanagement.*;
 import com.am.reaprich.reaprichbackend.business.service.AddressService;
 import com.am.reaprich.reaprichbackend.business.service.BankService;
 import com.am.reaprich.reaprichbackend.business.service.KYCService;
@@ -23,6 +20,7 @@ import com.am.reaprich.reaprichbackend.data.repositories.actors.actorprovider.Ac
 import com.am.reaprich.reaprichbackend.data.repositories.actors.actorprovider.CustomerTypeRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.outletprovider.OutletTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -60,10 +58,10 @@ public class ActorService {
     public Iterable<Outlet> GetOutlets() {
         return  this.outletRepository.findAll();
     }
-    public Outlet GetOutletById(String id) throws Exception {
+    public Outlet getOutletById(String id) throws Exception {
         Optional<Outlet> optionalOutlet = this.outletRepository.findById(id);
         if (optionalOutlet.isEmpty()) {
-            throw new IllegalArgumentException("Outlet not found");
+            throw new IllegalArgumentException("Outlet with specified id doesn't exist");
         }
         return optionalOutlet.get();
     }
@@ -82,7 +80,7 @@ public class ActorService {
     public Iterable<TD> GetTDs() {
         return this.tdRepository.findAll();
     }
-    public TD GetTDById(String id) throws Exception {
+    public TD getTDById(String id) throws Exception {
         Optional<TD> optionalTD = this.tdRepository.findById(id);
         if (optionalTD.isEmpty()) {
             throw new IllegalArgumentException("TD not found");
@@ -101,10 +99,10 @@ public class ActorService {
         return TDDetailResponse.getTDDetailResponseFromOutletEntity(getTDByEmail(email));
     }
 
-    public Iterable<Customer> GetCustomers() {
+    public Iterable<Customer> getCustomers() {
         return this.customerRepository.findAll();
     }
-    public Customer GetCustomerById(String id) throws Exception {
+    public Customer getCustomerById(String id) throws Exception {
         Optional<Customer> optionalCustomer = this.customerRepository.findById(id);
         if (optionalCustomer.isEmpty()) {
             throw new IllegalArgumentException("Customer not found");
@@ -251,9 +249,15 @@ public class ActorService {
     }
 
 
+    public void approveOutlet(String outletID) throws Exception{
+        Outlet outlet = getOutletById(outletID);
+        outlet.setStatus(true);
+        this.outletRepository.save(outlet);
+    }
 
-
-
-
-
+    public void approveTD(String tdID) throws Exception {
+        TD td = getTDById(tdID);
+        td.setStatus(true);
+        this.tdRepository.save(td);
+    }
 }

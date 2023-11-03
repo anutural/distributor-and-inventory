@@ -1,4 +1,4 @@
-package com.am.reaprich.reaprichbackend.business.pojo.inventory;
+package com.am.reaprich.reaprichbackend.business.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class GetAllItemRequest {
-    private ItemFilterBy itemFilterBy;
-    private String filter;
+public class IdResponse {
+    private String id;
+    private String error;
 }

@@ -44,9 +44,9 @@ public class ItemService {
         return ItemResponse.builder().item(optionalItem.get()).build();
     }
 
-    public ItemCollectionResponse getAllItems(GetAllItemRequest getAllItemRequest) throws Exception {
+    public ItemCollectionResponse getAllItems(AllItemRequest allItemRequest) throws Exception {
         Iterable<Item> allItems = this.itemRepository.findAll();
-        return ItemCollectionResponse.builder().items(new ItemFilter().doFilter(this.itemRepository, getAllItemRequest)).build();
+        return ItemCollectionResponse.builder().items(new ItemFilter().doFilter(this.itemRepository, allItemRequest)).build();
     }
 
     private Category getCategoryById(String categoryID) {
@@ -116,6 +116,9 @@ public class ItemService {
         if (!this.itemRepository.findById(itemOffer.getId()).isEmpty()) {
             throw new IllegalArgumentException("Item offer with the same ID is already present");
         }
+        if (this.itemRepository.findById(itemOffer.getItem().getId()).isEmpty()) {
+            throw new IllegalArgumentException("Item specified in Item offer does not exist");
+        }
 
         this.itemOfferRepository.save(itemOffer);
     }
@@ -123,6 +126,9 @@ public class ItemService {
     public void updateItemOffer(ItemOffer itemOffer) {
         if (this.itemOfferRepository.findById(itemOffer.getId()).isEmpty()) {
             throw new IllegalArgumentException("Item offer with the specified ID does not exist");
+        }
+        if (this.itemRepository.findById(itemOffer.getItem().getId()).isEmpty()) {
+            throw new IllegalArgumentException("Item specified in Item offer does not exist");
         }
         this.itemOfferRepository.save(itemOffer);
     }
@@ -134,6 +140,17 @@ public class ItemService {
                         StreamSupport
                                 .stream(this.itemOfferRepository.findAll().spliterator(), false)
                                 .collect(Collectors.toList()))
+                .build();
+    }
+
+    public ItemOfferResponse getItemOfferByID(String itemOfferID) throws  Exception {
+        Optional<ItemOffer> itemOfferOptional = this.itemOfferRepository.findById(itemOfferID);
+        if (itemOfferOptional.isEmpty()) {
+            throw new IllegalArgumentException("Item offer with specified id doesn't exist");
+        }
+        return ItemOfferResponse
+                .builder()
+                .itemOffer(itemOfferOptional.get())
                 .build();
     }
 
@@ -149,13 +166,13 @@ public class ItemService {
 }
 
 class ItemFilter {
-    public List<Item> doFilter (ItemRepository itemRepository, GetAllItemRequest getAllItemRequest)  throws Exception {
+    public List<Item> doFilter (ItemRepository itemRepository, AllItemRequest allItemRequest)  throws Exception {
         try {
-            if (getAllItemRequest.getItemFilterBy() == ItemFilterBy.ID) {
+            if (allItemRequest.getItemFilterBy() == ItemFilterBy.ID) {
                 StreamSupport.stream(itemRepository.findAllById(new Iterable<String>() {
                     @Override
                     public Iterator<String> iterator() {
-                        return Arrays.asList(getAllItemRequest.getFilter().split(",")).iterator();
+                        return Arrays.asList(allItemRequest.getFilter().split(",")).iterator();
                     }
                 }).spliterator(), false).collect(Collectors.toList());
             }
@@ -164,28 +181,28 @@ class ItemFilter {
                     .stream(itemRepository.findAll().spliterator(), false)
                     .collect(Collectors.toList());
 
-            switch (getAllItemRequest.getItemFilterBy()) {
+            switch (allItemRequest.getItemFilterBy()) {
                 case NONE:
                     return allItems;
                 case CATEGORY:
                     return allItems.stream()
-                            .filter(item -> item.getCategory().getCategory() == getAllItemRequest.getFilter())
+                            .filter(item -> item.getCategory().getCategory() == allItemRequest.getFilter())
                             .collect(Collectors.toList());
                 case SUBCATEGORY:
                     return allItems.stream()
-                            .filter(item -> item.getSubcategory().getSubcategory() == getAllItemRequest.getFilter())
+                            .filter(item -> item.getSubcategory().getSubcategory() == allItemRequest.getFilter())
                             .collect(Collectors.toList());
                 case PACKING_TYPE:
                     return allItems.stream()
-                            .filter(item -> item.getPackingType().getPackingType() == getAllItemRequest.getFilter())
+                            .filter(item -> item.getPackingType().getPackingType() == allItemRequest.getFilter())
                             .collect(Collectors.toList());
                 case NAME_CHARS:
                     return allItems.stream()
-                            .filter(item -> item.getName().contains(getAllItemRequest.getFilter()))
+                            .filter(item -> item.getName().contains(allItemRequest.getFilter()))
                             .collect(Collectors.toList());
                 default:
-                    double min = Double.parseDouble(getAllItemRequest.getFilter().split("-")[0]);
-                    double max = Double.parseDouble(getAllItemRequest.getFilter().split("-")[1]);
+                    double min = Double.parseDouble(allItemRequest.getFilter().split("-")[0]);
+                    double max = Double.parseDouble(allItemRequest.getFilter().split("-")[1]);
                     return allItems.stream()
                             .filter(item -> item.getReatilPrice() >= min && item.getReatilPrice() <= max)
                             .collect(Collectors.toList());
@@ -193,8 +210,8 @@ class ItemFilter {
         }
         catch (Exception ex) {
             throw new IllegalArgumentException("Item filter failed for FilterBy:"
-                    + getAllItemRequest.getItemFilterBy().name()
-                    + " and Filter:" + getAllItemRequest.getFilter());
+                    + allItemRequest.getItemFilterBy().name()
+                    + " and Filter:" + allItemRequest.getFilter());
         }
     }
 

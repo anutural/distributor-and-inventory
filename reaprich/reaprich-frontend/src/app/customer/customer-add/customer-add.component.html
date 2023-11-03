@@ -2,12 +2,12 @@
     <h1>Add New Customer</h1>
     <p class="message-p">{{addCustomerMessage}}</p>
     <form #addCustomer="ngForm" (ngSubmit)="addCustomerSubmit(addCustomer.value)" class="common-form">
-        <input class="form-input" type="text" placeholder="Actor Type" name="actorType" ngModel>
-        <input class="form-input" type="text" placeholder="Customer Type" name="customerType" ngModel>
-        <input class="form-input" type="text" placeholder="First Name" name="firstName" ngModel>
-        <input class="form-input" type="text" placeholder="Last Name" name="lastName" ngModel>
-        <textarea class="form-input" type="text" placeholder="Contact Number" name="contactNumber" ngModel></textarea>    
-        <input class="form-input" type="text" placeholder="Tead Developer Id" name="teamDevId" ngModel />
+        <input class="form-input" type="text" placeholder="Actor Type" name="Actor_Type" ngModel>
+        <input class="form-input" type="text" placeholder="Customer Type" name="Customer_Type" ngModel>
+        <input class="form-input" type="text" placeholder="First Name" name="Customer_F_Name" ngModel>
+        <input class="form-input" type="text" placeholder="Last Name" name="Customer_L_Name" ngModel>
+        <textarea class="form-input" type="text" placeholder="Contact Number" name="Customer_Contact_Number" ngModel></textarea>    
+        <input class="form-input" type="text" placeholder="Tead Developer Id" name="TD_Add" ngModel />
         <button class="form-button">Add Customer</button>
     </form>
 </div>

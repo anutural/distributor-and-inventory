@@ -18,8 +18,7 @@ export class CustomerEditComponent {
   ngOnInit(): void {
     let customerId = this.route.snapshot.paramMap.get('id');
     console.warn(customerId);
-    customerId && this.customerService.getCustomer(customerId).subscribe((data) => {
-      console.warn(data);
+    customerId && this.customerService.getCustomer(customerId).subscribe((data) => {      
       this.customerData = data;
     })
   }
@@ -30,9 +29,10 @@ export class CustomerEditComponent {
       customer.id = this.customerData.id
     }
     this.customerService.updateCustomer(customer).subscribe((result) => {
-      if(result){
-        this.customerMessage = "Product has been updated!";
+      if(result){                      
         this.customerData = result;
+        this.customerMessage = "Customer has been updated!";
+        
       }      
     });
     setTimeout(() => {

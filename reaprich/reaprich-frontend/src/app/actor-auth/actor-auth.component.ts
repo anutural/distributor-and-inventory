@@ -15,6 +15,7 @@ export class ActorAuthComponent {
   constructor(private userService : UserService, private route : Router){}
 
   login(data: ILogin) {
+    console.warn("Login Data: ", data);
     this.userService.userLogin(data);
 
     //listen to emitting event

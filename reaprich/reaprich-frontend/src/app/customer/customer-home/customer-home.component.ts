@@ -43,7 +43,7 @@ export class CustomerHomeComponent {
   list() {
     this.customerService.customerList().subscribe((result) => {
       if (result) {
-        console.warn(result);
+        console.warn("i am here" + result);
         this.customerList = result;
       }
     })

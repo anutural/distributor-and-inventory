@@ -1,7 +1,7 @@
 <div class="customer-list">    
     <h1>All Customers List</h1>
     <p class="message-p">{{customerMessage}}</p>
-    <table>
+    <table *ngIf="customerList?.length">
         <thead>
             <tr>
                 <th>Actor-Type</th>
@@ -16,12 +16,12 @@
         <tbody>
             <tr *ngFor="let item of customerList">
                 
-                <td>{{item.actorType}}</td>
-                <td>{{item.customerType}}</td>
-                <td>{{item.firstName}}</td>
-                <td>{{item.lastName}}</td>
-                <td>{{item.contactNumber}}</td>
-                <td>{{item.teamDevId}}</td>
+                <td>{{item.Actor_Type}}</td>
+                <td>{{item.Customer_Type}}</td>
+                <td>{{item.Customer_F_Name}}</td>
+                <td>{{item.Customer_L_Name}}</td>
+                <td>{{item.Customer_Contact_Number}}</td>
+                <td>{{item.TD_Add}}</td>
                 
                 
 

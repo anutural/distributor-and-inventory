@@ -1,0 +1,52 @@
+{
+  "usersreaprich": [
+    {
+      "actorType": {
+        "id": "Outlet"
+      },
+      "name": "Arpit Gupta",
+      "addressLine1": "A-301 Raama Elina, Opposite Osia Supermarket, Gotri, Laxmipura",
+      "addressLine2": "Near New Laxmipura Police Station",
+      "city": "Vadodara",
+      "taluka": "",
+      "pinCode": "390021",
+      "dist": {
+        "id": ""
+      },
+      "zone": {
+        "id": ""
+      },
+      "state": {
+        "id": "GUJ"
+      },
+      "country": {
+        "id": "IND"
+      },
+      "id": 1
+    },
+    {
+      "actorType": {
+        "id": "Outlet"
+      },
+      "name": "Arpit Gupta",
+      "addressLine1": "A-301 Raama Elina, Opposite Osia Supermarket, Gotri, Laxmipura",
+      "addressLine2": "Near New Laxmipura Police Station",
+      "city": "Vadodara",
+      "taluka": "",
+      "pinCode": "390021",
+      "dist": {
+        "id": ""
+      },
+      "zone": {
+        "id": ""
+      },
+      "state": {
+        "id": "GUJ"
+      },
+      "country": {
+        "id": "IND"
+      },
+      "id": 2
+    }
+  ]
+}

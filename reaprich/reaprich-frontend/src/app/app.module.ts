@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CustomerAddComponent } from './customer/customer-add/customer-add.component';
 import { ProductHomeComponent } from './product/product-home/product-home.component';
 import { UserLoginHomeComponent } from './user-login-home/user-login-home.component';
+import { OutletAddComponent } from './outlet/outlet-add/outlet-add.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { UserLoginHomeComponent } from './user-login-home/user-login-home.compon
     OutletEditComponent,
     CustomerAddComponent,
     ProductHomeComponent,
-    UserLoginHomeComponent
+    UserLoginHomeComponent,
+    OutletAddComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,8 @@ import { UserLoginHomeComponent } from './user-login-home/user-login-home.compon
     FontAwesomeModule,
     NgbModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

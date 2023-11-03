@@ -32,6 +32,7 @@ export class HeaderComponent {
 
   logout(){
     localStorage.removeItem('usersreaprich');  
+    localStorage.removeItem('providerInfo');
     this.route.navigate(['/']);    
   }
 

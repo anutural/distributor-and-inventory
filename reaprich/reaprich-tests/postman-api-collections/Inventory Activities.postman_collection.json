@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "8c256f5d-d276-4dea-beaf-afe3e229183b",
+		"name": "Inventory Activities",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "4832931",
+		"_collection_link": "https://grey-meteor-994336.postman.co/workspace/Test~2dcf0bef-a493-4653-8ff7-a05c5df2be02/collection/4832931-8c256f5d-d276-4dea-beaf-afe3e229183b?action=share&source=collection_link&creator=4832931"
+	},
+	"item": [
+		{
+			"name": "Outlet Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"OUTLET_TOKEN\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/authenticate"
+			},
+			"response": []
+		},
+		{
+			"name": "Getting Outlet Detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"OUTLET_ID\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://{{HOST}}:{{PORT}}/v1/self/actor/outlet"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Items",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itemFilterBy\":\"NONE\",\r\n    \"filter\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/allitems"
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.globals.set(\"TOKEN\", jsonData.access_token);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Resposne has access token\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has refresh token\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"refresh_token\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"admin@reaprich.com\",\r\n    \"password\":\"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/authenticate"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Inventory Items for Warehouse",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/inventory/warehouse/items?warehouseID={{OUTLET_ID}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"inventory",
+						"warehouse",
+						"items"
+					],
+					"query": [
+						{
+							"key": "warehouseID",
+							"value": "{{OUTLET_ID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Item offers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/itemoffer/all"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Item Category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"category_1\",\r\n    \"category\": \"Category 1\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/item/category"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Item Subcategory",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"subcategory_1\",\r\n    \"category\": {\"id\":\"category_1\"},\r\n    \"subcategory\":\"subcategory 1\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/item/subcategory"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Item Packing type",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"packing_type_1\",\r\n    \"packingType\": \"solid\",\r\n    \"quantityInGrams\":800,\r\n    \"container\":\"jar\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/item/packingtype"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"item_id\", pm.response.text());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"item 1\",\r\n        \"packingType\": {\"id\": \"packing_type_1\"},\r\n        \"category\": {\"id\": \"category_1\"},\r\n        \"subcategory\": {\"id\": \"subcategory_1\"},\r\n        \"itemPrices\": {\r\n            \"gl\": 130.0,\r\n            \"sl\": 140.0,\r\n            \"pl\": 120.0\r\n        },\r\n        \"reatilPrice\": 150.0,\r\n        \"pictureLink\": null,\r\n        \"thumbnailLink\": null,\r\n        \"gstprice\": 200.0\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/item"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/inventory/item?id={{item_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"inventory",
+						"item"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{item_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "OUTLET_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "OUTLET_ID",
+			"value": ""
+		},
+		{
+			"key": "item_id",
+			"value": ""
+		}
+	]
+}

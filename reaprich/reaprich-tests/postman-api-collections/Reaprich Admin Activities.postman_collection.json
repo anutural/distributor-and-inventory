@@ -1,0 +1,1813 @@
+{
+	"info": {
+		"_postman_id": "bf82cbd0-c594-4113-9928-26c297cfabcc",
+		"name": "Reaprich Admin Activities",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "4832931",
+		"_collection_link": "https://grey-meteor-994336.postman.co/workspace/Test~2dcf0bef-a493-4653-8ff7-a05c5df2be02/collection/4832931-bf82cbd0-c594-4113-9928-26c297cfabcc?action=share&source=collection_link&creator=4832931"
+	},
+	"item": [
+		{
+			"name": "Register Authentication User (Normally Not needed for Outlet and TD)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"admin@reaprich.com\",\r\n    \"password\":\"1234\",\r\n    \"role\":\"ADMIN\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - Re-Register Same Authentication User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"admin@reaprich.com\",\r\n    \"password\":\"1234\",\r\n    \"role\":\"ADMIN\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - Login with wrong password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).not.include(\"access_token\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).not.include(\"refresh_token\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"admin@reaprich.com\",\r\n    \"password\":\"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/authenticate"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.globals.set(\"TOKEN\", jsonData.access_token);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Resposne has access token\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has refresh token\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"refresh_token\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"admin@reaprich.com\",\r\n    \"password\":\"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/authenticate"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Provider Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - Adding the Outlet type without token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"user-agent": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": ""
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"pl\",\r\n    \"name\": \"Platinum\",\r\n    \"discount\": 20.0\r\n}"
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/actor/outlettype",
+				"description": "Adding Outlet type"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding Outlet type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"ID 'ir' is available in provider response\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.outletType[1].id).to.eql(\"ir\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"'platinum' is available in response'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.outletType[1].name).to.eql(\"iron\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"No error in response\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"user-agent": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"ir\",\r\n    \"name\": \"iron\",\r\n    \"discount\": 5.0\r\n}"
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/actor/outlettype",
+				"description": "Adding Outlet type"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - Adding the same Outlet type Again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error in response\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"Outlet Type with same ID is already present\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"user-agent": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"pl\",\r\n    \"name\": \"platinum\",\r\n    \"discount\": 20.0\r\n}"
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/actor/outlettype",
+				"description": "Adding Outlet type"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - Adding customer type without token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"sp\",\r\n    \"discount\": 15.0,\r\n    \"desc\": \"Special Customer\"\r\n}"
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/actor/customertype",
+				"description": "Adding Outlet type"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding customer type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Customer type id is sp\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.customerType[0].id).to.eql(\"sp\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"sp\",\r\n    \"discount\": 15.0,\r\n    \"desc\": \"Special Customer\"\r\n}"
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/actor/customertype",
+				"description": "Adding Outlet type"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - adding the same customer type again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non null error\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"CustomerType with same ID is already present\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"sp\",\r\n    \"discount\": 15.0,\r\n    \"desc\": \"Special Customer\"\r\n}"
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/actor/customertype",
+				"description": "Adding Outlet type"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - adding country for address table without token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"IND\",\r\n    \"name\":\"India\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/address/country"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding country for address table",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country ID is IND\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addCountryList[0].id).to.eql(\"IND\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"IND\",\r\n    \"name\":\"India\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/address/country"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - adding the country for address table again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country ID is IND\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"Country with the same ID already exist.\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"IND\",\r\n    \"name\":\"India\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/address/country"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding state for address table",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"State ID is Guj\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addStateList[0].id).to.eql(\"GUJ\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country of the State Guj is IND\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addStateList[0].country.id).to.eql(\"IND\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"GUJ\",\r\n    \"name\":\"Gujarat\",\r\n    \"country\":{ \"id\":\"IND\"}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/address/state"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding zone for address table",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Zone ID is CGUJ\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addZoneList[0].id).to.eql(\"CGUJ\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"State of the zone CGUJ is Guj\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addZoneList[0].state.id).to.eql(\"GUJ\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country of the zone CGUJ is IND\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addZoneList[0].state.country.id).to.eql(\"IND\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"CGUJ\",\r\n    \"name\":\"Central Gujarat\",\r\n    \"state\":{ \"id\":\"GUJ\"}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/address/zone"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding district for address table",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"District ID is AND\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addDistList[0].id).to.eql(\"AND\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Zone of the district AND is CGUJ\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addDistList[0].zone.id).to.eql(\"CGUJ\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"State of the district AND is Guj\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addDistList[0].zone.state.id).to.eql(\"GUJ\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country of the district AND is IND\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.addDistList[0].zone.state.country.id).to.eql(\"IND\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"AND\",\r\n    \"name\":\"Anand\",\r\n    \"zone\":{ \"id\":\"CGUJ\"}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/address/dist"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - Adding KYC ID type without token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"PAN\",\r\n    \"idDesc\":\"Pan card\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/kyc/idtype"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding KYC ID type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"KYC IDType is PAN\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.kycIdTypes[0].id).to.eql(\"PAN\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"PAN\",\r\n    \"idDesc\":\"Pan card\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/kyc/idtype"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - adding the same KYC ID type again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"KYC IDType is PAN\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"kyc id type entry with the same ID already exist\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"PAN\",\r\n    \"idDesc\":\"Pan card\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/kyc/idtype"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding KYC address proof type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"KYC Address proof type is AADHAR\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.kycAddProofType[0].id).to.eql(\"AADHAR\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"AADHAR\",\r\n    \"idDesc\":\"Aadhar card\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/kyc/addprooftype"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Provider Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"AADHAR\",\r\n    \"idDesc\":\"Aadhar card\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/provider/"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - Add outlet firm bank details without token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length == 0\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"name\":\"Amit Maheshwari\",\r\n    \"acNumber\":\"1001001001\",\r\n    \"acType\":\"Saving\",\r\n    \"bankName\":\"State bank of India\",\r\n    \"branchName\":\"Vadodara\",\r\n    \"ifscCode\":\"SBIN0001\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/bankdetail"
+			},
+			"response": []
+		},
+		{
+			"name": "Add outlet firm bank details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length > 0\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"outlet_bank_detail\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"No Errors\", function() {\r",
+							"    pm.expect(jsonData.error).to.length == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"name\":\"Amit Maheshwari pvt ltd\",\r\n    \"acNumber\":\"1001001001\",\r\n    \"acType\":\"Current\",\r\n    \"bankName\":\"State bank of India\",\r\n    \"branchName\":\"Vadodara\",\r\n    \"ifscCode\":\"SBIN0001\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/bankdetail"
+			},
+			"response": []
+		},
+		{
+			"name": "Error  Test - adding outlet owner address without token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length == 0\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"name\":\"Amit Maheshwari\",\r\n    \"addressLine1\":\"39-Gayatri Society\",\r\n    \"addressLine2\":\"Anklav\",\r\n    \"city\":\"Anklav\",\r\n    \"taluka\":\"Anklav\",\r\n    \"pinCode\":\"388510\",\r\n    \"dist\":{ \"id\":\"AND\"},\r\n    \"zone\":{ \"id\":\"CGUJ\"},\r\n    \"state\":{ \"id\":\"GUJ\"},\r\n    \"country\":{ \"id\":\"IND\"}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/address"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding owner address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length > 0\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"outlet_owner_add_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"No Errors\", function() {\r",
+							"    pm.expect(jsonData.error).to.length == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"name\":\"Amit Maheshwari\",\r\n    \"addressLine1\":\"39-Gayatri Society\",\r\n    \"addressLine2\":\"Anklav\",\r\n    \"city\":\"Anklav\",\r\n    \"taluka\":\"Anklav\",\r\n    \"pinCode\":\"388510\",\r\n    \"dist\":{ \"id\":\"AND\"},\r\n    \"zone\":{ \"id\":\"CGUJ\"},\r\n    \"state\":{ \"id\":\"GUJ\"},\r\n    \"country\":{ \"id\":\"IND\"}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/address"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding outlet firm address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length > 0\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"outlet_firm_add_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"No Errors\", function() {\r",
+							"    pm.expect(jsonData.error).to.length == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"name\":\"Amit Maheshwari Pvt Ltd\",\r\n    \"addressLine1\":\"Some company address line 1\",\r\n    \"addressLine2\":\"company address line 2\",\r\n    \"city\":\"Anklav\",\r\n    \"taluka\":\"Anklav\",\r\n    \"pinCode\":\"388510\",\r\n    \"dist\":{ \"id\":\"AND\"},\r\n    \"zone\":{ \"id\":\"CGUJ\"},\r\n    \"state\":{ \"id\":\"GUJ\"},\r\n    \"country\":{ \"id\":\"IND\"}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/address"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding outlet owner KYC",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length > 0\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"outlet_owner_kyc_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"No Errors\", function() {\r",
+							"    pm.expect(jsonData.error).to.length == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"name\":\"Amit Maheshwari\",\r\n    \"idType\":{ \"id\":\"PAN\"},\r\n    \"idNumber\":\"123456789012\",\r\n    \"addProofType\":{ \"id\":\"AADHAR\"},\r\n    \"addProofNumber\":\"123456789012\",\r\n    \"documentLinks\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/kycdetail"
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - adding outlet without token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"outletType\":{ \"id\": \"pl\" },\r\n    \"firmName\":\"Amit Maheshwari Plt ltd\",\r\n    \"firmContactNumber\":\"02696-282563\",\r\n    \"firmGSTNumber\":\"123456789\",\r\n    \"firmPAN\" : \"BNYPM7411D\",\r\n    \"firmAddress\":{ \"id\":{{outlet_firm_add_id}}},\r\n    \"firmBankDetails\":{ \"id\":{{outlet_bank_detail}}},\r\n    \"ownerFirstName\":\"Amit\",\r\n    \"ownerLastName\":\"Maheshwari\",\r\n    \"ownerContactNumber\":\"8000013005\",\r\n    \"ownerPAN\":\"BNYPM7411D\",\r\n    \"ownerKYC\": {\"id\":{{outlet_owner_kyc_id}}},\r\n    \"ownerAddress\":{ \"id\":{{outlet_owner_add_id}}},\r\n    \"email\":\"a@b.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/actor/outlet"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding outlet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length > 0\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"outlet_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"No Errors\", function() {\r",
+							"    pm.expect(jsonData.error).to.length == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"outletType\":{ \"id\": \"pl\" },\r\n    \"firmName\":\"Amit Maheshwari Plt ltd\",\r\n    \"firmContactNumber\":\"02696-2825632\",\r\n    \"firmGSTNumber\":\"123456789\",\r\n    \"firmPAN\" : \"BNYPM7411D\",\r\n    \"firmAddress\":{ \"id\":\"{{outlet_firm_add_id}}\"},\r\n    \"firmBankDetails\":{ \"id\":\"{{outlet_bank_detail}}\"},\r\n    \"ownerFirstName\":\"Amit\",\r\n    \"ownerLastName\":\"Maheshwari\",\r\n    \"ownerContactNumber\":\"80000130050\",\r\n    \"ownerPAN\":\"BNYPM7411D\",\r\n    \"ownerKYC\": {\"id\":\"{{outlet_owner_kyc_id}}\"},\r\n    \"ownerAddress\":{ \"id\":\"{{outlet_owner_add_id}}\"},\r\n    \"tdEmail\":\"admin@reaprich.com\",\r\n    \"email\":\"ploutlet2@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/actor/outlet"
+			},
+			"response": []
+		},
+		{
+			"name": "Get bank detail by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length > 0\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"outlet_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"No Errors\", function() {\r",
+							"    pm.expect(jsonData.error).to.length == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"outletType\":{ \"id\": \"pl\" },\r\n    \"firmName\":\"Amit Maheshwari Plt ltd\",\r\n    \"firmContactNumber\":\"02696-282563\",\r\n    \"firmGSTNumber\":\"123456789\",\r\n    \"firmPAN\" : \"BNYPM7411D\",\r\n    \"firmAddress\":{ \"id\":\"{{outlet_firm_add_id}}\"},\r\n    \"firmBankDetails\":{ \"id\":\"{{outlet_bank_detail}}\"},\r\n    \"ownerFirstName\":\"Amit\",\r\n    \"ownerLastName\":\"Maheshwari\",\r\n    \"ownerContactNumber\":\"8000013005\",\r\n    \"ownerPAN\":\"BNYPM7411D\",\r\n    \"ownerKYC\": {\"id\":\"{{outlet_owner_kyc_id}}\"},\r\n    \"ownerAddress\":{ \"id\":\"{{outlet_owner_add_id}}\"},\r\n    \"tdEmail\":\"admin@reaprich.com\",\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/bankdetail?backDetailID={{outlet_bank_detail}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"user",
+						"bankdetail"
+					],
+					"query": [
+						{
+							"key": "backDetailID",
+							"value": "{{outlet_bank_detail}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get KYC detail by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length > 0\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"outlet_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"No Errors\", function() {\r",
+							"    pm.expect(jsonData.error).to.length == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"outletType\":{ \"id\": \"pl\" },\r\n    \"firmName\":\"Amit Maheshwari Plt ltd\",\r\n    \"firmContactNumber\":\"02696-282563\",\r\n    \"firmGSTNumber\":\"123456789\",\r\n    \"firmPAN\" : \"BNYPM7411D\",\r\n    \"firmAddress\":{ \"id\":\"{{outlet_firm_add_id}}\"},\r\n    \"firmBankDetails\":{ \"id\":\"{{outlet_bank_detail}}\"},\r\n    \"ownerFirstName\":\"Amit\",\r\n    \"ownerLastName\":\"Maheshwari\",\r\n    \"ownerContactNumber\":\"8000013005\",\r\n    \"ownerPAN\":\"BNYPM7411D\",\r\n    \"ownerKYC\": {\"id\":\"{{outlet_owner_kyc_id}}\"},\r\n    \"ownerAddress\":{ \"id\":\"{{outlet_owner_add_id}}\"},\r\n    \"tdEmail\":\"admin@reaprich.com\",\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/kycdetail?kycID={{outlet_owner_kyc_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"user",
+						"kycdetail"
+					],
+					"query": [
+						{
+							"key": "kycID",
+							"value": "{{outlet_owner_kyc_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Address detail by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length > 0\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"outlet_id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"No Errors\", function() {\r",
+							"    pm.expect(jsonData.error).to.length == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"outletType\":{ \"id\": \"pl\" },\r\n    \"firmName\":\"Amit Maheshwari Plt ltd\",\r\n    \"firmContactNumber\":\"02696-282563\",\r\n    \"firmGSTNumber\":\"123456789\",\r\n    \"firmPAN\" : \"BNYPM7411D\",\r\n    \"firmAddress\":{ \"id\":\"{{outlet_firm_add_id}}\"},\r\n    \"firmBankDetails\":{ \"id\":\"{{outlet_bank_detail}}\"},\r\n    \"ownerFirstName\":\"Amit\",\r\n    \"ownerLastName\":\"Maheshwari\",\r\n    \"ownerContactNumber\":\"8000013005\",\r\n    \"ownerPAN\":\"BNYPM7411D\",\r\n    \"ownerKYC\": {\"id\":\"{{outlet_owner_kyc_id}}\"},\r\n    \"ownerAddress\":{ \"id\":\"{{outlet_owner_add_id}}\"},\r\n    \"tdEmail\":\"admin@reaprich.com\",\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/address?addressID={{outlet_firm_add_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"user",
+						"address"
+					],
+					"query": [
+						{
+							"key": "addressID",
+							"value": "{{outlet_firm_add_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Outlet by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 202\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"Is same outlet\", function() {\r",
+							"    pm.expect(jsonData.outlet.id) == pm.collectionVariables.get(\"outlet_id\")\r",
+							"});\r",
+							"\r",
+							"pm.test(\"No error\", function() {\r",
+							"    pm.expect(jsonData.error) == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/actor/outlet?outletId={{outlet_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"user",
+						"actor",
+						"outlet"
+					],
+					"query": [
+						{
+							"key": "outletId",
+							"value": "{{outlet_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all outlets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 202\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"No error\", function() {\r",
+							"    pm.expect(jsonData.error) == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"actorFilterBy\":\"NONE\",\r\n    \"filter\":\"\",\r\n    \"subFilter\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/actor/alloutlets"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload KYC ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/amitkumar.maheshwari/OneDrive - Automation Anywhere/Backup/Personal Data/Drwaings and images/Drwaings and images/StillBall - Copy.tif"
+						},
+						{
+							"key": "actorID",
+							"value": "{{outlet_id}}",
+							"type": "text"
+						},
+						{
+							"key": "kycID",
+							"value": "{{outlet_owner_kyc_id}}",
+							"type": "text"
+						},
+						{
+							"key": "userType",
+							"value": "Outlet",
+							"type": "text"
+						},
+						{
+							"key": "documentType",
+							"value": "idType",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/kycdocupload"
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"a@b.com\",\r\n    \"password\":\"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/logout"
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.globals.set(\"TOKEN\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/refresh-token"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "outlet_owner_add_id",
+			"value": "--",
+			"type": "string"
+		},
+		{
+			"key": "outlet_firm_add_id",
+			"value": "--",
+			"type": "string"
+		},
+		{
+			"key": "outlet_bank_detail",
+			"value": "--",
+			"type": "string"
+		},
+		{
+			"key": "outlet_owner_kyc_id",
+			"value": "--",
+			"type": "string"
+		},
+		{
+			"key": "outlet_id",
+			"value": "--",
+			"type": "string"
+		}
+	]
+}

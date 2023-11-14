@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,6 +31,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
@@ -81,10 +84,10 @@ public class SecurityConfig {
                 .antMatchers(GET, "/v1/self/**").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
                 .antMatchers(PUT, "/v1/self/**").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
 
-                .antMatchers(GET, "/v1/inventory/item").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
-                .antMatchers(GET, "/v1/inventory/allitem").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
-                .antMatchers(GET, "/v1/inventory/itemoffer").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
-                .antMatchers(GET, "/v1/inventory/itemoffer/all").hasAnyRole(TD.name(), SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(GET, "/v1/inventory/item").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(GET, "/v1/inventory/allitem").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(GET, "/v1/inventory/itemoffer").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(GET, "/v1/inventory/itemoffer/all").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
 
                 .anyRequest()
                 .authenticated()

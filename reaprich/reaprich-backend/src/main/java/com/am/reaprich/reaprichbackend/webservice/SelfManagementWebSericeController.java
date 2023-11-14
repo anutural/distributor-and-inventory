@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.POST})
 @RequestMapping("/v1/self")
 public class SelfManagementWebSericeController {
     private final ActorService actorService;
@@ -40,7 +40,7 @@ public class SelfManagementWebSericeController {
 
     @GetMapping("/actor/td")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity td() {
+    public ResponseEntity<TDDetailResponse> td() {
         try {
             String userEmail = getUserNameFromAuthHeader();
             return ResponseEntity.ok(this.actorService.getTDDetailByUserEamil(userEmail));

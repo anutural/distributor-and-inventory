@@ -1,5 +1,6 @@
 package com.am.reaprich.reaprichbackend.webservice;
 
+import com.am.reaprich.reaprichbackend.business.pojo.IdResponse;
 import com.am.reaprich.reaprichbackend.business.pojo.inventory.*;
 import com.am.reaprich.reaprichbackend.business.service.inventory.InventoryService;
 import com.am.reaprich.reaprichbackend.business.service.inventory.ItemService;
@@ -14,8 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.POST})
 @RequestMapping("/v1/inventory")
 public class InventoryWebServiceController {
 
@@ -34,10 +37,10 @@ public class InventoryWebServiceController {
         }
     }
 
-    @RequestMapping(path = "/allitems", method = RequestMethod.GET)
-    public ResponseEntity<ItemCollectionResponse> getAllItem(@RequestBody GetAllItemRequest getAllItemRequest) {
+    @RequestMapping(path = "/allitems", method = RequestMethod.POST)
+    public ResponseEntity<ItemCollectionResponse> allItem(@RequestBody AllItemRequest allItemRequest) {
         try {
-            return ResponseEntity.ok(this.itemService.getAllItems(getAllItemRequest));
+            return ResponseEntity.ok(this.itemService.getAllItems(allItemRequest));
         }
         catch (Exception ex) {
             return getItemCollectionResponseEntityForException(ex);
@@ -61,18 +64,33 @@ public class InventoryWebServiceController {
     }
 
     @RequestMapping(path = "/itemoffer", method = RequestMethod.GET)
-    public ResponseEntity<ItemOfferCollectionResponse> getItemOffersOnItem(@RequestBody String itemID) {
+    public ResponseEntity<ItemOfferResponse> getItemOffer(@RequestParam String itemOfferID) {
+        try {
+            ItemOfferResponse itemOfferResponse = this.itemService.getItemOfferByID(itemOfferID);
+            return ResponseEntity.status(HttpStatus.OK).body(itemOfferResponse);
+        }
+        catch (Exception ex) {
+            return getItemOfferResponseEntityForInternalServerError(ex);
+        }
+    }
+
+    @RequestMapping(path = "/offersonitem", method = RequestMethod.GET)
+    public ResponseEntity<ItemOfferCollectionResponse> getOffersOnItem(@RequestParam String itemID) {
         ItemOfferCollectionResponse itemOfferCollection = this.itemService.getItemOffersOnItem(itemID);
         return ResponseEntity.status(HttpStatus.OK).body(itemOfferCollection);
     }
 
     @RequestMapping(path = "/item", method = RequestMethod.POST)
-    public ResponseEntity<String> addItem(@RequestBody Item item) {
+    public ResponseEntity<IdResponse> addItem(@RequestBody Item item) {
         String id = java.util.UUID.randomUUID().toString();
         item.setId(id);
         try {
             this.itemService.addItem(item);
-            return ResponseEntity.status(HttpStatus.CREATED).body(id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    IdResponse
+                            .builder()
+                            .id(id)
+                            .build());
         }
         catch (Exception ex) {
             return getErrorMsgResponseEntityForException(ex);
@@ -80,10 +98,13 @@ public class InventoryWebServiceController {
     }
 
     @RequestMapping(path = "/item", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateItem(@RequestBody Item item) {
+    public ResponseEntity<IdResponse> updateItem(@RequestBody Item item) {
         try {
             this.itemService.updateItemDetail(item);
-            return ResponseEntity.ok(item.getId());
+            return ResponseEntity.ok(IdResponse
+                    .builder()
+                    .id(item.getId())
+                    .build());
         }
         catch (Exception ex) {
             return getErrorMsgResponseEntityForException(ex);
@@ -91,10 +112,13 @@ public class InventoryWebServiceController {
     }
 
     @RequestMapping(path = "/item/packingtype", method = RequestMethod.POST)
-    public ResponseEntity<String> addPackingType(@RequestBody PackingType packingType) {
+    public ResponseEntity<IdResponse> addPackingType(@RequestBody PackingType packingType) {
         try {
             this.itemService.addPackingType(packingType);
-            return ResponseEntity.status(HttpStatus.CREATED).body(packingType.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
+                    .builder()
+                    .id(packingType.getId())
+                    .build());
         }
         catch (Exception ex) {
             return getErrorMsgResponseEntityForException(ex);
@@ -102,10 +126,13 @@ public class InventoryWebServiceController {
     }
 
     @RequestMapping(path = "/item/category", method = RequestMethod.POST)
-    public ResponseEntity<String> addCategory(@RequestBody Category category) {
+    public ResponseEntity<IdResponse> addCategory(@RequestBody Category category) {
         try {
             this.itemService.addCategory(category);
-            return ResponseEntity.status(HttpStatus.CREATED).body(category.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
+                    .builder()
+                    .id(category.getId())
+                    .build());
         }
         catch (Exception ex) {
             return getErrorMsgResponseEntityForException(ex);
@@ -113,10 +140,13 @@ public class InventoryWebServiceController {
     }
 
     @RequestMapping(path = "/item/subcategory", method = RequestMethod.POST)
-    public ResponseEntity<String> addSubCategory(@RequestBody Subcategory subcategory) {
+    public ResponseEntity<IdResponse> addSubCategory(@RequestBody Subcategory subcategory) {
         try {
             this.itemService.addSubcategory(subcategory);
-            return ResponseEntity.status(HttpStatus.CREATED).body(subcategory.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
+                    .builder()
+                    .id(subcategory.getId())
+                    .build());
         }
         catch (Exception ex) {
             return getErrorMsgResponseEntityForException(ex);
@@ -124,20 +154,28 @@ public class InventoryWebServiceController {
     }
 
     @RequestMapping(path = "/itemoffer", method = RequestMethod.POST)
-    public ResponseEntity<String> addItemOffer(@RequestBody ItemOffer itemOffer) {
+    public ResponseEntity<IdResponse> addItemOffer(@RequestBody ItemOffer itemOffer) {
         try {
+            String id = UUID.randomUUID().toString();
+            itemOffer.setId(id);
             this.itemService.addItemOffer(itemOffer);
-            return ResponseEntity.status(HttpStatus.CREATED).body(itemOffer.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
+                    .builder()
+                    .id(id)
+                    .build());
         }
         catch (Exception ex) {
             return getErrorMsgResponseEntityForException(ex);
         }
     }
     @RequestMapping(path = "/itemoffer", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateItemOffer(@RequestBody ItemOffer itemOffer) {
+    public ResponseEntity<IdResponse> updateItemOffer(@RequestBody ItemOffer itemOffer) {
         try {
             this.itemService.updateItemOffer(itemOffer);
-            return ResponseEntity.status(HttpStatus.OK).body(itemOffer.getId());
+            return ResponseEntity.status(HttpStatus.OK).body(IdResponse
+                    .builder()
+                    .id(itemOffer.getId())
+                    .build());
         }
         catch (Exception ex) {
             return getErrorMsgResponseEntityForException(ex);
@@ -156,10 +194,13 @@ public class InventoryWebServiceController {
     }
 
     @RequestMapping(path = "warehouse/item", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateWarehouseItem(@RequestBody WarehouseInventory warehouseInventory) {
+    public ResponseEntity<IdResponse> updateWarehouseItem(@RequestBody WarehouseInventory warehouseInventory) {
         try {
             this.inventoryService.updateWarehouseItem(warehouseInventory);
-            return ResponseEntity.status(HttpStatus.OK).body(warehouseInventory.getId());
+            return ResponseEntity.status(HttpStatus.OK).body(IdResponse
+                    .builder()
+                    .id(warehouseInventory.getId())
+                    .build());
         }
         catch (Exception ex) {
             return getErrorMsgResponseEntityForException(ex);
@@ -167,10 +208,13 @@ public class InventoryWebServiceController {
     }
 
     @RequestMapping(path = "warehouse/removeitems", method = RequestMethod.PUT)
-    public ResponseEntity<String> removeItemsFromWarehouse(@RequestBody RemoveWarehouseInventoryItemRequest removeWarehouseInventoryItemRequest) {
+    public ResponseEntity<IdResponse> removeItemsFromWarehouse(@RequestBody RemoveWarehouseInventoryItemRequest removeWarehouseInventoryItemRequest) {
         try {
             this.inventoryService.removeItemsFromWarehouse(removeWarehouseInventoryItemRequest);
-            return ResponseEntity.status(HttpStatus.OK).body("Success");
+            return ResponseEntity.status(HttpStatus.OK).body(IdResponse
+                    .builder()
+                    .id("Success")
+                    .build());
         }
         catch (Exception ex) {
             return getErrorMsgResponseEntityForException(ex);
@@ -194,8 +238,11 @@ public class InventoryWebServiceController {
         return status;
     }
 
-    private ResponseEntity<String > getErrorMsgResponseEntityForException(Exception ex) {
-        return ResponseEntity.status(getHTTPStatus(ex)).body(getErrorMessage(ex));
+    private ResponseEntity<IdResponse > getErrorMsgResponseEntityForException(Exception ex) {
+        return ResponseEntity.status(getHTTPStatus(ex)).body(IdResponse
+                .builder()
+                .error(ex.getMessage())
+                .build());
     }
 
     private ResponseEntity<ItemResponse> getItemResponseEntityForException(Exception ex) {
@@ -217,5 +264,14 @@ public class InventoryWebServiceController {
                 WarehouseInventoryCollectionResponse.builder().
                         error(getErrorMessage(ex))
                         .build());
+    }
+
+    private ResponseEntity<ItemOfferResponse> getItemOfferResponseEntityForInternalServerError(Exception ex) {
+        return ResponseEntity.status(getHTTPStatus(ex))
+                .body(
+                        ItemOfferResponse
+                                .builder()
+                                .error(getErrorMessage(ex))
+                                .build());
     }
 }

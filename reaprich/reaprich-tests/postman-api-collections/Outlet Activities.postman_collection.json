@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "9aae2d51-6c89-47a6-9b4d-eded9a9d8980",
+		"name": "Outlet Activities",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "4832931",
+		"_collection_link": "https://grey-meteor-994336.postman.co/workspace/Test~2dcf0bef-a493-4653-8ff7-a05c5df2be02/collection/4832931-9aae2d51-6c89-47a6-9b4d-eded9a9d8980?action=share&source=collection_link&creator=4832931"
+	},
+	"item": [
+		{
+			"name": "Outlet Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"OUTLET_TOKEN\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/authenticate"
+			},
+			"response": []
+		},
+		{
+			"name": "Getting Outlet Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://{{HOST}}:{{PORT}}/v1/self/actor/outlet"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Self Detail - Outlet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firmName\": \"Amit Maheshwari New Plt ltd\",\r\n    \"firmContactNumber\": \"02696-282563000\",\r\n    \"firmAddress\": {\r\n        \"id\": \"22baeb05-74b6-4cfd-8b53-838af5b8a74d\",\r\n        \"actorType\": {\r\n            \"id\": \"Outlet\",\r\n            \"desc\": \"Outlet\"\r\n        },\r\n        \"name\": \"Amit Maheshwari New Pvt Ltd\",\r\n        \"addressLine1\": \"Some company address line 1 New\",\r\n        \"addressLine2\": \"company address line 2 New\",\r\n        \"city\": \"Anklav New\",\r\n        \"taluka\": \"Anklav New\",\r\n        \"pinCode\": \"3885100\",\r\n        \"dist\": {\r\n            \"id\": \"AND\",\r\n            \"name\": \"Anand\",\r\n            \"zone\": {\r\n                \"id\": \"CGUJ\",\r\n                \"name\": \"Central Gujarat\",\r\n                \"state\": {\r\n                    \"id\": \"GUJ\",\r\n                    \"name\": \"Gujarat\",\r\n                    \"country\": {\r\n                        \"id\": \"IND\",\r\n                        \"name\": \"India\"\r\n                    }\r\n                }\r\n            }\r\n        },\r\n        \"zone\": {\r\n            \"id\": \"CGUJ\",\r\n            \"name\": \"Central Gujarat\",\r\n            \"state\": {\r\n                \"id\": \"GUJ\",\r\n                \"name\": \"Gujarat\",\r\n                \"country\": {\r\n                    \"id\": \"IND\",\r\n                    \"name\": \"India\"\r\n                }\r\n            }\r\n        },\r\n        \"state\": {\r\n            \"id\": \"GUJ\",\r\n            \"name\": \"Gujarat\",\r\n            \"country\": {\r\n                \"id\": \"IND\",\r\n                \"name\": \"India\"\r\n            }\r\n        },\r\n        \"country\": {\r\n            \"id\": \"IND\",\r\n            \"name\": \"India\"\r\n        },\r\n        \"status\": true\r\n    },\r\n    \"firmBankDetails\": {\r\n        \"id\": \"29595a99-894b-4b91-80d1-4f63e18cdafd\",\r\n        \"actorType\": {\r\n            \"id\": \"Outlet\",\r\n            \"desc\": \"Outlet\"\r\n        },\r\n        \"name\": \"Amit Maheshwari New pvt ltd\",\r\n        \"acNumber\": \"1001001001000\",\r\n        \"acType\": \"Current\",\r\n        \"bankName\": \"State bank of India New\",\r\n        \"branchName\": \"Vadodara\",\r\n        \"ifscCode\": \"SBIN0001\",\r\n        \"status\": true\r\n    },\r\n    \"ownerFirstName\": \"Amit New\",\r\n    \"ownerLastName\": \"Maheshwari New\",\r\n    \"ownerContactNumber\": \"8000013005000\",\r\n    \"ownerAddress\": {\r\n        \"id\": \"026f5325-f4e2-4b5c-9361-b16aef13e351\",\r\n        \"actorType\": {\r\n            \"id\": \"Outlet\",\r\n            \"desc\": \"Outlet\"\r\n        },\r\n        \"name\": \"Amit Maheshwari New\",\r\n        \"addressLine1\": \"39-Gayatri Society\",\r\n        \"addressLine2\": \"Anklav\",\r\n        \"city\": \"Anklav\",\r\n        \"taluka\": \"Anklav\",\r\n        \"pinCode\": \"388510\",\r\n        \"dist\": {\r\n            \"id\": \"AND\",\r\n            \"name\": \"Anand\",\r\n            \"zone\": {\r\n                \"id\": \"CGUJ\",\r\n                \"name\": \"Central Gujarat\",\r\n                \"state\": {\r\n                    \"id\": \"GUJ\",\r\n                    \"name\": \"Gujarat\",\r\n                    \"country\": {\r\n                        \"id\": \"IND\",\r\n                        \"name\": \"India\"\r\n                    }\r\n                }\r\n            }\r\n        },\r\n        \"zone\": {\r\n            \"id\": \"CGUJ\",\r\n            \"name\": \"Central Gujarat\",\r\n            \"state\": {\r\n                \"id\": \"GUJ\",\r\n                \"name\": \"Gujarat\",\r\n                \"country\": {\r\n                    \"id\": \"IND\",\r\n                    \"name\": \"India\"\r\n                }\r\n            }\r\n        },\r\n        \"state\": {\r\n            \"id\": \"GUJ\",\r\n            \"name\": \"Gujarat\",\r\n            \"country\": {\r\n                \"id\": \"IND\",\r\n                \"name\": \"India\"\r\n            }\r\n        },\r\n        \"country\": {\r\n            \"id\": \"IND\",\r\n            \"name\": \"India\"\r\n        },\r\n        \"status\": true\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/self/actor/outlet"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"oldPassword\":\"123456789\",\r\n    \"newPassword\":\"12345678910\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/self/resetpassword"
+			},
+			"response": []
+		},
+		{
+			"name": "Outlet Login Again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"OUTLET_TOKEN\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"password\":\"12345678910\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/auth/authenticate"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "OUTLET_TOKEN",
+			"value": "--",
+			"type": "string"
+		}
+	]
+}

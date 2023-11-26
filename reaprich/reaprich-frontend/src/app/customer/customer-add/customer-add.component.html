@@ -1,13 +1,61 @@
-<div class="add-customer">
+<form class="customer-form" [formGroup]="addCustomerForm" #formMine="ngForm" (ngSubmit)="onAddCustomer(formMine.value)">
+
     <h1>Add New Customer</h1>
-    <p class="message-p">{{addCustomerMessage}}</p>
-    <form #addCustomer="ngForm" (ngSubmit)="addCustomerSubmit(addCustomer.value)" class="common-form">
-        <input class="form-input" type="text" placeholder="Actor Type" name="Actor_Type" ngModel>
-        <input class="form-input" type="text" placeholder="Customer Type" name="Customer_Type" ngModel>
-        <input class="form-input" type="text" placeholder="First Name" name="Customer_F_Name" ngModel>
-        <input class="form-input" type="text" placeholder="Last Name" name="Customer_L_Name" ngModel>
-        <textarea class="form-input" type="text" placeholder="Contact Number" name="Customer_Contact_Number" ngModel></textarea>    
-        <input class="form-input" type="text" placeholder="Tead Developer Id" name="TD_Add" ngModel />
-        <button class="form-button">Add Customer</button>
-    </form>
-</div>
+
+    <table class="customer-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <mat-form-field class="customer-full-width" formGroupName="Actor_Type">
+                    <mat-label>Actor Type (disabled)</mat-label>
+                    <input matInput value="Customer" formControlName="id" />
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field formGroupName="Customer_Type">
+                    <mat-label>Customer Type</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let customerType of providerInfo.customerType" [value]="customerType.id">{{
+                            customerType.desc }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                <mat-form-field class="customer-full-width">
+                    <mat-label>First Name</mat-label>
+                    <input matInput class="form-control" formControlName="Customer_F_Name">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="customer-full-width">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput class="form-control" formControlName="Customer_L_Name">
+                </mat-form-field>
+            </td>
+        </tr>
+
+        <tr>
+            <mat-form-field class="customer-full-width">
+                <mat-label>Contact Number</mat-label>
+                <input matInput class="form-control" formControlName="Customer_Contact_Number">
+            </mat-form-field>
+        </tr>
+        <tr>
+            <td>
+                <button mat-stroked-button (click)="openPopUpForCustomerAddress()" type="button">Add Customer
+                    Address</button>
+                <fa-icon *ngIf="customerAddressUUID" class="fa-sharp fa-light fa-check"
+                    [icon]="rightIconForModal"></fa-icon>
+                <fa-icon *ngIf="!customerAddressUUID" class="fa-sharp fa-light fa-check"
+                    [icon]="wrongIconForModal"></fa-icon>
+            </td>
+        </tr>
+
+    </table>
+    <hr>
+    <pre></pre>
+    <button type="submit" class="customer-full-width" mat-raised-button color="warn">Add Customer</button>
+</form>

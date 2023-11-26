@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IAccessToken, IAddress, IProviderInfo } from '../data-type';
+import { IAccessToken, IAddress, IBankDetails, IKYCDetails, IProviderInfo, IServerResponsePut } from '../data-type';
 
 @Injectable({
   providedIn: 'root'
@@ -33,53 +33,64 @@ export class CommonService {
       ;
   }
 
-  saveAddress(data: IAddress){
-
-
-    // this.http.post(`http://localhost:8080/v1/self/resetpassw`,data,
-    // {observe:'response'})
-    // .subscribe((result) => {
-    //   console.warn('login res' + result);
-    //   if(result && result.body){
-                      
-    //   }
-    //   else{
-        
-    //   }
-    // })
-    // ;
-
+  async postAddress(data: IAddress) {
+    //read the token from local storage.
     this.accessTokenObject = JSON.parse(localStorage.getItem("usersreaprich") ?? "access_token") as IAccessToken;
-    if (this.accessTokenObject) {
 
-      //print the token
-      console.warn('token', this.accessTokenObject.access_token)
 
-      //header
-      let headers = new HttpHeaders();
-      headers = headers.set('Authorization', 'Bearer ' + this.accessTokenObject.access_token);
-      headers = headers.append('Content-Type', 'application/json; charset=utf-8');
+    //header
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this.accessTokenObject.access_token);
+    headers = headers.append('Content-Type', 'application/json; charset=utf-8');
+    const httpOptions = {
+      headers: headers
+    };
 
-// const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-// return this.httpClient.post<T>(this.httpUtilService.prepareUrlForRequest(url), body, {headers: headers})
+    //the post request
+    return await this.http.post(
+      'http://localhost:8080/v1/user/address', data, httpOptions
+    )
+  }
 
-      const httpOptions = {
-        headers: headers
-      };
+  async postBankDetails(data: IBankDetails) {
 
-      this.http.post(
-        'http://cors-anywhere.localhost:8080/v1/user/address', data, httpOptions
-      ).subscribe(resp => {
-        if (resp) {
-          console.warn("save add resp" + resp);
-        }
-        else {
-          console.warn("error" + resp);
-        }
-      }
-      );
-    }
+    //read the token from local storage.
+    this.accessTokenObject = JSON.parse(localStorage.getItem("usersreaprich") ?? "access_token") as IAccessToken;
 
-    //return "firm address id";
+
+    //header
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this.accessTokenObject.access_token);
+    headers = headers.append('Content-Type', 'application/json; charset=utf-8');
+    const httpOptions = {
+      headers: headers
+    };
+
+    //the post request
+    return await this.http.post(
+      'http://localhost:8080/v1/user/bankdetail', data, httpOptions
+    );
+
+  }
+
+  async postKYCDetails(data: IKYCDetails) {
+
+    //read the token from local storage.
+    this.accessTokenObject = JSON.parse(localStorage.getItem("usersreaprich") ?? "access_token") as IAccessToken;
+
+
+    //header
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this.accessTokenObject.access_token);
+    headers = headers.append('Content-Type', 'application/json; charset=utf-8');
+    const httpOptions = {
+      headers: headers
+    };
+
+    //the post request
+    return await this.http.post(
+      'http://localhost:8080/v1/user/kycdetail', data, httpOptions
+    );
+
   }
 }

@@ -1,34 +1,34 @@
-table{
-    text-align: left;
-    color: blueviolet;
-    border-collapse: collapse ;
+
+table {
+    width: 100%;
 }
 
-table td,table th{
-    border: 1px solid blueviolet;
-    padding: 10px;
-    min-height: 160px;
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
 }
 
-img {
-    height: 100px;
-    width: 100px;
+td,
+th {
+    width: 25%;
 }
 
-.adjust-update-link{
-    margin-left: 10px;
+.input {
+    height: auto;
 }
 
-h1 {
-    margin-bottom: 50px;
-    margin-top: 80px;
-    color: blueviolet;
-    text-align: center;
+mat-form-field {
+    margin-top: 40px;
 }
 
-.add-customer-button{
-    height: 35px;
-    border: 1px solid blueviolet;
-    cursor: pointer;
-    margin-top: 50px;
-}
+
+.button-row {    
+    margin-top: 40px;
+    display: table-cell;    
+
+  }
+
+.customer-list{
+    margin-left: 30px;
+    margin-right: 30px;
+}  

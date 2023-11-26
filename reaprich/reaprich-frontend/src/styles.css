@@ -1,3 +1,5 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 body {
     font-family: sans-serif;
 }
@@ -20,15 +22,22 @@ body {
     height: 35px;
     margin-bottom: 20px;
     padding-left: 10px;
-    border: 1px solid blueviolet;
-    color: blueviolet;
+    border-radius: 8px;
+    border: 1px solid;;
 }
 
-.form-button {
+/* .form-button {
     height: 35px;
-    border: 1px solid blueviolet;
+    border: 1px solid rgb(221,153,51);
     cursor: pointer;
-}
+    border-radius: 25px;
+    background-color: rgb(221,153,51);
+    color: white;
+    box-sizing: border-box;
+    font-family: lato;
+    font-weight: bold;
+
+} */
 
 .error-p {
     color: red;
@@ -65,3 +74,5 @@ button:disabled{
 {
     cursor: pointer;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

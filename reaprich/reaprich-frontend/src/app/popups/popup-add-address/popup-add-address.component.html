@@ -1,0 +1,92 @@
+<form [formGroup]="addressForm" (ngSubmit)="saveAddress(addressForm.value)">
+    <h1 mat-dialog-title>Add Address</h1>
+
+    
+    <div mat-dialog-content>
+        <table class="outlet-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Firm Name</mat-label>
+                        <input matInput formControlName="name" class="form-control">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Address Line 1</mat-label>
+                        <input matInput formControlName="addressLine1" class="form-control">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Address Line 2</mat-label>
+                        <input matInput formControlName="addressLine2" class="form-control">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>City</mat-label>
+                        <input matInput formControlName="city" class="form-control">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Taluka</mat-label>
+                        <input matInput formControlName="taluka" class="form-control">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Pincode</mat-label>
+                        <input matInput formControlName="pinCode" class="form-control">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width" formGroupName="dist">
+                        <mat-label>District</mat-label>                      
+                        <mat-select formControlName="id" >
+                            <mat-option *ngFor="let district of dataPassed.district" [value]="district.id">{{ district.name }}</mat-option>
+                        </mat-select>                      
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width" formGroupName="zone">
+                        <mat-label>Zone</mat-label>
+                        <mat-select formControlName="id" >
+                            <mat-option *ngFor="let zone of dataPassed.zone" [value]="zone.id">{{ zone.name }}</mat-option>
+                        </mat-select>   
+                    </mat-form-field>
+                </td>
+            </tr>       
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width" formGroupName="state">
+                        <mat-label>State</mat-label>
+                        <mat-select formControlName="id" >
+                            <mat-option *ngFor="let state of dataPassed.state" [value]="state.id">{{ state.name }}</mat-option>
+                        </mat-select>   
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width" formGroupName="country">
+                        <mat-label>Country</mat-label>
+                        <mat-select formControlName="id" >
+                            <mat-option *ngFor="let country of dataPassed.country" [value]="country.id">{{ country.name }}</mat-option>
+                        </mat-select>   
+                    </mat-form-field>
+                </td>
+            </tr>          
+        </table>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary" type="submit" > Save</button>
+        <button mat-raised-button color="warn" (click)="closePopUp()">Close</button>
+        <!-- <button  mat-raised-button color="accent" [mat-dialog-close] = "closeMessage">Cancel</button> -->
+    </div>
+</form>

@@ -10,6 +10,7 @@ import { AuthGuard } from './auth.guard';
 import { OutletHomeComponent } from './outlet/outlet-home/outlet-home.component';
 import { TeamdevHomeComponent } from './teamdev/teamdev-home/teamdev-home.component';
 import { OutletAddComponent } from './outlet/outlet-add/outlet-add.component';
+import { TeamdevAddComponent } from './teamdev/teamdev-add/teamdev-add.component';
 
 
 const routes: Routes = [
@@ -54,7 +55,12 @@ const routes: Routes = [
   {
     path: 'outlet-add',
     component: OutletAddComponent,
-  }
+  },
+  {
+    path:'teamdev-add',
+    component : TeamdevAddComponent,
+    canActivate : [AuthGuard]
+  },
 ]
 
 @NgModule({

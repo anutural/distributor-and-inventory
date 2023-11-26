@@ -1,15 +1,5 @@
-<div class="seller-auth">
-    <div class="sign-up" *ngIf="!showLogin">
-        <h1>Sign-Up</h1>
-        <form #sellerSignUp="ngForm" class="common-form" (ngSubmit)="signUp(sellerSignUp.value)">
-            <input class="form-input" type="text" placeholder="Enter Name" name="name" ngModel>
-            <input class="form-input" type="password" placeholder="Enter Password" name="password" ngModel>
-            <input class="form-input" type="text" placeholder="Enter Email" name="email" ngModel>
-            <button class="form-button">SignUp</button>
-            <a class="auth-toggle-link" (click)="openLogin()">Already Have Account? Click To Login</a>
-        </form>
-    </div>
-    <div class="user-login" *ngIf="showLogin">
+<!-- <div class="seller-auth">
+    <div class="user-login">
         <h1>Login</h1>
         <form #userLogin="ngForm" class="common-form" (ngSubmit)="login(userLogin.value)">
             <p class="error-p"><span>{{authError}}</span></p>
@@ -26,8 +16,43 @@
                 #password="ngModel" required minlength="4" maxlength="20">
             <p class="invalid-input"><span *ngIf="password.invalid && password.touched">Please enter valid value</span>
             </p>
-            <button class="form-button" [disabled]="userLogin.invalid">Login</button>
-            <p>Want To Create Account? <a (click)="openSignUp()">Click Here!</a></p>
-        </form>
+            <button class="form-button" [disabled]="userLogin.invalid">LOG IN</button>
+            <p class="forgot-password"  hover-class="forgot-password-hover" >Forgot Password? Click Here!</p>
+
+            <!-- <button mat-raised-button color="primary">Click Me Hellooooooooooooo!</button> -->
+        <!-- </form>
     </div>
+</div> -->
+
+<form class="login-form" [formGroup]="userLoginForm" #formMine="ngForm" (ngSubmit)="login(formMine.value)">
+
+<div class="example-container">
+    <table>
+        <tr>
+            <h1>Login</h1>
+        </tr>
+        <p class="error-p"><span>{{authError}}</span></p>
+        <tr>
+            <mat-form-field>
+                <mat-label>Enter your email</mat-label>
+                <input matInput placeholder="pat@example.com" formControlName="email" required  >
+                <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+              </mat-form-field>
+        </tr>
+        <tr>
+            <mat-form-field>
+                <mat-label>Enter your password</mat-label>
+                <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" >
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide" type="button">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </tr>
+        <tr>
+            <button mat-raised-button color="warn">Login</button>
+        </tr>
+    </table>
 </div>
+
+</form>

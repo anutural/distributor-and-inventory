@@ -1,54 +1,286 @@
+<form class="outlet-form"  [formGroup]="outletForm" #formMine="ngForm" (ngSubmit)="onAddOutlet(formMine.value)">
+
+    <h1>Add New Outlet</h1>
+
+    <table class="outlet-full-width" cellspacing="0"><tr>
+        <td>
+            <mat-form-field class="outlet-full-width" formGroupName="actorType">
+                <mat-label>Actor Type (disabled)</mat-label>
+                <input matInput value="Outlet" formControlName="id" />
+            </mat-form-field>
+        </td>
+        <td>
+        <mat-form-field formGroupName="outletType">
+            <mat-label>Outlet Type</mat-label>
+            <mat-select formControlName="id" >
+                <mat-option *ngFor="let outlet of providerInfo.outletType" [value]="outlet.id">{{ outlet.name }}</mat-option>
+              </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+            <mat-form-field class="outlet-full-width">
+                <mat-label>Firm name</mat-label>
+                <input matInput class="form-control" formControlName="firmName">
+              </mat-form-field>
+        </td>
+      </tr></table>
+  
+    <table class="outlet-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>Firm Contact Number</mat-label>
+                    <input matInput formControlName="firmContactNumber" class="form-control">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>Firm GST Number</mat-label>
+                    <input matInput formControlName="firmGSTNumber" class="form-control">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>Firm PAN Number</mat-label>
+                    <input matInput formControlName="firmPAN" class="form-control">
+                </mat-form-field>
+            </td>
+        </tr>
+    </table>
+
+    <table class="outlet-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <button mat-stroked-button (click)="openPopUpForFirmAddress()" type="button">Add Firm Address</button>
+                <fa-icon *ngIf="firmAddressUUID" class="fa-sharp fa-light fa-check" [icon]="rightIconForModal" ></fa-icon>                                  
+                <fa-icon *ngIf="!firmAddressUUID" class="fa-sharp fa-light fa-check" [icon]="wrongIconForModal" ></fa-icon>
+            </td>
+            <td>
+                <button mat-stroked-button (click)="openPopUpForBankDetails()" type="button">Add Bank Details</button>       
+                <fa-icon *ngIf="bankDetailsUUID" class="fa-sharp fa-light fa-check" [icon]="rightIconForModal" ></fa-icon>                                  
+                <fa-icon *ngIf="!bankDetailsUUID" class="fa-sharp fa-light fa-check" [icon]="wrongIconForModal" ></fa-icon>         
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+    <pre></pre>
+
+    <table class="outlet-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>Owner First Name</mat-label>
+                    <input matInput formControlName="ownerFirstName" class="form-control">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>Owner Last Name</mat-label>
+                    <input matInput formControlName="ownerLastName" class="form-control">
+                </mat-form-field>
+            </td>
+        </tr>
+    </table>    
+
+    <table class="outlet-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>Owner Contact Number</mat-label>
+                    <input matInput formControlName="ownerContactNumber" class="form-control">
+                </mat-form-field>
+            </td>            
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>Owner PAN</mat-label>
+                    <input matInput formControlName="ownerPAN" class="form-control">
+                </mat-form-field>
+            </td>            
+    </table>    
+
+    <table class="outlet-full-width" cellspacing="0">
+        <tr>
+            <td>                
+                <button mat-stroked-button (click)="openPopUpForKycDetails()"  type="button">Add Owner KYC Details</button>     
+                <fa-icon *ngIf="kycDetailsUUID" class="fa-sharp fa-light fa-check" [icon]="rightIconForModal" ></fa-icon>                                  
+                <fa-icon *ngIf="!kycDetailsUUID" class="fa-sharp fa-light fa-check" [icon]="wrongIconForModal" ></fa-icon>                
+            </td>
+            <td>
+                <button mat-stroked-button (click)="openPopUpForOwnerAddress()" type="button" >Add Owner Address</button>
+                <fa-icon *ngIf="ownerAddressUUID" class="fa-sharp fa-light fa-check" [icon]="rightIconForModal" ></fa-icon>                                  
+                <fa-icon *ngIf="!ownerAddressUUID" class="fa-sharp fa-light fa-check" [icon]="wrongIconForModal" ></fa-icon>     
+            </td>
+        </tr>
+    </table>
+    
+    <hr>
+    <pre></pre>
+  
+    <table class="outlet-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>TD Email</mat-label>
+                    <input matInput  formControlName="tdEmail" class="form-control">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput  formControlName="email" class="form-control">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="outlet-full-width">
+                    <mat-label>Password</mat-label>
+                    <input matInput  formControlName="password" class="form-control" type="password">
+                </mat-form-field>
+            </td>
+        </tr>
+    </table>
+
+    <button type="submit" class="outlet-full-width" mat-raised-button color="warn">Add Outlet</button>
+    
+  </form>
+  
+
+
+
+<!-- 
 <div class="add-outlet">
     <h1>Add New Outlet</h1>
     <p class="message-p">{{addOutletMessage}}</p>
-    <form #addCustomer="ngForm" (ngSubmit)="addOutletSubmit(addCustomer.value)" class="common-form">
-        <table>
-            <tr>
-                <td>
-                    <input class="form-input" type="text" placeholder="Actor Type" name="firmName" value="Outlet"
-                        ngModel>
-                </td>
-                <td>
-                    <select class="form-input" aria-label="Outlet type" name="outletType">
-                        <option value=null selected disabled value="Outlet Type">Outlet Type</option>
+    <form #addCustomer="ngForm" (ngSubmit)="addOutletSubmit(addCustomer.value)" class="common-form-add-outlet">
+
+        <div class="container" >
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group" formGroupName="actorType" ngModelGroup="actorType">
+                    <select class="form-input" aria-label="Actor Type" name="id" ngModel>                        
+                        <option style="display:none" value="">Actor Type</option>
+                        <ng-container *ngFor="let item of providerInfo?.actorType">
+                            <option value="{{item.id}}" [disabled]="item.desc != 'Outlet'" [selected]="item.desc == 'Outlet'">
+                                {{item.desc}}
+                            </option>
+                        </ng-container>
+
+                    </select>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group" formGroupName="outletType" ngModelGroup="outletType">
+                    <select class="form-input" aria-label="Outlet Type" name="id" ngModel>
+                        <option style="display:none" value="">Outlet Type</option>                        
                         <option *ngFor="let item of providerInfo?.outletType" value="{{item.id}}">
                             {{item.name}}
                         </option>
                     </select>
-                </td>
-            </tr>
-
-
-            <p>Adress Module Here</p>
-
-
-
-            <div class="address-module">
-                <textarea name="" id="" cols="50" rows="5" disabled></textarea>
-                <input type="button" value="sendAddress" (click)="open(content)">
+                </div>
+              </div>
             </div>
-            <tr>
+            <div class="row">
+              <div class="col-sm-6">
+                <input class="form-input" type="text" placeholder="Firm Name" name="firmName" ngModel>
+              </div>
+              <div class="col-sm-6">
+                <input class="form-input" type="text" placeholder="Firm Contact Number" name="firmContactNumber" ngModel>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <input class="form-input" type="text" placeholder="Firm GST Number" name="firmGSTNumber" ngModel>
+                </div>
+            
+                <div class="col-sm-6">
+                    <input class="form-input" type="text" placeholder="Firm PAN" name="firmPAN" ngModel>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">                    
+                    <fa-icon *ngIf="firmAddressUUID" class="fa-sharp fa-light fa-check" [icon]="rightIconForModal" ></fa-icon>                                  
+                    <fa-icon *ngIf="!firmAddressUUID" class="fa-sharp fa-light fa-check" [icon]="wrongIconForModal" ></fa-icon>
+                    <input type="button" class = "outlet-button"  value="Add Firm Address" (click)="open(firmAddressModal)">
+                </div>
+                    
+                <div class="col-sm-6">
+                    <fa-icon *ngIf="bankDetailsUUID" class="fa-sharp fa-light fa-check" [icon]="rightIconForModal" ></fa-icon>                                  
+                    <fa-icon *ngIf="!bankDetailsUUID" class="fa-sharp fa-light fa-check" [icon]="wrongIconForModal" ></fa-icon>
+                    <input type="button" class = "outlet-button" value="Add Bank Details" (click)="open(firmBankModal)">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">                    
+                    <input class="form-input" type="text" placeholder="Owner First Name" name="ownerFirstName" ngModel>
+                </div>
+            
+            
+                <div class="col-sm-6">
+                    <input class="form-input" type="text" placeholder="Owner Last Name" name="ownerLastName" ngModel>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <input class="form-input" type="text" placeholder="Owner Contact Number" name="ownerContactNumber" ngModel>
+                </div>
+            
+            
+                <div class="col-sm-6">
+                    <input class="form-input" type="text" placeholder="Owner PAN" name="ownerPAN" ngModel>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <fa-icon *ngIf="kycDetailsUUID" class="fa-sharp fa-light fa-check" [icon]="rightIconForModal" ></fa-icon>                                  
+                    <fa-icon *ngIf="!kycDetailsUUID" class="fa-sharp fa-light fa-check" [icon]="wrongIconForModal" ></fa-icon>
+
+                    <input type="button" class = "outlet-button" value="Add Owner KYC Details" (click)="open(firmKYCModal)">
+                </div>
+            
+            
+                <div class="col-sm-6">
+                    <fa-icon *ngIf="ownerAddressUUID" class="fa-sharp fa-light fa-check" [icon]="rightIconForModal" ></fa-icon>                                  
+                    <fa-icon *ngIf="!ownerAddressUUID" class="fa-sharp fa-light fa-check" [icon]="wrongIconForModal" ></fa-icon>
+
+                    <input type="button" class = "outlet-button" value="Add Owner Address" (click)="open(firmOwnerAddressModal)">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <input class="form-input" type="text" placeholder="TD Email" name="tdEmail" ngModel>
+                </div>            
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <input class="form-input" type="text" placeholder="Email" name="email" ngModel>                </div>     
+                <div class="col-sm-6">
+                <input class="form-input" type="password" placeholder="Password" name="password" ngModel>
+                </div>
+            </div>
+            <div class = "row">
+
+                <button class="form-button ">ADD OUTLET</button>
+            </div>
+          </div>
+            
 
 
-                <td>
-                    <input class="form-input" type="text" placeholder="Firm Bank Details" name="firmBankDetails"
-                        ngModel>
-                </td>
-            </tr>
 
-
-            <button class="form-button">Add Outlet</button>
-
-            <!--Firm Addrees-->
-
-
-        </table>
-
+        
     </form>
 </div>
 
 
-<ng-template #content let-modal>
+
+
+
+
+<ng-template #firmAddressModal let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Add Address</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -56,14 +288,16 @@
         </button>
     </div>
     <div class="modal-body">
-        <form #addFirmAddress="ngForm"  (ngSubmit)="submitFirmAddress(addFirmAddress.value)" >
+        <form #addFirmAddress="ngForm" (ngSubmit)="submitFirmAddress(addFirmAddress.value)">
             <p class="error-p">{{firmAddressModuleError}}</p>
             <div class="form-group" formGroupName="actorType" ngModelGroup="actorType">
                 <select class="form-input addModuleDropdown" aria-label="Actor Type" name="id" ngModel>
-                    <option value=null selected disabled value="Actor Type">Actor Type</option>
-                    <option *ngFor="let item of providerInfo?.actorType" value="{{item.id}}">
-                        {{item.desc}}
-                    </option>
+                    <option style="display:none" value="">Actor Type</option>
+                    <ng-container *ngFor="let item of providerInfo?.actorType">
+                        <option value="{{item.id}}" [disabled]="item.desc != 'Outlet'" [selected]="item.desc == 'Outlet'">
+                            {{item.desc}}
+                        </option>
+                    </ng-container>
                 </select>
             </div>
             <div class="form-group">
@@ -105,17 +339,17 @@
             <div class="form-group">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-4"  formGroupName="dist" ngModelGroup="dist">
+                        <div class="col-sm-4" formGroupName="dist" ngModelGroup="dist">
                             <select class="form-input addModuleDropdown" aria-label="District" name="id" ngModel>
-                                <option value=null selected disabled value="District">District</option>
+                                <option style="display:none" value="">District</option>
                                 <option *ngFor="let item of providerInfo?.addDistList" value="{{item.id}}">
                                     {{item.name}}
                                 </option>
                             </select>
                         </div>
-                        <div class="col-sm-4"  formGroupName="zone" ngModelGroup="zone">
+                        <div class="col-sm-4" formGroupName="zone" ngModelGroup="zone">
                             <select class="form-input addModuleDropdown" aria-label="Zone" name="id" ngModel>
-                                <option value=null selected disabled value="Zone">Zone</option>
+                                <option style="display:none" value="">Zone</option>
                                 <option *ngFor="let item of providerInfo?.addZoneList" value="{{item.id}}">
                                     {{item.name}}
                                 </option>
@@ -123,17 +357,17 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-4"   formGroupName="state" ngModelGroup="state">
+                        <div class="col-sm-4" formGroupName="state" ngModelGroup="state">
                             <select class="form-input addModuleDropdown" aria-label="State" name="id" ngModel>
-                                <option value=null selected disabled value="State">State</option>
+                                <option style="display:none" value="">State</option>
                                 <option *ngFor="let item of providerInfo?.addStateList" value="{{item.id}}">
                                     {{item.name}}
                                 </option>
                             </select>
                         </div>
-                        <div class="col-sm-4"  formGroupName="country" ngModelGroup="country">
+                        <div class="col-sm-4" formGroupName="country" ngModelGroup="country">
                             <select class="form-input addModuleDropdown" aria-label="Country" name="id" ngModel>
-                                <option value=null selected disabled value="Country">Country</option>
+                                <option style="display:none" value="">Country</option>
                                 <option *ngFor="let item of providerInfo?.addCountryList" value="{{item.id}}">
                                     {{item.name}}
                                 </option>
@@ -143,10 +377,248 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="form-button" class="btn btn-outline-dark" >Save</button>
-                <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> -->
+                <button type="form-button" class="btn btn-outline-dark">Save</button>
+                
             </div>
         </form>
     </div>
-
 </ng-template>
+
+
+<ng-template #firmBankModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add Bank Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #addBankDetailsForm="ngForm" (ngSubmit)="submitBankDetails(addBankDetailsForm.value)" >
+            <p class="error-p">{{firmAddressModuleError}}</p>
+            <div class="form-group" formGroupName="actorType" ngModelGroup="actorType">
+                <select class="form-input addModuleDropdown" aria-label="Actor Type" name="id" ngModel>
+                    <option style="display:none" value="">Actor Type</option>
+                    <ng-container *ngFor="let item of providerInfo?.actorType">
+                        <option value="{{item.id}}" [disabled]="item.desc != 'Outlet'" [selected]="item.desc == 'Outlet'">
+                            {{item.desc}}
+                        </option>
+                    </ng-container>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Firm Name</label>
+                <div class="input-group">
+                    <input name="name" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Account Number</label>
+                <div class="input-group">
+                    <input name="acNumber" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Account Type</label>
+                <div class="input-group">
+                    <input name="acType" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Bank Name</label>
+                <div class="input-group">
+                    <input name="bankName" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Branch Name</label>
+                <div class="input-group">
+                    <input name="branchName" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>IFSC Code</label>
+                <div class="input-group">
+                    <input name="ifscCode" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="form-button" class="btn btn-outline-dark">Save</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #firmKYCModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add KYC Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #addKYCDetailsForm="ngForm" (ngSubmit)="submitKYCDetails(addKYCDetailsForm.value)">
+            <p class="error-p">{{firmAddressModuleError}}</p>
+            <div class="form-group" formGroupName="actorType" ngModelGroup="actorType">
+                <select class="form-input addModuleDropdown" aria-label="Actor Type" name="id" ngModel>
+                    <option style="display:none" value="">Actor Type</option>
+                    <ng-container *ngFor="let item of providerInfo?.actorType">
+                        <option value="{{item.id}}" [disabled]="item.desc != 'Outlet'" [selected]="item.desc == 'Outlet'">
+                            {{item.desc}}
+                        </option>
+                    </ng-container>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Firm Name</label>
+                <div class="input-group">
+                    <input name="name" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group" formGroupName="idType" ngModelGroup="idType">
+                <select class="form-input addModuleDropdown" aria-label="ID Type" name="id" ngModel>
+                    <option value=null selected disabled value="ID Type">ID Type</option>
+                    <option *ngFor="let item of providerInfo?.kycIdTypes" value="{{item.id}}">
+                        {{item.idDesc}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>ID Number</label>
+                <div class="input-group">
+                    <input name="idNumber" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group" formGroupName="addProofType" ngModelGroup="addProofType">
+                <select class="form-input addModuleDropdown" aria-label="Address Proof Type" name="id" ngModel>
+                    <option value=null selected disabled value="Address Proof Type">Address Proof Type</option>
+                    <option *ngFor="let item of providerInfo?.kycAddProofType" value="{{item.id}}">
+                        {{item.idDesc}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Addresss Proof Number</label>
+                <div class="input-group">
+                    <input name="addProofNumber" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Document Links</label>
+                <div class="input-group">
+                    <input name="documentLinks" class="form-control" type="text" ngModel>
+                </div>
+            </div>            
+
+            <div class="modal-footer">
+                <button type="form-button" class="btn btn-outline-dark">Save</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #firmOwnerAddressModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add Address</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #addOwnerAddress="ngForm" (ngSubmit)="submitOwnerAddress(addOwnerAddress.value)">
+            <p class="error-p">{{firmAddressModuleError}}</p>
+            <div class="form-group" formGroupName="actorType" ngModelGroup="actorType">
+                <select class="form-input addModuleDropdown" aria-label="Actor Type" name="id" ngModel>
+                    <option style="display:none" value="">Actor Type</option>
+                    <ng-container *ngFor="let item of providerInfo?.actorType">
+                        <option value="{{item.id}}" [disabled]="item.desc != 'Outlet'" [selected]="item.desc == 'Outlet'">
+                            {{item.desc}}
+                        </option>
+                    </ng-container>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Firm Name</label>
+                <div class="input-group">
+                    <input name="name" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address Line 1</label>
+                <div class="input-group">
+                    <input name="addressLine1" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address Line 2</label>
+                <div class="input-group">
+                    <input name="addressLine2" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <div class="input-group">
+                    <input name="city" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Taluka</label>
+                <div class="input-group">
+                    <input name="taluka" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Pin Code</label>
+                <div class="input-group">
+                    <input name="pinCode" class="form-control" type="text" ngModel>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4" formGroupName="dist" ngModelGroup="dist">
+                            <select class="form-input addModuleDropdown" aria-label="District" name="id" ngModel>
+                                <option style="display:none" value="">District</option>
+                                <option *ngFor="let item of providerInfo?.addDistList" value="{{item.id}}">
+                                    {{item.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4" formGroupName="zone" ngModelGroup="zone">
+                            <select class="form-input addModuleDropdown" aria-label="Zone" name="id" ngModel>
+                                <option style="display:none" value="">Zone</option>
+                                <option *ngFor="let item of providerInfo?.addZoneList" value="{{item.id}}">
+                                    {{item.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4" formGroupName="state" ngModelGroup="state">
+                            <select class="form-input addModuleDropdown" aria-label="State" name="id" ngModel>
+                                <option style="display:none" value="">State</option>
+                                <option *ngFor="let item of providerInfo?.addStateList" value="{{item.id}}">
+                                    {{item.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4" formGroupName="country" ngModelGroup="country">
+                            <select class="form-input addModuleDropdown" aria-label="Country" name="id" ngModel>
+                                <option style="display:none" value="">Country</option>
+                                <option *ngFor="let item of providerInfo?.addCountryList" value="{{item.id}}">
+                                    {{item.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="form-button" class="btn btn-outline-dark">Save</button>
+                
+            </div>
+        </form>
+    </div>
+</ng-template> -->

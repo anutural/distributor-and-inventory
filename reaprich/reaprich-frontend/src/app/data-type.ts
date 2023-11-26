@@ -12,26 +12,26 @@ export interface ISignUp{
 }
 
 export interface ICustomer{
-    id: number, // PK
-    Actor_Type: number,
-    Customer_Type: number,
+    id: string, // PK
+    Actor_Type: {id : string | undefined}, //FK
+    Customer_Type: {id : string | undefined}, //FK
     Customer_F_Name: string,
     Customer_L_Name: string,
-    Customer_Contact_Number: number,
-    TD_Add: number
+    Customer_Contact_Number: string,
+    Customer_Add: {id : string | undefined}
 }
 
 
 export interface ITeamDev {
-    id: number,//PK
-    Actor_Type: number, //FK
+    id: string,//PK
+    Actor_Type: {id : string | undefined}, //FK
     TD_F_Name: string,
     TD_L_Name: string,
     TD_Contact_No: number,
     TD_PAN: string,
-    TD_KYC : number, // FK
-    TD_Add: number,// FK
-    TD_Bank: number, //FK
+    TD_KYC :  {id : string | undefined}
+    TD_Add:  {id : string | undefined}
+    TD_Bank:  {id : string | undefined}
     Email : string,
     Password: string,
     Status: string
@@ -40,27 +40,34 @@ export interface ITeamDev {
 
 export interface IOutlet{
     id:string, //PK
-    actorType: { id: string },//FK
-    outletType: { id: string },//FK
+    actorType: {id : string | undefined}, //FK
+    
+    outletType:  IOutletType,//FK
     firmName: string,
     firmContactNumber: string,
     firmGSTNumber: string,
     firmPAN: string,
-    firmAddress: { id: string }, //FK
-    firmBankDetails: { id: string }, //FK
+    firmAddress: {id : string | undefined}, //FK
+    firmBankDetails: {id : string | undefined}, //FK
     ownerFirstName: string,
     ownerLastName: string,
     ownerContactNumber: string,
     ownerPAN: string,
-    ownerKYC: { id: string }, //FK
-    ownerAddress : { id: string }, //FK
+    ownerKYC: {id : string | undefined}, //FK
+    ownerAddress : {id : string | undefined}, //FK
     tdEmail: string,
     email: string,
     password: string
 }
 
+
+export interface IOutletServerResponse{
+    outlets : IOutlet[],
+    error : ""
+}
+
 export interface IActorType{
-    id: string,   
+    id: string | undefined,   
     desc : string,    
 }
 
@@ -79,34 +86,73 @@ interface ComplexSetting {
 
 export interface IAddress{
     id:string,
-    actorType: FormControl<IActorType>,
+    actorType: {id : string | undefined},
     name:string,
     addressLine1:string,
     addressLine2:string,
     city:string,
     taluka:string,
     pinCode:string,
-    dist:FormControl<IDistrict>,
-    zone:FormControl<IZone>,
-    state:FormControl<IState>,
-    country:FormControl<ICountry>
+    dist:IDistrict,
+    zone:IZone,
+    state:IState,
+    country:ICountry
+}
+
+export interface IBankDetails{
+    id:string,
+    actorType: {id : string | undefined},
+    name:string,
+    acNumber:string,
+    acType:string,
+    bankName:string,
+    branchName:string,
+    ifscCode:string,
+}
+
+export interface IKYCDetails{
+    id:string,
+    actorType: {id : string | undefined},
+    name:string,
+    idType: [FormControl<IPAN>],
+    idNumber:string,
+    addProofType:[FormControl<IAadhar>],
+    addProofNumber:string,
+    documentLinks:string,
 }
 
 export interface IActorT{
     id: string,       
 }
 
+export interface IIDCommonKeyT{
+    id: string | undefined,       
+
+}
+
+export interface IPAN{
+    id: string,       
+}
+export interface IAadhar{
+    id: string,       
+}
+
 export interface IDistrict{
-    id: string,    
+    id: string,
+    name: string,
+    zone: IZoneList    
 }
 export interface IZone{
     id: string,    
+    name: string,    
 }
 export interface IState{
     id: string,    
+    name: string,    
 }
 export interface ICountry{
     id: string,    
+    name: string
 }
 
 export interface IFirmBankDetails{
@@ -187,6 +233,16 @@ export interface IAccessToken {
     access_token : string;
 }
 
+export interface IServerResponsePut {
+    id: string,
+    error: string
+}
+
+
+export interface IAddressServerResponse{
+    address : IAddress,
+    error : ""
+}
 
 
 

@@ -1,0 +1,94 @@
+<form class="teamdev-form" [formGroup]="addTeamdevForm" #formMine="ngForm" (ngSubmit)="onAddTeamdev(formMine.value)">
+
+    <h1>Add New Teamdev</h1>
+
+    <table class="teamdev-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <mat-form-field class="teamdev-full-width" formGroupName="Actor_Type">
+                    <mat-label>Actor Type (disabled)</mat-label>
+                    <input matInput value="TD" formControlName="id" />
+                </mat-form-field>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <mat-form-field class="teamdev-full-width">
+                    <mat-label>First Name</mat-label>
+                    <input matInput class="form-control" formControlName="TD_F_Name">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="teamdev-full-width">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput class="form-control" formControlName="TD_L_Name">
+                </mat-form-field>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <mat-form-field class="teamdev-full-width">
+                    <mat-label>Contact Number</mat-label>
+                    <input matInput class="form-control" formControlName="TD_Contact_Number">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="teamdev-full-width">
+                    <mat-label>PAN Number</mat-label>
+                    <input matInput class="form-control" formControlName="Customer_Contact_Number">
+                </mat-form-field>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button mat-stroked-button (click)="openPopUpForTeamdevAddress()" type="button">Add KYC Details</button>
+                <fa-icon *ngIf="customerAddressUUID" class="fa-sharp fa-light fa-check"
+                    [icon]="rightIconForModal"></fa-icon>
+                <fa-icon *ngIf="!customerAddressUUID" class="fa-sharp fa-light fa-check"
+                    [icon]="wrongIconForModal"></fa-icon>
+            </td>
+            <td>
+                <button mat-stroked-button (click)="openPopUpForTeamdevAddress()" type="button">Add TD
+                    Address</button>
+                <fa-icon *ngIf="customerAddressUUID" class="fa-sharp fa-light fa-check"
+                    [icon]="rightIconForModal"></fa-icon>
+                <fa-icon *ngIf="!customerAddressUUID" class="fa-sharp fa-light fa-check"
+                    [icon]="wrongIconForModal"></fa-icon>
+            </td>
+        </tr>
+        <hr>
+        <pre></pre>
+        <tr>
+            <td>
+                <button mat-stroked-button (click)="openPopUpForTeamdevAddress()" type="button">Add Bank
+                    Details</button>
+                <fa-icon *ngIf="customerAddressUUID" class="fa-sharp fa-light fa-check"
+                    [icon]="rightIconForModal"></fa-icon>
+                <fa-icon *ngIf="!customerAddressUUID" class="fa-sharp fa-light fa-check"
+                    [icon]="wrongIconForModal"></fa-icon>
+            </td>
+        </tr>
+        <hr>
+        <pre></pre>
+        <tr>
+            <td>
+                <mat-form-field class="teamdev-full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput class="form-control" formControlName="Email">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="teamdev-full-width">
+                    <mat-label>Password</mat-label>
+                    <input matInput class="form-control" formControlName="Password">
+                </mat-form-field>
+            </td>
+        </tr>
+
+    </table>
+    <hr>
+    <pre></pre>
+    <button type="submit" class="teamdev-full-width" mat-raised-button color="warn">Add Customer</button>
+</form>

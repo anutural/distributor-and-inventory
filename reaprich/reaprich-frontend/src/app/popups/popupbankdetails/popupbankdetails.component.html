@@ -1,0 +1,57 @@
+<form [formGroup]="bankDetailsForm" (ngSubmit)="saveBankDetails(bankDetailsForm.value)">
+    <h1 mat-dialog-title>Add Bank Details</h1>
+
+    
+    <div mat-dialog-content>
+        <table class="outlet-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Firm Name</mat-label>
+                        <input matInput formControlName="name" class="form-control">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Account Number</mat-label>
+                        <input matInput formControlName="acNumber" class="form-control">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Account Type</mat-label>
+                        <input matInput formControlName="acType" class="form-control">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Bank Name</mat-label>
+                        <input matInput formControlName="bankName" class="form-control">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Branch Name</mat-label>
+                        <input matInput formControlName="branchName" class="form-control">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>IFSC Code</mat-label>
+                        <input matInput formControlName="ifscCode" class="form-control">
+                    </mat-form-field>
+                </td>
+            </tr>
+                     
+        </table>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary" type="submit" > Save</button>
+        <button mat-raised-button color="warn" (click)="closePopUp()">Close</button>
+        <!-- <button  mat-raised-button color="accent" [mat-dialog-close] = "closeMessage">Cancel</button> -->
+    </div>
+</form>

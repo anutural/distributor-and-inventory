@@ -1,0 +1,74 @@
+/* .add-outlet{
+    text-align: center;
+    margin-top: 50px;
+}
+
+table{
+    text-align: left;
+    color: blueviolet;
+    border-collapse: collapse ;
+    margin-bottom: 60px;
+}
+
+table td,table th{
+    border: 1px solid blueviolet;
+    padding: 10px;
+    min-height: 160px;
+}
+
+img {
+    height: 100px;
+    width: 100px;
+}
+
+.adjust-update-link{
+    margin-left: 10px;
+}
+
+h1 {
+    margin-bottom: 50px;
+    margin-top: 80px;
+    color: blueviolet;
+    text-align: center;
+}
+*/
+.add-outlet-button{
+    height: 35px;
+    border: 1px solid;
+    cursor: pointer;
+    margin-top: 50px;
+} 
+
+table {
+    width: 100%;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+td,
+th {
+    width: 25%;
+}
+
+.input {
+    height: auto;
+}
+
+mat-form-field {
+    margin-top: 40px;
+}
+
+
+.button-row {    
+    margin-top: 40px;
+    display: table-cell;    
+
+  }
+
+  .outlet-list{
+    margin-left: 30px;
+    margin-right: 30px;
+}    

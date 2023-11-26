@@ -1,38 +1,63 @@
-<div class="customer-list">    
-    <h1>All Customers List</h1>
-    <p class="message-p">{{customerMessage}}</p>
-    <table *ngIf="customerList?.length">
-        <thead>
-            <tr>
-                <th>Actor-Type</th>
-                <th>Customer Type</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Contact Number</th>
-                <th>Team Developer</th>     
-                <th>Action</th>           
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of customerList">
-                
-                <td>{{item.Actor_Type}}</td>
-                <td>{{item.Customer_Type}}</td>
-                <td>{{item.Customer_F_Name}}</td>
-                <td>{{item.Customer_L_Name}}</td>
-                <td>{{item.Customer_Contact_Number}}</td>
-                <td>{{item.TD_Add}}</td>
-                
-                
 
-                <td>
-                    <fa-icon class="link_cursor" [icon]="icon" (click)="deleteCustomer(item.id)"></fa-icon>   
-                    <a class="adjust-update-link" routerLink="/customer-edit/{{item.id}}"><fa-icon [icon]="iconEdit"></fa-icon></a>                 
+<button mat-stroked-button class="button-row"  routerLink="/customer-add">Add New Customer? Click here!</button>
+
+<div *ngIf="customerList.length > 0" class="customer-list">
+    <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Krishna" #input>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="Customer_Type">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer Type </th>
+                <td mat-cell *matCellDef="let row"> {{row.Customer_Type}} </td>
+            </ng-container>
+
+            <!-- Progress Column -->
+            <ng-container matColumnDef="Customer_F_Name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.Customer_F_Name}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="Customer_L_Name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.Customer_L_Name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Customer_Contact_Number">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact Number </th>
+                <td mat-cell *matCellDef="let row"> {{row.Customer_Contact_Number}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="TD_Add">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> TD Add </th>
+                <td mat-cell *matCellDef="let row"> {{row.TD_Add}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+                <td mat-cell *matCellDef="let row">
+                    <fa-icon [icon]="icon" class="link_cursor" (click)="deleteCustomer(row.id)"></fa-icon>
+                    <fa-icon [icon]="iconEdit" class="link_cursor" (click)="deleteCustomer(row.id)"></fa-icon>
                 </td>
+
+            </ng-container>
+
+
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
             </tr>
-        </tbody>
-    </table>
-    <button class="add-customer-button" (click)="addCustomer()">Add New Customer? Click here!</button>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
 </div>
-
-

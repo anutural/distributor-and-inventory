@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -21,6 +20,26 @@ import { CustomerAddComponent } from './customer/customer-add/customer-add.compo
 import { ProductHomeComponent } from './product/product-home/product-home.component';
 import { UserLoginHomeComponent } from './user-login-home/user-login-home.component';
 import { OutletAddComponent } from './outlet/outlet-add/outlet-add.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
+import {ReactiveFormsModule} from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
+import { PopupbankdetailsComponent } from './popups/popupbankdetails/popupbankdetails.component';
+import { PopupAddAddressComponent } from './popups/popup-add-address/popup-add-address.component';
+import { PopupOwnerKycComponent } from './popups/popup-owner-kyc/popup-owner-kyc.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import { MatToolbarModule  } from '@angular/material/toolbar';
+import { MatIconModule  } from '@angular/material/icon';
+import { TeamdevAddComponent } from './teamdev/teamdev-add/teamdev-add.component';
+
+
 
 @NgModule({
   declarations: [
@@ -38,7 +57,11 @@ import { OutletAddComponent } from './outlet/outlet-add/outlet-add.component';
     CustomerAddComponent,
     ProductHomeComponent,
     UserLoginHomeComponent,
-    OutletAddComponent
+    OutletAddComponent,
+    PopupbankdetailsComponent,
+    PopupAddAddressComponent,
+    PopupOwnerKycComponent,
+    TeamdevAddComponent,      
   ],
   imports: [
     BrowserModule,
@@ -47,7 +70,21 @@ import { OutletAddComponent } from './outlet/outlet-add/outlet-add.component';
     NgbModule,
     FormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatTableModule, 
+    MatSortModule, 
+    MatPaginatorModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

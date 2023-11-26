@@ -48,5 +48,25 @@
       },
       "id": 2
     }
+  ],
+  "customers": [
+    {
+      "Actor_Type": "1221",
+      "Customer_Type": "12",
+      "Customer_F_Name": "1221",
+      "Customer_L_Name": "221",
+      "Customer_Contact_Number": "12",
+      "TD_Add": "12",
+      "id": 1
+    },
+    {
+      "Actor_Type": "1221",
+      "Customer_Type": "1221",
+      "Customer_F_Name": "12",
+      "Customer_L_Name": "1212",
+      "Customer_Contact_Number": "aafd",
+      "TD_Add": "afd",
+      "id": 2
+    }
   ]
 }

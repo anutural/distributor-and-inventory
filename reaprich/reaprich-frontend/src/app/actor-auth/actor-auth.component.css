@@ -1,8 +1,10 @@
-.user-login  h1{    
+/* .user-login  h1{    
     margin-bottom: 50px;
-    margin-top: 80px;
-    color: blueviolet;
+    margin-top: 50px;
+    color: rgb(28,124,81);
     text-align: center;
+    font-family: lato   ;
+    
 }
 
 .sign-up h1 {
@@ -21,3 +23,44 @@
     color: blueviolet;
     cursor: pointer;
 }
+
+.forgot-password {
+    margin-top: 10px;
+    color: #333333;
+}
+
+.forgot-password-hover{
+    margin-top: 10px;
+    color: rgb(30,115,190);
+} */
+
+.login-form {
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    border: 1px solid #ccc;
+    background-color: #f3f3f3;
+    border-radius: 10px;
+  }
+
+  .example-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+  }
+  
+  .example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+

@@ -193,7 +193,7 @@ public class InventoryWebServiceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(warehouseInvetoryItemsResponse);
     }
 
-    @RequestMapping(path = "warehouse/item", method = RequestMethod.PUT)
+    @RequestMapping(path = "/warehouse/item", method = RequestMethod.PUT)
     public ResponseEntity<IdResponse> updateWarehouseItem(@RequestBody WarehouseInventory warehouseInventory) {
         try {
             this.inventoryService.updateWarehouseItem(warehouseInventory);
@@ -207,7 +207,7 @@ public class InventoryWebServiceController {
         }
     }
 
-    @RequestMapping(path = "warehouse/removeitems", method = RequestMethod.PUT)
+    @RequestMapping(path = "/warehouse/removeitems", method = RequestMethod.PUT)
     public ResponseEntity<IdResponse> removeItemsFromWarehouse(@RequestBody RemoveWarehouseInventoryItemRequest removeWarehouseInventoryItemRequest) {
         try {
             this.inventoryService.removeItemsFromWarehouse(removeWarehouseInventoryItemRequest);

@@ -63,7 +63,7 @@ public class TD {
     @Setter
     @OneToOne
     @JoinColumn(name = "TD_KYC", referencedColumnName = "KYC_ID")
-    private KYC KYC;
+    private KYC tdKYC;
 
     @Column(name = "EMAIL")
     @Getter

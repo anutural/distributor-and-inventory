@@ -6,6 +6,8 @@ import com.am.reaprich.reaprichbackend.business.service.usermanagement.ActorServ
 import com.am.reaprich.reaprichbackend.business.service.auth.AuthenticationService;
 import com.am.reaprich.reaprichbackend.business.service.auth.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.POST})
 @RequestMapping("/v1/self")
 public class SelfManagementWebSericeController {
+    private static final Logger logger = LogManager.getLogger(SelfManagementWebSericeController.class);
     private final ActorService actorService;
     private final AuthenticationService authenticationService;
     private final JwtService jwtService;
@@ -26,73 +29,107 @@ public class SelfManagementWebSericeController {
     @GetMapping("/actor/outlet")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<OutletDetailResponse> outlet() {
+        final String PQMN  = "outlet";
+        logger.info(PQMN + " - Start");
         try {
             String userEmail = getUserNameFromAuthHeader();
             return ResponseEntity.ok(this.actorService.getOutletDetailByUserEamil(userEmail));
         }
         catch (IllegalArgumentException ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getOutletDetailRespForBadRequestError(ex);
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return  getOutletDetailRespForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @GetMapping("/actor/td")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<TDDetailResponse> td() {
+        final String PQMN  = "td";
+        logger.info(PQMN + " - Start");
         try {
             String userEmail = getUserNameFromAuthHeader();
             return ResponseEntity.ok(this.actorService.getTDDetailByUserEamil(userEmail));
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return  getTDDetailRespForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PutMapping("/actor/outlet")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<OutletDetailResponse> updateOutlet(@RequestBody UpdateOutletDetailRequest updateOutletDetailRequest) {
+        final String PQMN  = "updateOutlet";
+        logger.info(PQMN + " - Start");
         try {
             String userEmail = getUserNameFromAuthHeader();
             OutletDetailResponse resp = this.actorService.updateOutletDetail(userEmail, updateOutletDetailRequest);
             return ResponseEntity.status(HttpStatus.OK).body(resp);
         }
         catch (IllegalArgumentException ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getOutletDetailRespForBadRequestError(ex);
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return  getOutletDetailRespForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PutMapping("/actor/td")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<TDDetailResponse> updateTD(@RequestBody UpdateTDDetailRequest updateTDDetailRequest) {
+        final String PQMN  = "updateTD";
+        logger.info(PQMN + " - Start");
         try {
             String userEmail = getUserNameFromAuthHeader();
             TDDetailResponse resp = this.actorService.updateTDDetail(userEmail, updateTDDetailRequest);
             return ResponseEntity.status(HttpStatus.OK).body(resp);
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return  getTDDetailRespForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PutMapping("/resetpassword")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest restPasswordRequest) {
+        final String PQMN  = "resetPassword";
+        logger.info(PQMN + " - Start");
         try {
             this.authenticationService.resetPassword(restPasswordRequest);
             return ResponseEntity.status(HttpStatus.OK).body("Success");
         }
         catch (IllegalArgumentException ex) {
-            return ResponseEntity.badRequest().body(
-                    ex.getMessage()
-            );
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return  ResponseEntity.internalServerError().body(ex.getMessage());
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 

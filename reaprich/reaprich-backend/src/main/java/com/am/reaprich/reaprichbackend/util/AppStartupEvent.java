@@ -5,6 +5,8 @@ import com.am.reaprich.reaprichbackend.data.entities.actors.actorprovider.ActorT
 import com.am.reaprich.reaprichbackend.data.entities.actors.outletprovider.OutletType;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.actorprovider.ActorTypeRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.actors.outletprovider.OutletTypeRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AppStartupEvent implements ApplicationListener<ApplicationReadyEvent> {
-
+    private static final Logger logger = LogManager.getLogger(AppStartupEvent.class);
     @Autowired
     private ActorTypeRepository actorTypeRepository;
     @Autowired
@@ -20,6 +22,8 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
+        logger.info("On application event - start");
+
         this.actorTypeRepository.save(getActorType("Outlet"));
         this.actorTypeRepository.save(getActorType("TD"));
         this.actorTypeRepository.save(getActorType("Customer"));
@@ -36,6 +40,8 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
         if (!this.outletTypeRepository.existsById("sl")) {
             this.outletTypeRepository.save(getOutletType("sl", "Silver", (float)8.0));
         }
+
+        logger.info("On application event - end");
     }
 
     private ActorType getActorType(String Id) {

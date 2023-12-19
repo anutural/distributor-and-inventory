@@ -194,8 +194,8 @@ public class ActorService {
         td.setBankDetails(this.bankService.GetBankDetailById(td.getBankDetails().getId()));
         this.bankService.SetBankDetailStatus(td.getBankDetails().getId(), true);
 
-        td.setKYC(this.kycService.GetKYCByID(td.getKYC().getId()));
-        this.kycService.SetKYCStatus(td.getKYC().getId(), true);
+        td.setTdKYC(this.kycService.GetKYCByID(td.getTdKYC().getId()));
+        this.kycService.SetKYCStatus(td.getTdKYC().getId(), true);
 
         Role role = Role.TD;
 

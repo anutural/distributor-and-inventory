@@ -45,7 +45,7 @@ public class TDDetailResponse {
                 .PAN(td.getPAN())
                 .address(td.getAddress())
                 .bankDetails(td.getBankDetails())
-                .KYC(td.getKYC())
+                .KYC(td.getTdKYC())
                 .email(td.getEmail())
                 .status(td.isStatus())
                 .build();

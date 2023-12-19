@@ -10,6 +10,8 @@ import com.am.reaprich.reaprichbackend.data.entities.inventory.WarehouseInventor
 import com.am.reaprich.reaprichbackend.data.entities.inventory.inventoryprovider.Category;
 import com.am.reaprich.reaprichbackend.data.entities.inventory.inventoryprovider.PackingType;
 import com.am.reaprich.reaprichbackend.data.entities.inventory.inventoryprovider.Subcategory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ import java.util.UUID;
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.POST})
 @RequestMapping("/v1/inventory")
 public class InventoryWebServiceController {
-
+    private static final Logger logger = LogManager.getLogger(InventoryWebServiceController.class);
     @Autowired
     private ItemService itemService;
     @Autowired
@@ -29,59 +31,89 @@ public class InventoryWebServiceController {
 
     @RequestMapping(path = "/item", method = RequestMethod.GET)
     public ResponseEntity<ItemResponse> getItem(@RequestParam String id) {
+        final String PQMN  = "getItem";
+        logger.info(PQMN + " - Start");
         try {
             return ResponseEntity.ok(this.itemService.getItem(id));
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getItemResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/allitems", method = RequestMethod.POST)
     public ResponseEntity<ItemCollectionResponse> allItem(@RequestBody AllItemRequest allItemRequest) {
+        final String PQMN  = "allItem";
+        logger.info(PQMN + " - Start");
         try {
             return ResponseEntity.ok(this.itemService.getAllItems(allItemRequest));
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getItemCollectionResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/warehouse/items", method = RequestMethod.GET)
     public ResponseEntity<WarehouseInventoryCollectionResponse> getWarehouseItems(@RequestParam String warehouseID) {
+        final String PQMN  = "getWarehouseItems";
+        logger.info(PQMN + " - Start");
         try {
             return ResponseEntity.ok(this.inventoryService.getInventoryItems(warehouseID));
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getWarehouseInventoryCollectionResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/itemoffer/all", method = RequestMethod.GET)
     public ResponseEntity<ItemOfferCollectionResponse> getAllActiveItemOffers() {
+        final String PQMN  = "getAllActiveItemOffers";
+        logger.info(PQMN + " - Start");
         ItemOfferCollectionResponse itemOfferCollection = this.itemService.getAllItemOffers();
         return ResponseEntity.status(HttpStatus.OK).body(itemOfferCollection);
     }
 
     @RequestMapping(path = "/itemoffer", method = RequestMethod.GET)
     public ResponseEntity<ItemOfferResponse> getItemOffer(@RequestParam String itemOfferID) {
+        final String PQMN  = "getItemOffer";
+        logger.info(PQMN + " - Start");
         try {
             ItemOfferResponse itemOfferResponse = this.itemService.getItemOfferByID(itemOfferID);
             return ResponseEntity.status(HttpStatus.OK).body(itemOfferResponse);
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getItemOfferResponseEntityForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/offersonitem", method = RequestMethod.GET)
     public ResponseEntity<ItemOfferCollectionResponse> getOffersOnItem(@RequestParam String itemID) {
+        final String PQMN  = "getOffersOnItem";
+        logger.info(PQMN + " - Start");
         ItemOfferCollectionResponse itemOfferCollection = this.itemService.getItemOffersOnItem(itemID);
         return ResponseEntity.status(HttpStatus.OK).body(itemOfferCollection);
     }
 
     @RequestMapping(path = "/item", method = RequestMethod.POST)
     public ResponseEntity<IdResponse> addItem(@RequestBody Item item) {
+        final String PQMN  = "addItem";
+        logger.info(PQMN + " - Start");
         String id = java.util.UUID.randomUUID().toString();
         item.setId(id);
         try {
@@ -93,12 +125,18 @@ public class InventoryWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getErrorMsgResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/item", method = RequestMethod.PUT)
     public ResponseEntity<IdResponse> updateItem(@RequestBody Item item) {
+        final String PQMN  = "updateItem";
+        logger.info(PQMN + " - Start");
         try {
             this.itemService.updateItemDetail(item);
             return ResponseEntity.ok(IdResponse
@@ -107,12 +145,18 @@ public class InventoryWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getErrorMsgResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/item/packingtype", method = RequestMethod.POST)
     public ResponseEntity<IdResponse> addPackingType(@RequestBody PackingType packingType) {
+        final String PQMN  = "addPackingType";
+        logger.info(PQMN + " - Start");
         try {
             this.itemService.addPackingType(packingType);
             return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
@@ -121,12 +165,18 @@ public class InventoryWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getErrorMsgResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/item/category", method = RequestMethod.POST)
     public ResponseEntity<IdResponse> addCategory(@RequestBody Category category) {
+        final String PQMN  = "addCategory";
+        logger.info(PQMN + " - Start");
         try {
             this.itemService.addCategory(category);
             return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
@@ -135,12 +185,18 @@ public class InventoryWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getErrorMsgResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/item/subcategory", method = RequestMethod.POST)
     public ResponseEntity<IdResponse> addSubCategory(@RequestBody Subcategory subcategory) {
+        final String PQMN  = "addSubCategory";
+        logger.info(PQMN + " - Start");
         try {
             this.itemService.addSubcategory(subcategory);
             return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
@@ -149,12 +205,18 @@ public class InventoryWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getErrorMsgResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/itemoffer", method = RequestMethod.POST)
     public ResponseEntity<IdResponse> addItemOffer(@RequestBody ItemOffer itemOffer) {
+        final String PQMN  = "addItemOffer";
+        logger.info(PQMN + " - Start");
         try {
             String id = UUID.randomUUID().toString();
             itemOffer.setId(id);
@@ -165,11 +227,17 @@ public class InventoryWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getErrorMsgResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @RequestMapping(path = "/itemoffer", method = RequestMethod.PUT)
     public ResponseEntity<IdResponse> updateItemOffer(@RequestBody ItemOffer itemOffer) {
+        final String PQMN  = "updateItemOffer";
+        logger.info(PQMN + " - Start");
         try {
             this.itemService.updateItemOffer(itemOffer);
             return ResponseEntity.status(HttpStatus.OK).body(IdResponse
@@ -178,12 +246,18 @@ public class InventoryWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getErrorMsgResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/warehouse/items", method = RequestMethod.POST)
     public ResponseEntity<AddWarehouseInvetoryItemsResponse> addItemsInWarehouse(@RequestBody AddWarehouseInventoryItemsRequestCollection warehouseInventoryItems) {
+        final String PQMN  = "addItemsInWarehouse";
+        logger.info("Entering in: " + PQMN );
         AddWarehouseInvetoryItemsResponse warehouseInvetoryItemsResponse =
                 this.inventoryService.addItemsInWarehouse(warehouseInventoryItems);
 
@@ -195,6 +269,8 @@ public class InventoryWebServiceController {
 
     @RequestMapping(path = "/warehouse/item", method = RequestMethod.PUT)
     public ResponseEntity<IdResponse> updateWarehouseItem(@RequestBody WarehouseInventory warehouseInventory) {
+        final String PQMN  = "updateWarehouseItem";
+        logger.info(PQMN + " - Start");
         try {
             this.inventoryService.updateWarehouseItem(warehouseInventory);
             return ResponseEntity.status(HttpStatus.OK).body(IdResponse
@@ -203,12 +279,18 @@ public class InventoryWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getErrorMsgResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/warehouse/removeitems", method = RequestMethod.PUT)
     public ResponseEntity<IdResponse> removeItemsFromWarehouse(@RequestBody RemoveWarehouseInventoryItemRequest removeWarehouseInventoryItemRequest) {
+        final String PQMN  = "removeItemsFromWarehouse";
+        logger.info(PQMN + " - Start");
         try {
             this.inventoryService.removeItemsFromWarehouse(removeWarehouseInventoryItemRequest);
             return ResponseEntity.status(HttpStatus.OK).body(IdResponse
@@ -217,7 +299,11 @@ public class InventoryWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getErrorMsgResponseEntityForException(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 

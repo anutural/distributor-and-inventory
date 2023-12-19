@@ -17,6 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.POST})
 @RequestMapping("/v1/user")
@@ -32,8 +35,12 @@ public class UserManagementWebServiceController {
     @Autowired
     private ActorFilterService actorFilterService;
 
+    private static final Logger logger = LogManager.getLogger(UserManagementWebServiceController.class);
+
     @GetMapping("/actor/outlet")
     public ResponseEntity<OutletResponse> getOutletById(@RequestParam String outletId) {
+        final String PQMN  = "getOutletById";
+        logger.info(PQMN + " - Start");
         try {
             Outlet outlet = this.actorService.getOutletById(outletId);
             outlet.setPassword("****");
@@ -44,11 +51,17 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getOutletResponseEntityForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @GetMapping("/actor/td")
     public ResponseEntity<TDResponse> getTDById(@RequestParam String tdID) {
+        final String PQMN  = "getTDById";
+        logger.info(PQMN + " - Start");
         try {
             TD td = this.actorService.getTDById(tdID);
             td.setPassword("****");
@@ -59,11 +72,17 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getTDResponseEntityForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @GetMapping("/actor/customer")
     public ResponseEntity<CustomerResponse> getCustomerById(@RequestParam String customerID) {
+        final String PQMN  = "getCustomerById";
+        logger.info(PQMN + " - Start");
         try {
             return ResponseEntity.status(HttpStatus.OK).body(
                     CustomerResponse
@@ -72,40 +91,64 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getCustomerResponseEntityForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PostMapping("/actor/alloutlets")
     public ResponseEntity<OutletCollectionResponse> allOutlets(@RequestBody AllActorsRequest getAllOutletsRequest) {
+        final String PQMN  = "allOutlets";
+        logger.info(PQMN + " - Start");
         try {
             return ResponseEntity.status(HttpStatus.OK).body(this.actorFilterService.getOutletsByFilter(getAllOutletsRequest));
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getOutletCollectionResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @PostMapping("/actor/alltds")
     public ResponseEntity<TDCollectionResponse> allTDs(@RequestBody AllActorsRequest getAllOutletsRequest) {
+        final String PQMN  = "allTDs";
+        logger.info(PQMN + " - Start");
         try {
             return ResponseEntity.status(HttpStatus.OK).body(this.actorFilterService.getTDsByFilter(getAllOutletsRequest));
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getTDCollectionResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @PostMapping("/actor/allcustomers")
     public ResponseEntity<CustomerCollectionResponse> allCustomers(@RequestBody AllActorsRequest getAllOutletsRequest) {
+        final String PQMN  = "allCustomers";
+        logger.info(PQMN + " - Start");
         try {
             return ResponseEntity.status(HttpStatus.OK).body(this.actorFilterService.getCustomersByFilter(getAllOutletsRequest));
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getCustomerCollectionResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @GetMapping("/bankdetail")
     public ResponseEntity<BankDetailResponse> getBankDetailById(@RequestParam String bankDetailID) {
+        final String PQMN  = "getBankDetailById";
+        logger.info(PQMN + " - Start");
         try{
             return ResponseEntity.status(HttpStatus.OK).body(BankDetailResponse
                     .builder()
@@ -113,11 +156,17 @@ public class UserManagementWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getBankDetailResponseEntityForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @GetMapping("/kycdetail")
     public ResponseEntity<KYCResponse> getKYCByID(@RequestParam String kycID) {
+        final String PQMN  = "getKYCByID";
+        logger.info(PQMN + " - Start");
         try{
             return ResponseEntity.status(HttpStatus.OK).body(KYCResponse
                     .builder()
@@ -125,11 +174,17 @@ public class UserManagementWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getKYCResponseEntityForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @GetMapping("/address")
     public ResponseEntity<AddressResponse> getAddressByID(@RequestParam String addressID) {
+        final String PQMN  = "getAddressByID";
+        logger.info(PQMN + " - Start");
         try{
             return ResponseEntity.status(HttpStatus.OK).body(AddressResponse
                     .builder()
@@ -137,7 +192,11 @@ public class UserManagementWebServiceController {
                     .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return  getAddressResponseEntityForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
@@ -145,6 +204,8 @@ public class UserManagementWebServiceController {
     @PostMapping("/bankdetail")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<IdResponse> addBankDetail(@RequestBody BankDetail bankDetail) throws Exception {
+        final String PQMN  = "addBankDetail";
+        logger.info(PQMN + " - Start");
         String id = java.util.UUID.randomUUID().toString();
         bankDetail.setId(id);
         try {
@@ -157,13 +218,19 @@ public class UserManagementWebServiceController {
 
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PostMapping("/kycdetail")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<IdResponse> addKYCDetail(@RequestBody KYC kyc) throws Exception {
+        final String PQMN  = "addKYCDetail";
+        logger.info(PQMN + " - Start");
         String id = java.util.UUID.randomUUID().toString();
         kyc.setId(id);
         try {
@@ -175,7 +242,11 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
@@ -186,13 +257,15 @@ public class UserManagementWebServiceController {
                                        String kycID,
                                        String userType,
                                        String documentType) throws Exception {
+        final String PQMN  = "uploadKYCDoc";
+        logger.info(PQMN + " - Start");
         if (kycID == null ||  kycID.isEmpty()) {
             switch (userType.toLowerCase()) {
                 case "outlet":
                     kycID = this.actorService.getOutletById(actorID).getOwnerKYC().getId();
                     break;
                 case "td":
-                    kycID = this.actorService.getTDById(actorID).getKYC().getId();
+                    kycID = this.actorService.getTDById(actorID).getTdKYC().getId();
                 default:
                     return getIDResponseForInternalServerError(
                         new Exception("Invalid user type submitted while uploading the KYC document"));
@@ -203,13 +276,19 @@ public class UserManagementWebServiceController {
             return ResponseEntity.ok().build();
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PostMapping("/address")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<IdResponse> addAddress(@RequestBody Address address) throws Exception {
+        final String PQMN  = "addAddress";
+        logger.info(PQMN + " - Start");
         String id = java.util.UUID.randomUUID().toString();
         address.setId(id);
         try {
@@ -221,13 +300,19 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PostMapping("/actor/outlet")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<IdResponse> addOutlet(@RequestBody Outlet outlet) {
+        final String PQMN  = "addOutlet";
+        logger.info(PQMN + " - Start");
         String id = java.util.UUID.randomUUID().toString();
         outlet.setId(id);
         try {
@@ -239,12 +324,18 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return  getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @PutMapping("/actor/outlet")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<IdResponse> updateOutlet(@RequestBody Outlet outlet) {
+        final String PQMN  = "updateOutlet";
+        logger.info(PQMN + " - Start");
         try {
             this.actorService.updateOutlet(outlet);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -254,13 +345,19 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PostMapping("/actor/td")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<IdResponse> addTD(@RequestBody TD td) throws Exception {
+        final String PQMN  = "addTD";
+        logger.info(PQMN + " - Start");
         String id = java.util.UUID.randomUUID().toString();
         td.setId(id);
         try {
@@ -272,12 +369,17 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @PutMapping("/actor/td")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<IdResponse> updateTD(@RequestBody TD td) {
+        final String PQMN  = "updateTD";
+        logger.info(PQMN + " - Start");
         try {
             this.actorService.updateTD(td);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -287,13 +389,19 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PostMapping("/actor/customer")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<IdResponse> addCustomer(@RequestBody Customer customer) throws Exception {
+        final String PQMN  = "addCustomer";
+        logger.info(PQMN + " - Start");
         String id = java.util.UUID.randomUUID().toString();
         customer.setId(id);
         try {
@@ -305,12 +413,18 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @PutMapping("/actor/customer")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<IdResponse> updateCustomer(@RequestBody Customer customer) {
+        final String PQMN  = "updateCustomer";
+        logger.info(PQMN + " - Start");
         try {
             this.actorService.updateCustomer(customer);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -320,12 +434,18 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 
     @PutMapping("/actor/outlet/approve")
     public ResponseEntity<IdResponse> approveOutlet(@RequestParam String outletID) {
+        final String PQMN  = "approveOutlet";
+        logger.info(PQMN + " - Start");
         try {
             this.actorService.approveOutlet(outletID);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -335,11 +455,17 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
     @PutMapping("/actor/td/approve")
     public ResponseEntity<IdResponse> approveTD(@RequestParam String tdID) {
+        final String PQMN  = "approveTD";
+        logger.info(PQMN + " - Start");
         try {
             this.actorService.approveTD(tdID);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -349,7 +475,11 @@ public class UserManagementWebServiceController {
                             .build());
         }
         catch (Exception ex) {
+            logger.error(ex.toString());
+            logger.info(ex.getStackTrace());
             return getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + " - End");
         }
     }
 

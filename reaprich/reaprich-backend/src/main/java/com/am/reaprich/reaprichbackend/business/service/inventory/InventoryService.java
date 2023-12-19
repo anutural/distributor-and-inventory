@@ -7,6 +7,8 @@ import com.am.reaprich.reaprichbackend.data.entities.inventory.WarehouseInventor
 import com.am.reaprich.reaprichbackend.data.entities.inventory.inventoryprovider.ItemState;
 import com.am.reaprich.reaprichbackend.data.repositories.inventory.WarehouseInventoryRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.inventory.WarehouseRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class InventoryService {
+    private static final Logger logger = LogManager.getLogger(InventoryService.class);
     @Autowired
     WarehouseRepository warehouseRepository;
     @Autowired
@@ -60,6 +63,8 @@ public class InventoryService {
     }
 
     public AddWarehouseInvetoryItemsResponse addItemsInWarehouse(AddWarehouseInventoryItemsRequestCollection warehouseInventoryItems) {
+        final String PQMN = "addItemsInWarehouse";
+        logger.info(PQMN + " - Start");
         List<String> insertedItems = new ArrayList<String>();
         List<String > notInsertedItems = new ArrayList<String >();
         List<String> errors = new ArrayList<String>();
@@ -73,6 +78,8 @@ public class InventoryService {
                 warehouse = getWarehouse(addWarehouseInventoryItemsRequest.getWarehouse()).getWarehouse();
             }
             catch (Exception ex) {
+                logger.error(ex.toString());
+                logger.info(ex.getStackTrace());
                 notInsertedItems.add(addWarehouseInventoryItemsRequest.getItem());
                 errors.add(ex.getMessage());
                 continue;

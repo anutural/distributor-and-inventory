@@ -3,8 +3,7 @@
 		"_postman_id": "bf82cbd0-c594-4113-9928-26c297cfabcc",
 		"name": "Reaprich Admin Activities",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "4832931",
-		"_collection_link": "https://grey-meteor-994336.postman.co/workspace/Test~2dcf0bef-a493-4653-8ff7-a05c5df2be02/collection/4832931-bf82cbd0-c594-4113-9928-26c297cfabcc?action=share&source=collection_link&creator=4832931"
+		"_exporter_id": "4832931"
 	},
 	"item": [
 		{
@@ -1312,7 +1311,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"outletType\":{ \"id\": \"pl\" },\r\n    \"firmName\":\"Amit Maheshwari Plt ltd\",\r\n    \"firmContactNumber\":\"02696-2825632\",\r\n    \"firmGSTNumber\":\"123456789\",\r\n    \"firmPAN\" : \"BNYPM7411D\",\r\n    \"firmAddress\":{ \"id\":\"{{outlet_firm_add_id}}\"},\r\n    \"firmBankDetails\":{ \"id\":\"{{outlet_bank_detail}}\"},\r\n    \"ownerFirstName\":\"Amit\",\r\n    \"ownerLastName\":\"Maheshwari\",\r\n    \"ownerContactNumber\":\"80000130050\",\r\n    \"ownerPAN\":\"BNYPM7411D\",\r\n    \"ownerKYC\": {\"id\":\"{{outlet_owner_kyc_id}}\"},\r\n    \"ownerAddress\":{ \"id\":\"{{outlet_owner_add_id}}\"},\r\n    \"tdEmail\":\"admin@reaprich.com\",\r\n    \"email\":\"ploutlet2@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Outlet\" },\r\n    \"outletType\":{ \"id\": \"pl\" },\r\n    \"firmName\":\"Amit Maheshwari Plt ltd\",\r\n    \"firmContactNumber\":\"02696-28256332\",\r\n    \"firmGSTNumber\":\"123456789\",\r\n    \"firmPAN\" : \"BNYPM7411D\",\r\n    \"firmAddress\":{ \"id\":\"{{outlet_firm_add_id}}\"},\r\n    \"firmBankDetails\":{ \"id\":\"{{outlet_bank_detail}}\"},\r\n    \"ownerFirstName\":\"Amit\",\r\n    \"ownerLastName\":\"Maheshwari\",\r\n    \"ownerContactNumber\":\"800001300530\",\r\n    \"ownerPAN\":\"BNYPM7411D\",\r\n    \"ownerKYC\": {\"id\":\"{{outlet_owner_kyc_id}}\"},\r\n    \"ownerAddress\":{ \"id\":\"{{outlet_owner_add_id}}\"},\r\n    \"tdEmail\":\"admin@reaprich.com\",\r\n    \"email\":\"ploutlet3@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1324,7 +1323,7 @@
 			"response": []
 		},
 		{
-			"name": "Get bank detail by ID",
+			"name": "Adding TD",
 			"event": [
 				{
 					"listen": "test",
@@ -1339,8 +1338,54 @@
 							"});\r",
 							"\r",
 							"var jsonData = JSON.parse(responseBody)\r",
-							"pm.collectionVariables.set(\"outlet_id\", jsonData.id);\r",
+							"pm.collectionVariables.set(\"td_id\", jsonData.id);\r",
 							"\r",
+							"pm.test(\"No Errors\", function() {\r",
+							"    pm.expect(jsonData.error).to.length == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"TD\" },\r\n    \"firstName\":\"Amit\",\r\n    \"lastName\":\"Maheshwari\",\r\n    \"contactNumber\":\"123456788\",\r\n    \"PAN\" : \"BNYPM7411D\",\r\n    \"address\":{ \"id\":\"{{outlet_firm_add_id}}\"},\r\n    \"bankDetails\":{ \"id\":\"{{outlet_bank_detail}}\"},\r\n    \"tdKYC\": {\"id\":\"{{outlet_owner_kyc_id}}\"},\r\n    \"email\":\"td2@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/actor/td"
+			},
+			"response": []
+		},
+		{
+			"name": "Get bank detail by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Non Empty response\", function () {\r",
+							"    pm.expect(pm.response.text()).to.length > 0\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
 							"pm.test(\"No Errors\", function() {\r",
 							"    pm.expect(jsonData.error).to.length == null\r",
 							"});"
@@ -1371,7 +1416,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{HOST}}:{{PORT}}/v1/user/bankdetail?backDetailID={{outlet_bank_detail}}",
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/bankdetail?bankDetailID={{outlet_bank_detail}}",
 					"protocol": "http",
 					"host": [
 						"{{HOST}}"
@@ -1384,7 +1429,7 @@
 					],
 					"query": [
 						{
-							"key": "backDetailID",
+							"key": "bankDetailID",
 							"value": "{{outlet_bank_detail}}"
 						}
 					]
@@ -1400,7 +1445,7 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Non Empty response\", function () {\r",
@@ -1408,8 +1453,6 @@
 							"});\r",
 							"\r",
 							"var jsonData = JSON.parse(responseBody)\r",
-							"pm.collectionVariables.set(\"outlet_id\", jsonData.id);\r",
-							"\r",
 							"pm.test(\"No Errors\", function() {\r",
 							"    pm.expect(jsonData.error).to.length == null\r",
 							"});"
@@ -1469,7 +1512,7 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Non Empty response\", function () {\r",
@@ -1477,8 +1520,6 @@
 							"});\r",
 							"\r",
 							"var jsonData = JSON.parse(responseBody)\r",
-							"pm.collectionVariables.set(\"outlet_id\", jsonData.id);\r",
-							"\r",
 							"pm.test(\"No Errors\", function() {\r",
 							"    pm.expect(jsonData.error).to.length == null\r",
 							"});"
@@ -1537,7 +1578,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 202\", function () {\r",
+							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
@@ -1600,13 +1641,200 @@
 			"response": []
 		},
 		{
+			"name": "Get TD by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"No error\", function() {\r",
+							"    pm.expect(jsonData.error) == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/actor/td?tdID={{td_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"user",
+						"actor",
+						"td"
+					],
+					"query": [
+						{
+							"key": "tdID",
+							"value": "{{td_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve Outlet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"No error\", function() {\r",
+							"    pm.expect(jsonData.error) == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/actor/outlet/approve?outletID={{outlet_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"user",
+						"actor",
+						"outlet",
+						"approve"
+					],
+					"query": [
+						{
+							"key": "outletID",
+							"value": "{{outlet_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve TD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"No error\", function() {\r",
+							"    pm.expect(jsonData.error) == null\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/actor/td/approve?tdID={{td_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"user",
+						"actor",
+						"td",
+						"approve"
+					],
+					"query": [
+						{
+							"key": "tdID",
+							"value": "{{td_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get all outlets",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 202\", function () {\r",
+							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
@@ -1649,7 +1877,9 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -1808,6 +2038,10 @@
 			"key": "outlet_id",
 			"value": "--",
 			"type": "string"
+		},
+		{
+			"key": "td_id",
+			"value": ""
 		}
 	]
 }

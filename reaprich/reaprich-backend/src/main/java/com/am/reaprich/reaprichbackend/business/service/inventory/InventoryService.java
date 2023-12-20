@@ -79,7 +79,7 @@ public class InventoryService {
             }
             catch (Exception ex) {
                 logger.error(ex.toString());
-                logger.info(ex.getStackTrace());
+                logger.info(ex.getStackTrace().toString());
                 notInsertedItems.add(addWarehouseInventoryItemsRequest.getItem());
                 errors.add(ex.getMessage());
                 continue;

@@ -45,7 +45,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -62,7 +62,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -80,7 +80,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -97,7 +97,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -114,7 +114,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -131,7 +131,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -149,7 +149,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -166,7 +166,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");

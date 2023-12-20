@@ -36,7 +36,7 @@ public class InventoryOpsWebServiceController {
                             .build());
         } catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getPurchaseRequestResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -55,7 +55,7 @@ public class InventoryOpsWebServiceController {
                             .build());
         } catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getPurchaseRequestCollectionResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -75,7 +75,7 @@ public class InventoryOpsWebServiceController {
                             .build());
         } catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getItemTransferResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -95,7 +95,7 @@ public class InventoryOpsWebServiceController {
                             .build());
         } catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getItemTransferCollectionResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -119,7 +119,7 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -143,7 +143,7 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -167,7 +167,7 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -188,7 +188,7 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -209,7 +209,7 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -230,7 +230,7 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");

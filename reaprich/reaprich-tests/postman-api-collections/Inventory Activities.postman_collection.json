@@ -3,8 +3,7 @@
 		"_postman_id": "8c256f5d-d276-4dea-beaf-afe3e229183b",
 		"name": "Inventory Activities",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "4832931",
-		"_collection_link": "https://grey-meteor-994336.postman.co/workspace/Test~2dcf0bef-a493-4653-8ff7-a05c5df2be02/collection/4832931-8c256f5d-d276-4dea-beaf-afe3e229183b?action=share&source=collection_link&creator=4832931"
+		"_exporter_id": "4832931"
 	},
 	"item": [
 		{
@@ -26,7 +25,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"raw": "{\r\n    \"email\":\"ploutlet3@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -66,9 +65,6 @@
 		},
 		{
 			"name": "Get All Items",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -76,7 +72,7 @@
 						"token": "{{OUTLET_TOKEN}}"
 					}
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -130,79 +126,6 @@
 					}
 				},
 				"url": "http://{{HOST}}:{{PORT}}/v1/auth/authenticate"
-			},
-			"response": []
-		},
-		{
-			"name": "Get Inventory Items for Warehouse",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{OUTLET_TOKEN}}"
-					}
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://{{HOST}}:{{PORT}}/v1/inventory/warehouse/items?warehouseID={{OUTLET_ID}}",
-					"protocol": "http",
-					"host": [
-						"{{HOST}}"
-					],
-					"port": "{{PORT}}",
-					"path": [
-						"v1",
-						"inventory",
-						"warehouse",
-						"items"
-					],
-					"query": [
-						{
-							"key": "warehouseID",
-							"value": "{{OUTLET_ID}}"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Item offers",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{OUTLET_TOKEN}}"
-					}
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/itemoffer/all"
 			},
 			"response": []
 		},
@@ -285,7 +208,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.collectionVariables.set(\"item_id\", pm.response.text());"
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"item_id\", jsonData.id);"
 						],
 						"type": "text/javascript"
 					}
@@ -296,6 +220,42 @@
 					"type": "bearer",
 					"bearer": {
 						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"item 1\",\r\n        \"packingType\": {\"id\": \"packing_type_1\"},\r\n        \"category\": {\"id\": \"category_1\"},\r\n        \"subcategory\": {\"id\": \"subcategory_1\"},\r\n        \"itemPrices\": {\r\n            \"gl\": 130.0,\r\n            \"sl\": 140.0,\r\n            \"pl\": 120.0\r\n        },\r\n        \"reatilPrice\": 150.0,\r\n        \"pictureLink\": null,\r\n        \"thumbnailLink\": null,\r\n        \"gstprice\": 200.0\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/item"
+			},
+			"response": []
+		},
+		{
+			"name": "Error: Add Item using outlet token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"item_id\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
 					}
 				},
 				"method": "POST",
@@ -345,6 +305,298 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get Item using outlet token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/inventory/item?id={{item_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"inventory",
+						"item"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{item_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add item offer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"item_offer_id\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":{\"id\":\"{{item_id}}\"},\r\n    \"offeredItem\":{\"id\":\"{{item_id}}\"},\r\n    \"offerType\":\"BUYX_GETX\",\r\n    \"minQty\":2,\r\n    \"minAMT\":0,\r\n    \"offerItemQty\":1,\r\n    \"offerDiscountPercent\":0.0,\r\n    \"couponValidityMonths\":0,\r\n    \"startDate\":\"2023-12-12T18:29:59.000+00:00\",\r\n    \"endDate\":\"2024-01-12T18:29:59.000+00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/itemoffer"
+			},
+			"response": []
+		},
+		{
+			"name": "Error: Add item offer using outlet token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"item_offer_id\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":{\"id\":\"{{item_id}}\"},\r\n    \"offeredItem\":{\"id\":\"{{item_id}}\"},\r\n    \"offerType\":\"BUYX_GETX\",\r\n    \"minQty\":2,\r\n    \"minAMT\":0,\r\n    \"offerItemQty\":1,\r\n    \"offerDiscountPercent\":0.0,\r\n    \"couponValidityMonths\":0,\r\n    \"startDate\":\"2023-12-12T18:29:59.000+00:00\",\r\n    \"endDate\":\"2024-01-12T18:29:59.000+00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/itemoffer"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Item Offer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/inventory/itemoffer?itemOfferID={{item_offer_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"inventory",
+						"itemoffer"
+					],
+					"query": [
+						{
+							"key": "itemOfferID",
+							"value": "{{item_offer_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Item offers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/itemoffer/all"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Offers on Item",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/inventory/offersonitem?itemID={{item_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"inventory",
+						"offersonitem"
+					],
+					"query": [
+						{
+							"key": "itemID",
+							"value": "{{item_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Item into warehouse",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"warehouse_item_id\", jsonData.insertedItems[0]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"addWarehouseInventoryItemsRequests\":[\r\n        {\r\n            \"item\":\"{{item_id}}\",\r\n            \"warehouse\":\"3522a1ae-16cb-4e7e-933c-c6fa34353cad\",\r\n            \"batchNumber\":\"1234\",\r\n            \"mfgDate\":\"2023-12-12T18:29:59.000+00:00\",\r\n            \"expDate\":\"2024-12-12T18:29:59.000+00:00\",\r\n            \"state\":\"IN_COMPANY\",\r\n            \"quantity\":2\r\n        }\r\n    ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/inventory/warehouse/items"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Inventory Items for Warehouse",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/inventory/warehouse/items?warehouseID=3522a1ae-16cb-4e7e-933c-c6fa34353cad",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"inventory",
+						"warehouse",
+						"items"
+					],
+					"query": [
+						{
+							"key": "warehouseID",
+							"value": "3522a1ae-16cb-4e7e-933c-c6fa34353cad"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [
@@ -358,6 +610,14 @@
 		},
 		{
 			"key": "item_id",
+			"value": ""
+		},
+		{
+			"key": "item_offer_id",
+			"value": ""
+		},
+		{
+			"key": "warehouse_item_id",
 			"value": ""
 		}
 	]

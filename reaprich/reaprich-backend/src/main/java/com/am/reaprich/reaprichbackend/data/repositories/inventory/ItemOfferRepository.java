@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ItemOfferRepository extends CrudRepository<ItemOffer, String> {
-    @Query( "select i from ItemOffer i where i.item = :item" )
+    @Query( "select i from ItemOffer i where i.item.id = :item" )
     Iterable<ItemOffer> findByItem(String item);
 }

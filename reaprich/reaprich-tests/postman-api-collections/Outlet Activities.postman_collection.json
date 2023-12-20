@@ -3,8 +3,7 @@
 		"_postman_id": "9aae2d51-6c89-47a6-9b4d-eded9a9d8980",
 		"name": "Outlet Activities",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "4832931",
-		"_collection_link": "https://grey-meteor-994336.postman.co/workspace/Test~2dcf0bef-a493-4653-8ff7-a05c5df2be02/collection/4832931-9aae2d51-6c89-47a6-9b4d-eded9a9d8980?action=share&source=collection_link&creator=4832931"
+		"_exporter_id": "4832931"
 	},
 	"item": [
 		{
@@ -26,7 +25,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"raw": "{\r\n    \"email\":\"ploutlet3@reaprich.com\",\r\n    \"password\":\"123456789\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -39,6 +38,19 @@
 		},
 		{
 			"name": "Getting Outlet Detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"outlet_firm_add_id\", jsonData.firmAddress.id);\r",
+							"pm.collectionVariables.set(\"outlet_bank_detail\", jsonData.firmBankDetails.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -49,6 +61,133 @@
 				"method": "GET",
 				"header": [],
 				"url": "http://{{HOST}}:{{PORT}}/v1/self/actor/outlet"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding Customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"customer_id\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Customer\" },\r\n    \"customerType\":{ \"id\": \"sp\" },\r\n    \"firstName\":\"Amit\",\r\n    \"firstName\":\" Maheshwari\",\r\n    \"contactNumber\":\"1234567899\",\r\n    \"address\":{ \"id\":\"{{outlet_firm_add_id}}\"}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/actor/customer"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer By ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/actor/customer?customerID={{customer_id}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"user",
+						"actor",
+						"customer"
+					],
+					"query": [
+						{
+							"key": "customerID",
+							"value": "{{customer_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Error : Getting bank details by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{HOST}}:{{PORT}}/v1/user/bankdetail?bankDetailID={{outlet_bank_detail}}",
+					"protocol": "http",
+					"host": [
+						"{{HOST}}"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"v1",
+						"user",
+						"bankdetail"
+					],
+					"query": [
+						{
+							"key": "bankDetailID",
+							"value": "{{outlet_bank_detail}}"
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -89,7 +228,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"oldPassword\":\"123456789\",\r\n    \"newPassword\":\"12345678910\"\r\n}",
+					"raw": "{\r\n    \"email\":\"ploutlet3@reaprich.com\",\r\n    \"oldPassword\":\"123456789\",\r\n    \"newPassword\":\"12345678910\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -119,7 +258,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"ploutlet@reaprich.com\",\r\n    \"password\":\"12345678910\"\r\n}",
+					"raw": "{\r\n    \"email\":\"ploutlet3@reaprich.com\",\r\n    \"password\":\"12345678910\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -127,6 +266,41 @@
 					}
 				},
 				"url": "http://{{HOST}}:{{PORT}}/v1/auth/authenticate"
+			},
+			"response": []
+		},
+		{
+			"name": "Adding New Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{OUTLET_TOKEN}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"actorType\":{ \"id\": \"Customer\" },\r\n    \"name\":\"Amit Maheshwari\",\r\n    \"addressLine1\":\"39-Gayatri Society\",\r\n    \"addressLine2\":\"Anklav\",\r\n    \"city\":\"Anklav\",\r\n    \"taluka\":\"Anklav\",\r\n    \"pinCode\":\"388510\",\r\n    \"dist\":{ \"id\":\"AND\"},\r\n    \"zone\":{ \"id\":\"CGUJ\"},\r\n    \"state\":{ \"id\":\"GUJ\"},\r\n    \"country\":{ \"id\":\"IND\"}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://{{HOST}}:{{PORT}}/v1/user/address"
 			},
 			"response": []
 		}
@@ -156,6 +330,19 @@
 			"key": "OUTLET_TOKEN",
 			"value": "--",
 			"type": "string"
+		},
+		{
+			"key": "outlet_firm_add_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "outlet_bank_detail",
+			"value": ""
+		},
+		{
+			"key": "customer_id",
+			"value": ""
 		}
 	]
 }

@@ -37,12 +37,12 @@ public class SelfManagementWebSericeController {
         }
         catch (IllegalArgumentException ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getOutletDetailRespForBadRequestError(ex);
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  getOutletDetailRespForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -60,7 +60,7 @@ public class SelfManagementWebSericeController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  getTDDetailRespForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -79,12 +79,12 @@ public class SelfManagementWebSericeController {
         }
         catch (IllegalArgumentException ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getOutletDetailRespForBadRequestError(ex);
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  getOutletDetailRespForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -103,7 +103,7 @@ public class SelfManagementWebSericeController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  getTDDetailRespForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -121,12 +121,12 @@ public class SelfManagementWebSericeController {
         }
         catch (IllegalArgumentException ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  ResponseEntity.internalServerError().body(ex.getMessage());
         } finally {
             logger.info(PQMN + " - End");

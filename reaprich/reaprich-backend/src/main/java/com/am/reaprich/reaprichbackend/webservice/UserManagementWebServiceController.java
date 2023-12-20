@@ -52,7 +52,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getOutletResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -73,7 +73,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getTDResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -92,7 +92,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getCustomerResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -108,7 +108,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getOutletCollectionResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -123,7 +123,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getTDCollectionResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -138,7 +138,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getCustomerCollectionResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -157,7 +157,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getBankDetailResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -175,7 +175,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getKYCResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -193,7 +193,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  getAddressResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -219,7 +219,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -243,7 +243,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -277,7 +277,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -301,7 +301,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -325,7 +325,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return  getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -346,7 +346,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -390,7 +390,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -414,7 +414,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -435,7 +435,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -456,7 +456,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -476,7 +476,7 @@ public class UserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");

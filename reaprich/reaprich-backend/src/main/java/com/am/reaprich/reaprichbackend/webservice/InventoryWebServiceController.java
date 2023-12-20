@@ -38,7 +38,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getItemResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -54,7 +54,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getItemCollectionResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -70,7 +70,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getWarehouseInventoryCollectionResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -95,7 +95,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getItemOfferResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -126,7 +126,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -146,7 +146,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -166,7 +166,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -186,7 +186,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -206,7 +206,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -228,7 +228,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -247,7 +247,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -280,7 +280,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -300,7 +300,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace());
+            logger.info(ex.getStackTrace().toString());
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");

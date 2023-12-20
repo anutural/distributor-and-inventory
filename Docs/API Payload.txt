@@ -1,0 +1,615 @@
+App user register
+API: http://{{HOST}}:{{PORT}}/v1/auth/register
+Method: Post
+Auth: NA
+Payload:
+{
+    "email":"admin@reaprich.com",
+    "password":"1234",
+    "role":"ADMIN"
+}
+
+Login
+API: http://{{HOST}}:{{PORT}}/v1/auth/authenticate
+Method: Post
+Auth: NA
+Payload:
+{
+    "email":"admin@reaprich.com",
+    "password":"1234"
+}
+
+Getting user management provider information
+API: http://{{HOST}}:{{PORT}}/v1/provider/
+Method: Get
+Auth: NA
+Payload: NA
+
+Adding outlet type
+API: http://{{HOST}}:{{PORT}}/v1/provider/actor/outlettype
+Method: Post
+Auth: ADMIN
+Payload:
+{
+    "id": "ir",
+    "name": "iron",
+    "discount": 5.0
+}
+
+Adding customer type
+API: http://{{HOST}}:{{PORT}}/v1/provider/actor/customertype
+Method: Post
+Auth: ADMIN
+Payload:
+{
+    "id": "sp",
+    "discount": 15.0,
+    "desc": "Special Customer"
+}
+
+Adding country for address
+API: http://{{HOST}}:{{PORT}}/v1/provider/address/country
+Method: Post
+Auth: ADMIN
+Payload:
+{
+    "id":"IND",
+    "name":"India"
+}
+
+Adding state for address
+API: http://{{HOST}}:{{PORT}}/v1/provider/address/state
+Method: Post
+Auth: ADMIN
+Payload:
+{
+    "id":"GUJ",
+    "name":"Gujarat",
+    "country":{ "id":"IND"}
+}
+
+Adding zone for address
+API: http://{{HOST}}:{{PORT}}/v1/provider/address/zone
+Method: Post
+Auth: ADMIN
+Payload:
+{
+    "id":"CGUJ",
+    "name":"Central Gujarat",
+    "state":{ "id":"GUJ"}
+}
+
+Adding district for address
+API: http://{{HOST}}:{{PORT}}/v1/provider/address/dist
+Method: Post
+Auth: ADMIN
+Payload:
+{
+    "id":"AND",
+    "name":"Anand",
+    "zone":{ "id":"CGUJ"}
+}
+
+Adding option for "KYC ID type"
+API: http://{{HOST}}:{{PORT}}/v1/provider/kyc/idtype
+Method: Post
+Auth: ADMIN
+Payload:
+{
+    "id":"PAN",
+    "idDesc":"Pan card"
+}
+
+Adding option for "KYC Address proof type"
+API: http://{{HOST}}:{{PORT}}/v1/provider/kyc/addprooftype
+Method: Post
+Auth: ADMIN
+Payload:
+{
+    "id":"AADHAR",
+    "idDesc":"Aadhar card"
+}
+
+Adding Bank details
+API: http://{{HOST}}:{{PORT}}/v1/user/bankdetail
+Method: Post
+Auth: ADMIN, TD
+payload:
+{
+    "id":"",
+    "actorType":{ "id": "Outlet" },
+    "name":"Amit Maheshwari pvt ltd",
+    "acNumber":"1001001001",
+    "acType":"Current",
+    "bankName":"State bank of India",
+    "branchName":"Vadodara",
+    "ifscCode":"SBIN0001"
+}
+
+Adding address
+API: http://{{HOST}}:{{PORT}}/v1/user/address
+Method: Post
+Auth: ADMIN, TD, Outlet
+payload:
+{
+    "id":"",
+    "actorType":{ "id": "Outlet" },
+    "name":"Amit Maheshwari",
+    "addressLine1":"39-Gayatri Society",
+    "addressLine2":"Anklav",
+    "city":"Anklav",
+    "taluka":"Anklav",
+    "pinCode":"388510",
+    "dist":{ "id":"AND"},
+    "zone":{ "id":"CGUJ"},
+    "state":{ "id":"GUJ"},
+    "country":{ "id":"IND"}
+}
+
+Adding KYC  details
+API: http://{{HOST}}:{{PORT}}/v1/user/kycdetail
+Method: Post
+Auth: ADMIN, TD
+payload:
+{
+    "id":"",
+    "actorType":{ "id": "Outlet" },
+    "name":"Amit Maheshwari",
+    "idType":{ "id":"PAN"},
+    "idNumber":"123456789012",
+    "addProofType":{ "id":"AADHAR"},
+    "addProofNumber":"123456789012",
+    "documentLinks":""
+}
+
+Adding Outlet
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/outlet
+Method: Post
+Auth: ADMIN, TD
+Payload:
+{
+    "id":"",
+    "actorType":{ "id": "Outlet" },
+    "outletType":{ "id": "pl" },
+    "firmName":"Amit Maheshwari Plt ltd",
+    "firmContactNumber":"02696-28256332",
+    "firmGSTNumber":"123456789",
+    "firmPAN" : "BNYPM7411D",
+    "firmAddress":{ "id":"{{outlet_firm_add_id}}"},
+    "firmBankDetails":{ "id":"{{outlet_bank_detail}}"},
+    "ownerFirstName":"Amit",
+    "ownerLastName":"Maheshwari",
+    "ownerContactNumber":"800001300530",
+    "ownerPAN":"BNYPM7411D",
+    "ownerKYC": {"id":"{{outlet_owner_kyc_id}}"},
+    "ownerAddress":{ "id":"{{outlet_owner_add_id}}"},
+    "tdEmail":"admin@reaprich.com",
+    "email":"ploutlet3@reaprich.com",
+    "password":"123456789"
+}
+
+Adding TD
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/td
+Method: Post
+Auth: ADMIN
+Payload:
+{
+    "id":"",
+    "actorType":{ "id": "TD" },
+    "firstName":"Amit",
+    "lastName":"Maheshwari",
+    "contactNumber":"123456789",
+    "PAN" : "BNYPM7411D",
+    "address":{ "id":"{{outlet_firm_add_id}}"},
+    "bankDetails":{ "id":"{{outlet_bank_detail}}"},
+    "tdKYC": {"id":"{{outlet_owner_kyc_id}}"},
+    "email":"td1@reaprich.com",
+    "password":"123456789"
+}
+
+Adding Customer
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/customer
+Method: Post
+Auth: ADMIN, TD, Outlet
+payload
+{
+    "id":"",
+    "actorType":{ "id": "Customer" },
+    "customerType":{ "id": "sp" },
+    "firstName":"Amit",
+    "firstName":" Maheshwari",
+    "contactNumber":"1234567899",
+    "address":{ "id":"{{outlet_firm_add_id}}"}
+}
+
+Getting bank details from ID:
+API: http://{{HOST}}:{{PORT}}/v1/user/bankdetail?bankDetailID={{outlet_bank_detail}}
+Method: Get
+Auth: ADMIN TD
+Payload: NA
+
+Getting KYC details from ID:
+API: http://{{HOST}}:{{PORT}}/v1/user/kycdetail?kycID={{outlet_owner_kyc_id}}
+Method: Get
+Auth: ADMIN
+payload: NA
+
+Getting Address from ID:
+API: http://{{HOST}}:{{PORT}}/v1/user/address?addressID={{outlet_firm_add_id}}
+Method: Get
+Auth: ADMIN, TD, Outlet
+payload: NA
+
+Getting outlet from ID:
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/outlet?outletId={{outlet_id}}
+Method: Get
+Auth: ADMIN
+payload: NA
+
+Getting customer from ID:
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/customer?customerID={{customer_id}}
+Method: Get
+Auth: ADMIN, TD, Outlet
+payload: NA
+
+Getting td from ID:
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/td?tdID={{td_id}}
+Method: Get
+Auth: ADMIN
+
+Updating the Outlet
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/outlet
+Method: Put
+Auth: ADMIN
+payload: <<payload is similar to the response of GET call of this API, but updated>>
+
+Updating the TD
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/td
+Method: Put
+Auth: ADMIN
+payload: <<payload is similar to the response of GET call of this API, but updated>>
+
+Updating the Customer
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/customer
+Method: Put
+Auth: ADMIN
+payload: <<payload is similar to the response of GET call of this API, but updated>>
+
+Approve Outlet
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/outlet/approve?outletID={{outlet_id}}
+Method: Put
+Auth: ADMIN
+Payload: NA
+
+Approve TD
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/td/approve?tdID={{td_id}}
+Method: Put
+Auth: ADMIN
+Payload: NA
+
+Get All Outlets:
+API: http://{{HOST}}:{{PORT}}/v1/user/actor/alloutlets
+Method: Post
+Auth: ADMIN
+payload:
+{
+    "actorFilterBy":"NONE",
+    "filter":"",
+    "subFilter":""
+}
+
+Upload KYC Document
+API: http://{{HOST}}:{{PORT}}/v1/user/kycdocupload
+Method: Post
+Auth: ADMIN
+
+Logout
+API: http://{{HOST}}:{{PORT}}/v1/auth/logout
+Method: Post
+Auth: ADMIN, TD, Outlet
+
+Refresh Token
+API: http://{{HOST}}:{{PORT}}/v1/auth/refresh-token
+Method: Post
+Auth: ADMIN, TD, Outlet
+
+Outlet to get self details
+API: http://{{HOST}}:{{PORT}}/v1/self/actor/outlet
+Method: Get
+Auth: Outlet
+payload: NA
+
+TD to get self details
+API: http://{{HOST}}:{{PORT}}/v1/self/actor/td
+Method: Get
+Auth: TD
+payload: NA
+
+Outlet to update self details
+API: http://{{HOST}}:{{PORT}}/v1/self/actor/outlet
+Method: Put
+Auth: Outlet
+payload
+{
+    "firmName": "Amit Maheshwari New Plt ltd",
+    "firmContactNumber": "02696-282563000",
+    "firmAddress": {
+        "id": "22baeb05-74b6-4cfd-8b53-838af5b8a74d",
+        "actorType": {
+            "id": "Outlet",
+            "desc": "Outlet"
+        },
+        "name": "Amit Maheshwari New Pvt Ltd",
+        "addressLine1": "Some company address line 1 New",
+        "addressLine2": "company address line 2 New",
+        "city": "Anklav New",
+        "taluka": "Anklav New",
+        "pinCode": "3885100",
+        "dist": {
+            "id": "AND",
+            "name": "Anand",
+            "zone": {
+                "id": "CGUJ",
+                "name": "Central Gujarat",
+                "state": {
+                    "id": "GUJ",
+                    "name": "Gujarat",
+                    "country": {
+                        "id": "IND",
+                        "name": "India"
+                    }
+                }
+            }
+        },
+        "zone": {
+            "id": "CGUJ",
+            "name": "Central Gujarat",
+            "state": {
+                "id": "GUJ",
+                "name": "Gujarat",
+                "country": {
+                    "id": "IND",
+                    "name": "India"
+                }
+            }
+        },
+        "state": {
+            "id": "GUJ",
+            "name": "Gujarat",
+            "country": {
+                "id": "IND",
+                "name": "India"
+            }
+        },
+        "country": {
+            "id": "IND",
+            "name": "India"
+        },
+        "status": true
+    },
+    "firmBankDetails": {
+        "id": "29595a99-894b-4b91-80d1-4f63e18cdafd",
+        "actorType": {
+            "id": "Outlet",
+            "desc": "Outlet"
+        },
+        "name": "Amit Maheshwari New pvt ltd",
+        "acNumber": "1001001001000",
+        "acType": "Current",
+        "bankName": "State bank of India New",
+        "branchName": "Vadodara",
+        "ifscCode": "SBIN0001",
+        "status": true
+    },
+    "ownerFirstName": "Amit New",
+    "ownerLastName": "Maheshwari New",
+    "ownerContactNumber": "8000013005000",
+    "ownerAddress": {
+        "id": "026f5325-f4e2-4b5c-9361-b16aef13e351",
+        "actorType": {
+            "id": "Outlet",
+            "desc": "Outlet"
+        },
+        "name": "Amit Maheshwari New",
+        "addressLine1": "39-Gayatri Society",
+        "addressLine2": "Anklav",
+        "city": "Anklav",
+        "taluka": "Anklav",
+        "pinCode": "388510",
+        "dist": {
+            "id": "AND",
+            "name": "Anand",
+            "zone": {
+                "id": "CGUJ",
+                "name": "Central Gujarat",
+                "state": {
+                    "id": "GUJ",
+                    "name": "Gujarat",
+                    "country": {
+                        "id": "IND",
+                        "name": "India"
+                    }
+                }
+            }
+        },
+        "zone": {
+            "id": "CGUJ",
+            "name": "Central Gujarat",
+            "state": {
+                "id": "GUJ",
+                "name": "Gujarat",
+                "country": {
+                    "id": "IND",
+                    "name": "India"
+                }
+            }
+        },
+        "state": {
+            "id": "GUJ",
+            "name": "Gujarat",
+            "country": {
+                "id": "IND",
+                "name": "India"
+            }
+        },
+        "country": {
+            "id": "IND",
+            "name": "India"
+        },
+        "status": true
+    }
+}
+
+TD to update self details
+API: http://{{HOST}}:{{PORT}}/v1/self/actor/td
+Method: Put
+Auth: TD
+payload: <<payload is similar to the response of GET call of this API>>
+
+Update password
+API: http://{{HOST}}:{{PORT}}/v1/self/resetpassword
+Method: Put
+Auth: ADMIN, TD, Outlet
+payload:
+{
+    "email":"ploutlet3@reaprich.com",
+    "oldPassword":"123456789",
+    "newPassword":"12345678910"
+}
+
+Adding item category
+API: http://{{HOST}}:{{PORT}}/v1/inventory/item/category
+Method: Post
+Auth: ADMIN
+payload
+{
+    "id": "category_1",
+    "category": "Category 1"
+}
+
+Adding item subcategory
+API: http://{{HOST}}:{{PORT}}/v1/inventory/item/subcategory
+Method: Post
+Auth: ADMIN
+Payload
+{
+    "id": "subcategory_1",
+    "category": {"id":"category_1"},
+    "subcategory":"subcategory 1"
+}
+
+Adding item packingType
+API: http://{{HOST}}:{{PORT}}/v1/inventory/item/packingtype
+Method: Post
+Auth: ADMIN
+payload
+{
+    "id": "packing_type_1",
+    "packingType": "solid",
+    "quantityInGrams":800,
+    "container":"jar"
+}
+
+Adding item
+API: http://{{HOST}}:{{PORT}}/v1/inventory/item
+Method: Post
+Auth: ADMIN**
+payload
+{
+    "name": "item 1",
+    "packingType": {"id": "packing_type_1"},
+    "category": {"id": "category_1"},
+    "subcategory": {"id": "subcategory_1"},
+    "itemPrices": {
+        "gl": 130.0,
+        "sl": 140.0,
+        "pl": 120.0
+    },
+    "reatilPrice": 150.0,
+    "pictureLink": null,
+    "thumbnailLink": null,
+    "gstprice": 200.0
+}
+
+Getting item by ID
+API: http://{{HOST}}:{{PORT}}/v1/inventory/item?id={{item_id}}
+Method: Get
+Auth: ADMIN, TD, Outlet
+payload: NA
+
+Getting all items
+API: http://{{HOST}}:{{PORT}}/v1/inventory/allitems
+Method: Post
+Auth: ADMIN, TD, Outlet
+payload:
+{
+    "itemFilterBy":"NONE",
+    "filter":""
+}
+
+Add item offer
+API: http://{{HOST}}:{{PORT}}/v1/inventory/itemoffer
+Method: Post
+Auth: ADMIN**
+payload
+{
+    "item":{"id":"{{item_id}}"},
+    "offeredItem":{"id":"{{item_id}}"},
+    "offerType":"BUYX_GETX",
+    "minQty":2,
+    "minAMT":0,
+    "offerItemQty":1,
+    "offerDiscountPercent":0.0,
+    "couponValidityMonths":0,
+    "startDate":"2023-12-12T18:29:59.000+00:00",
+    "endDate":"2024-01-12T18:29:59.000+00:00"
+}
+
+Getting item offer from id
+API: http://{{HOST}}:{{PORT}}/v1/inventory/itemoffer?itemOfferID={{item_offer_id}}
+Method: Get
+Auth: ADMIN, TD, Outlet
+payload: NA
+
+Getting all active item offers
+API: http://{{HOST}}:{{PORT}}/v1/inventory/itemoffer/all
+Method: Get
+Auth: ADMIN, TD, Outlet
+payload: NA
+
+Getting offers on item
+API: http://{{HOST}}:{{PORT}}/v1/inventory/offersonitem?itemID={{item_id}}
+Method: Get
+Auth: ADMIN, TD, Outlet
+payload: NA
+
+Adding items in warehouse
+API: http://{{HOST}}:{{PORT}}/v1/inventory/warehouse/items
+Method: Post
+Auth: ADMIN **
+payload
+{
+    "addWarehouseInventoryItemsRequests":[
+        {
+            "item":"{{item_id}}",
+            "warehouse":"8dd82028-0495-4f64-b991-4e19f022d3b7",
+            "batchNumber":"1234",
+            "mfgDate":"2023-12-12T18:29:59.000+00:00",
+            "expDate":"2024-12-12T18:29:59.000+00:00",
+            "state":"IN_COMPANY",
+            "quantity":100
+        }
+    ]
+}
+
+Getting warehouse items
+API: http://{{HOST}}:{{PORT}}/v1/inventory/warehouse/items?warehouseID="8dd82028-0495-4f64-b991-4e19f022d3b7"
+Method: Get
+Auth: ADMIN
+payload: NA
+
+
+
+
+
+

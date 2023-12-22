@@ -34,7 +34,7 @@ public class InventoryWebServiceController {
         final String PQMN  = "getItem";
         logger.info(PQMN + " - Start");
         try {
-            return ResponseEntity.ok(this.itemService.getItem(id));
+            return ResponseEntity.ok(ItemResponse.builder().item(this.itemService.getItem(id)).build());
         }
         catch (Exception ex) {
             logger.error(ex.toString());
@@ -138,7 +138,7 @@ public class InventoryWebServiceController {
         final String PQMN  = "updateItem";
         logger.info(PQMN + " - Start");
         try {
-            this.itemService.updateItemDetail(item);
+            this.itemService.updateItem(item);
             return ResponseEntity.ok(IdResponse
                     .builder()
                     .id(item.getId())

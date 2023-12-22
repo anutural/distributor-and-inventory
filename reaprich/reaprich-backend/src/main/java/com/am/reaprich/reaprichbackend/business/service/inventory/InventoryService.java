@@ -26,19 +26,30 @@ public class InventoryService {
     @Autowired
     ItemService itemService;
 
-    public WarehouseResponse getWarehouse(String id) throws Exception{
+    public Warehouse getWarehouse(String id) throws Exception{
         Optional<Warehouse> optionalWarehouse = this.warehouseRepository.findById(id);
 
         if (optionalWarehouse.isEmpty()) {
             throw new IllegalArgumentException("Warehouse with the specified ID doesn't exist");
         }
-        return WarehouseResponse.builder().warehouse(optionalWarehouse.get()).build();
+        return optionalWarehouse.get();
+    }
+
+    public Warehouse getWarehouseByOutlet(String outletID) throws Exception {
+        Iterable<Warehouse> warehouses = this.warehouseRepository.findByOutlet(outletID);
+        if (!warehouses.iterator().hasNext()) {
+            throw new IllegalArgumentException("No warehouse found for specified outlet id");
+        }
+        return warehouses.iterator().next();
     }
 
     public void addWarehouse(Warehouse warehouse) {
         if (!this.warehouseRepository.findById(warehouse.getId()).isEmpty()) {
             throw new IllegalArgumentException("Warehouse with the same ID is already present");
         }
+        addUpdateWarehouse(warehouse);
+    }
+    public void addUpdateWarehouse(Warehouse warehouse) {
         this.warehouseRepository.save(warehouse);
     }
 
@@ -74,13 +85,13 @@ public class InventoryService {
             Warehouse warehouse;
             try
             {
-                item = this.itemService.getItem(addWarehouseInventoryItemsRequest.getItem()).getItem();
-                warehouse = getWarehouse(addWarehouseInventoryItemsRequest.getWarehouse()).getWarehouse();
+                item = this.itemService.getItem(addWarehouseInventoryItemsRequest.getItem().getId());
+                warehouse = getWarehouseByOutlet(addWarehouseInventoryItemsRequest.getOutlet().getId());
             }
             catch (Exception ex) {
                 logger.error(ex.toString());
                 logger.info(ex.getStackTrace().toString());
-                notInsertedItems.add(addWarehouseInventoryItemsRequest.getItem());
+                notInsertedItems.add(addWarehouseInventoryItemsRequest.getItem().getId());
                 errors.add(ex.getMessage());
                 continue;
             }
@@ -102,7 +113,7 @@ public class InventoryService {
                                 .batchNumber(batchNumber)
                                 .build());
             }
-            insertedItems.add(addWarehouseInventoryItemsRequest.getItem());
+            insertedItems.add(addWarehouseInventoryItemsRequest.getItem().getId());
         }
         return AddWarehouseInvetoryItemsResponse
                 .builder()
@@ -112,10 +123,11 @@ public class InventoryService {
                 .build();
     }
 
-    public void updateWarehouseItem(WarehouseInventory warehouseInventory) {
+    public void updateWarehouseItem(WarehouseInventory warehouseInventory) throws Exception {
         if (this.warehouseInventoryRepository.findById(warehouseInventory.getId()).isEmpty()) {
             throw new IllegalArgumentException("Inventory Item with the specified ID does not exist");
         }
+        warehouseInventory.setItem(this.itemService.getItem(warehouseInventory.getItem().getId()));
         this.warehouseInventoryRepository.save(warehouseInventory);
     }
 

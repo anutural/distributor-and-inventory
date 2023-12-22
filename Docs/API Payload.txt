@@ -261,19 +261,19 @@ Updating the Outlet
 API: http://{{HOST}}:{{PORT}}/v1/user/actor/outlet
 Method: Put
 Auth: ADMIN
-payload: <<payload is similar to the response of GET call of this API, but updated>>
+payload: <<payload is similar to the response of Post call of this API, but updated>>
 
 Updating the TD
 API: http://{{HOST}}:{{PORT}}/v1/user/actor/td
 Method: Put
 Auth: ADMIN
-payload: <<payload is similar to the response of GET call of this API, but updated>>
+payload: <<payload is similar to the response of Post call of this API, but updated>>
 
 Updating the Customer
 API: http://{{HOST}}:{{PORT}}/v1/user/actor/customer
 Method: Put
 Auth: ADMIN
-payload: <<payload is similar to the response of GET call of this API, but updated>>
+payload: <<payload is similar to the response of Post call of this API, but updated>>
 
 Approve Outlet
 API: http://{{HOST}}:{{PORT}}/v1/user/actor/outlet/approve?outletID={{outlet_id}}
@@ -333,138 +333,19 @@ payload
 {
     "firmName": "Amit Maheshwari New Plt ltd",
     "firmContactNumber": "02696-282563000",
-    "firmAddress": {
-        "id": "22baeb05-74b6-4cfd-8b53-838af5b8a74d",
-        "actorType": {
-            "id": "Outlet",
-            "desc": "Outlet"
-        },
-        "name": "Amit Maheshwari New Pvt Ltd",
-        "addressLine1": "Some company address line 1 New",
-        "addressLine2": "company address line 2 New",
-        "city": "Anklav New",
-        "taluka": "Anklav New",
-        "pinCode": "3885100",
-        "dist": {
-            "id": "AND",
-            "name": "Anand",
-            "zone": {
-                "id": "CGUJ",
-                "name": "Central Gujarat",
-                "state": {
-                    "id": "GUJ",
-                    "name": "Gujarat",
-                    "country": {
-                        "id": "IND",
-                        "name": "India"
-                    }
-                }
-            }
-        },
-        "zone": {
-            "id": "CGUJ",
-            "name": "Central Gujarat",
-            "state": {
-                "id": "GUJ",
-                "name": "Gujarat",
-                "country": {
-                    "id": "IND",
-                    "name": "India"
-                }
-            }
-        },
-        "state": {
-            "id": "GUJ",
-            "name": "Gujarat",
-            "country": {
-                "id": "IND",
-                "name": "India"
-            }
-        },
-        "country": {
-            "id": "IND",
-            "name": "India"
-        },
-        "status": true
-    },
-    "firmBankDetails": {
-        "id": "29595a99-894b-4b91-80d1-4f63e18cdafd",
-        "actorType": {
-            "id": "Outlet",
-            "desc": "Outlet"
-        },
-        "name": "Amit Maheshwari New pvt ltd",
-        "acNumber": "1001001001000",
-        "acType": "Current",
-        "bankName": "State bank of India New",
-        "branchName": "Vadodara",
-        "ifscCode": "SBIN0001",
-        "status": true
-    },
+    "firmAddress": {"id": "7328f106-116c-48e3-a921-53be966e28c0"},
+    "firmBankDetails": {"id": "b98a5aee-10da-41f7-ba8e-aa8e04771048"},
     "ownerFirstName": "Amit New",
     "ownerLastName": "Maheshwari New",
     "ownerContactNumber": "8000013005000",
-    "ownerAddress": {
-        "id": "026f5325-f4e2-4b5c-9361-b16aef13e351",
-        "actorType": {
-            "id": "Outlet",
-            "desc": "Outlet"
-        },
-        "name": "Amit Maheshwari New",
-        "addressLine1": "39-Gayatri Society",
-        "addressLine2": "Anklav",
-        "city": "Anklav",
-        "taluka": "Anklav",
-        "pinCode": "388510",
-        "dist": {
-            "id": "AND",
-            "name": "Anand",
-            "zone": {
-                "id": "CGUJ",
-                "name": "Central Gujarat",
-                "state": {
-                    "id": "GUJ",
-                    "name": "Gujarat",
-                    "country": {
-                        "id": "IND",
-                        "name": "India"
-                    }
-                }
-            }
-        },
-        "zone": {
-            "id": "CGUJ",
-            "name": "Central Gujarat",
-            "state": {
-                "id": "GUJ",
-                "name": "Gujarat",
-                "country": {
-                    "id": "IND",
-                    "name": "India"
-                }
-            }
-        },
-        "state": {
-            "id": "GUJ",
-            "name": "Gujarat",
-            "country": {
-                "id": "IND",
-                "name": "India"
-            }
-        },
-        "country": {
-            "id": "IND",
-            "name": "India"
-        },
-        "status": true
-    }
+    "ownerAddress": {"id": "c6a497e6-300c-4124-add2-7b905fbf0fc5"}
 }
 
 TD to update self details
 API: http://{{HOST}}:{{PORT}}/v1/self/actor/td
 Method: Put
 Auth: TD
-payload: <<payload is similar to the response of GET call of this API>>
+payload: <<payload is similar to the response of GET call of this API - For objects only ID needs to pass>>
 
 Update password
 API: http://{{HOST}}:{{PORT}}/v1/self/resetpassword
@@ -591,13 +472,13 @@ payload
 {
     "addWarehouseInventoryItemsRequests":[
         {
-            "item":"{{item_id}}",
-            "warehouse":"8dd82028-0495-4f64-b991-4e19f022d3b7",
+            "item": {"id":"{{item_id}}" },
+            "outlet": { "id": "{{OUTLET_ID}}"},
             "batchNumber":"1234",
             "mfgDate":"2023-12-12T18:29:59.000+00:00",
             "expDate":"2024-12-12T18:29:59.000+00:00",
             "state":"IN_COMPANY",
-            "quantity":100
+            "quantity":2
         }
     ]
 }

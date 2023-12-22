@@ -35,13 +35,13 @@ public class ItemService {
     @Autowired
     private ItemOfferRepository itemOfferRepository;
 
-    public ItemResponse getItem(String id) throws Exception{
+    public Item getItem(String id) throws Exception{
         Optional<Item> optionalItem = this.itemRepository.findById(id);
 
         if (optionalItem.isEmpty()) {
             throw new IllegalArgumentException("Item with the specified ID doesn't exist");
         }
-        return ItemResponse.builder().item(optionalItem.get()).build();
+        return optionalItem.get();
     }
 
     public ItemCollectionResponse getAllItems(AllItemRequest allItemRequest) throws Exception {
@@ -77,16 +77,19 @@ public class ItemService {
         if (!this.itemRepository.findById(item.getId()).isEmpty()) {
             throw new IllegalArgumentException("Item with the same ID is already present");
         }
-        item.setCategory(getCategoryById(item.getCategory().getId()));
-        item.setSubcategory(getSubcategoryById(item.getSubcategory().getId()));
-        item.setPackingType(getPackingTypeById(item.getPackingType().getId()));
-        this.itemRepository.save(item);
+        addUpdateItem(item);
     }
 
-    public void updateItemDetail(Item item) {
+    public void updateItem(Item item) {
         if (this.itemRepository.findById(item.getId()).isEmpty()) {
             throw new IllegalArgumentException("Item with the specified ID does not exist");
         }
+        addUpdateItem(item);
+    }
+    public void addUpdateItem(Item item) {
+        item.setCategory(getCategoryById(item.getCategory().getId()));
+        item.setSubcategory(getSubcategoryById(item.getSubcategory().getId()));
+        item.setPackingType(getPackingTypeById(item.getPackingType().getId()));
         this.itemRepository.save(item);
     }
 
@@ -112,7 +115,7 @@ public class ItemService {
         this.subcategoryRepository.save(subcategory);
     }
 
-    public void addItemOffer(ItemOffer itemOffer) {
+    public void addItemOffer(ItemOffer itemOffer) throws Exception {
         if (!this.itemRepository.findById(itemOffer.getId()).isEmpty()) {
             throw new IllegalArgumentException("Item offer with the same ID is already present");
         }
@@ -120,16 +123,22 @@ public class ItemService {
             throw new IllegalArgumentException("Item specified in Item offer does not exist");
         }
 
-        this.itemOfferRepository.save(itemOffer);
+        addUpdateItemOffer(itemOffer);
     }
 
-    public void updateItemOffer(ItemOffer itemOffer) {
+    public void updateItemOffer(ItemOffer itemOffer) throws Exception {
         if (this.itemOfferRepository.findById(itemOffer.getId()).isEmpty()) {
             throw new IllegalArgumentException("Item offer with the specified ID does not exist");
         }
         if (this.itemRepository.findById(itemOffer.getItem().getId()).isEmpty()) {
             throw new IllegalArgumentException("Item specified in Item offer does not exist");
         }
+        addUpdateItemOffer(itemOffer);
+    }
+
+    public void addUpdateItemOffer(ItemOffer itemOffer) throws Exception {
+        itemOffer.setItem(getItem(itemOffer.getItem().getId()));
+        itemOffer.setOfferedItem(getItem(itemOffer.getOfferedItem().getId()));
         this.itemOfferRepository.save(itemOffer);
     }
 

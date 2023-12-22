@@ -1716,6 +1716,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
 							"pm.test(\"No error\", function() {\r",
 							"    pm.expect(jsonData.error) == null\r",
 							"});"
@@ -1777,6 +1778,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
+							"var jsonData = JSON.parse(responseBody)\r",
 							"pm.test(\"No error\", function() {\r",
 							"    pm.expect(jsonData.error) == null\r",
 							"});"

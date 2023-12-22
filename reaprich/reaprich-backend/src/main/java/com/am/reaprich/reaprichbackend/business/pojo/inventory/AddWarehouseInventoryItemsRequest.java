@@ -1,5 +1,7 @@
 package com.am.reaprich.reaprichbackend.business.pojo.inventory;
 
+import com.am.reaprich.reaprichbackend.data.entities.actors.Outlet;
+import com.am.reaprich.reaprichbackend.data.entities.inventory.Item;
 import com.am.reaprich.reaprichbackend.data.entities.inventory.inventoryprovider.ItemState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,8 +16,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class AddWarehouseInventoryItemsRequest {
-    private String item;
-    private String warehouse;
+    private Item item;
+    private Outlet outlet;
     private String batchNumber;
     private Date mfgDate;
     private Date expDate;

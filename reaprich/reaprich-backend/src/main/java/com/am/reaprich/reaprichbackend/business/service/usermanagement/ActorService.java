@@ -122,6 +122,32 @@ public class ActorService {
             throw new IllegalArgumentException("Outlet with same owner contact number is already present");
         }
 
+        addUpdateOutlet(outlet);
+
+        Role role = outlet.getOutletType().getId() == "Pl" ? Role.SP_OUTLET : Role.OUTLET;
+
+        AuthenticationResponse authenticationResponse = authenticationService.register(
+                AppUserRegisterRequest.builder()
+                        .email(outlet.getEmail())
+                        .password(outlet.getPassword())
+                        .role(role)
+                        .build());
+        return true;
+    }
+    public void updateOutlet (Outlet outlet) throws Exception {
+        if (this.outletRepository.findById(outlet.getId()).isEmpty()) {
+            throw new IllegalArgumentException("Outlet not found");
+        }
+
+        //Resetting the status of existing outlet's address, bank details, and kyc
+        Outlet existingOutlet = this.outletRepository.findById(outlet.getId()).get();
+        this.addressService.SetAddressStatus(existingOutlet.getFirmAddress().getId(), false);
+        this.bankService.SetBankDetailStatus(existingOutlet.getFirmBankDetails().getId(), false);
+        this.addressService.SetAddressStatus(existingOutlet.getOwnerAddress().getId(), false);
+        this.kycService.SetKYCStatus(existingOutlet.getOwnerKYC().getId(), false);
+        addUpdateOutlet(outlet);
+    }
+    public void addUpdateOutlet(Outlet outlet) throws Exception {
         outlet.setActorType(this.providerService.GetActorTypesByID(outlet.getActorType().getId()));
         outlet.setOutletType(this.providerService.GetOutletTypesByID(outlet.getOutletType().getId()));
 
@@ -137,40 +163,30 @@ public class ActorService {
         outlet.setOwnerKYC(this.kycService.GetKYCByID(outlet.getOwnerKYC().getId()));
         this.kycService.SetKYCStatus(outlet.getOwnerKYC().getId(), true);
 
-        Role role = outlet.getOutletType().getId() == "Pl" ? Role.SP_OUTLET : Role.OUTLET;
-
-        AuthenticationResponse authenticationResponse = authenticationService.register(
-                AppUserRegisterRequest.builder()
-                        .email(outlet.getEmail())
-                        .password(outlet.getPassword())
-                        .role(role)
-                        .build());
-
         this.outletRepository.save(outlet);
 
-        this.inventoryService.addWarehouse(
+        this.inventoryService.addUpdateWarehouse(
                 Warehouse
                         .builder()
-                        .id(UUID.randomUUID().toString())
+                        .id(outlet.getId())
                         .outlet(outlet)
                         .contactNumber(outlet.getFirmContactNumber())
                         .address(outlet.getFirmAddress())
                         .isCompany(false)
                         .status(true)
                         .build());
-        return true;
     }
-    public void updateOutlet (Outlet outlet) throws Exception {
-        if (this.outletRepository.findById(outlet.getId()).isEmpty()) {
-            throw new IllegalArgumentException("Outlet not found");
-        }
-        this.outletRepository.save(outlet);
-    }
+
     public OutletDetailResponse updateOutletDetail(String email, UpdateOutletDetailRequest updateOutletDetailRequest) throws Exception{
+        updateOutletDetailRequest.setFirmAddress(this.addressService.GetAddressByID(updateOutletDetailRequest.getFirmAddress().getId()));
+        updateOutletDetailRequest.setOwnerAddress(this.addressService.GetAddressByID(updateOutletDetailRequest.getOwnerAddress().getId()));
+        updateOutletDetailRequest.setFirmBankDetails(this.bankService.GetBankDetailById(updateOutletDetailRequest.getFirmBankDetails().getId()));
+
         Outlet outlet = getOutletByEmail(email);
         outlet.update(updateOutletDetailRequest);
-        updateOutlet(outlet);
 
+        //Status of bank details, address, KYC, and warehouse will be properly updated in "update outlet call"
+        updateOutlet(outlet);
         return OutletDetailResponse.getOutletDetailResponseFromOutletEntity(outlet);
     }
 
@@ -186,6 +202,31 @@ public class ActorService {
             throw new IllegalArgumentException("TD with same contact number is already present");
         }
 
+        addUpdateTD(td);
+
+        Role role = Role.TD;
+
+        AuthenticationResponse authenticationResponse = authenticationService.register(
+                AppUserRegisterRequest.builder()
+                        .email(td.getEmail())
+                        .password(td.getPassword())
+                        .role(role)
+                        .build());
+
+        return true;
+    }
+    public void updateTD (TD td) throws Exception {
+        if (this.tdRepository.findById(td.getId()).isEmpty()) {
+            throw new IllegalArgumentException("TD not found");
+        }
+        //Resetting the status of existing TD's address, bank details, and kyc
+        TD existingTD = this.tdRepository.findById(td.getId()).get();
+        this.addressService.SetAddressStatus(existingTD.getAddress().getId(), false);
+        this.bankService.SetBankDetailStatus(existingTD.getBankDetails().getId(), false);
+        this.kycService.SetKYCStatus(existingTD.getTdKYC().getId(), false);
+        addUpdateTD(td);
+    }
+    public void addUpdateTD(TD td) throws Exception {
         td.setActorType(this.providerService.GetActorTypesByID(td.getActorType().getId()));
 
         td.setAddress(this.addressService.GetAddressByID(td.getAddress().getId()));
@@ -197,25 +238,13 @@ public class ActorService {
         td.setTdKYC(this.kycService.GetKYCByID(td.getTdKYC().getId()));
         this.kycService.SetKYCStatus(td.getTdKYC().getId(), true);
 
-        Role role = Role.TD;
-
-        AuthenticationResponse authenticationResponse = authenticationService.register(
-                AppUserRegisterRequest.builder()
-                        .email(td.getEmail())
-                        .password(td.getPassword())
-                        .role(role)
-                        .build());
-
-        this.tdRepository.save(td);
-        return true;
-    }
-    public void updateTD (TD td) throws Exception {
-        if (this.tdRepository.findById(td.getId()).isEmpty()) {
-            throw new IllegalArgumentException("TD not found");
-        }
         this.tdRepository.save(td);
     }
+
     public TDDetailResponse updateTDDetail(String email, UpdateTDDetailRequest updateTDDetailRequest) throws  Exception {
+        updateTDDetailRequest.setAddress(this.addressService.GetAddressByID(updateTDDetailRequest.getAddress().getId()));
+        updateTDDetailRequest.setBankDetails(this.bankService.GetBankDetailById(updateTDDetailRequest.getBankDetails().getId()));
+
         TD td = getTDByEmail(email);
         td.update(updateTDDetailRequest);
         updateTD(td);
@@ -230,14 +259,7 @@ public class ActorService {
         if (!this.customerRepository.findByContactNumber(customer.getContactNumber()).isEmpty()){
             throw new IllegalArgumentException("Customer with same contact number is already present");
         }
-
-        customer.setActorType(this.providerService.GetActorTypesByID(customer.getActorType().getId()));
-        customer.setCustomerType(this.providerService.GetCustomerTypesByID(customer.getCustomerType().getId()));
-
-        customer.setAddress(this.addressService.GetAddressByID(customer.getAddress().getId()));
-        this.addressService.SetAddressStatus(customer.getAddress().getId(), true);
-
-        this.customerRepository.save(customer);
+        addUpdateCustomer(customer);
         return true;
     }
 
@@ -245,9 +267,20 @@ public class ActorService {
         if (this.tdRepository.findById(customer.getId()).isEmpty()) {
             throw new IllegalArgumentException("Customer not found");
         }
+        //Resetting the status of existing Customer's address
+        Customer existingCustomer = this.customerRepository.findById(customer.getId()).get();
+        this.addressService.SetAddressStatus(existingCustomer.getAddress().getId(), false);
+        addUpdateCustomer(customer);
+    }
+    public void addUpdateCustomer(Customer customer) throws Exception {
+        customer.setActorType(this.providerService.GetActorTypesByID(customer.getActorType().getId()));
+        customer.setCustomerType(this.providerService.GetCustomerTypesByID(customer.getCustomerType().getId()));
+
+        customer.setAddress(this.addressService.GetAddressByID(customer.getAddress().getId()));
+        this.addressService.SetAddressStatus(customer.getAddress().getId(), true);
+
         this.customerRepository.save(customer);
     }
-
 
     public void approveOutlet(String outletID) throws Exception{
         Outlet outlet = getOutletById(outletID);

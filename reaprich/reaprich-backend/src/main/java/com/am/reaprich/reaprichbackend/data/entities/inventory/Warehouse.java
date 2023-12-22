@@ -20,7 +20,8 @@ public class Warehouse {
     @Column(name = "ID")
     private String id;
 
-    @ManyToOne
+    //@ManyToOne
+    @OneToOne
     @JoinColumn(name = "OUTLET", referencedColumnName = "OUTLET_ID")
     private Outlet outlet;
 

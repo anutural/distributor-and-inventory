@@ -50,6 +50,8 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .role(user.getRole())
+                .authorities(user.getAuthorities())
                 .build();
     }
 
@@ -69,9 +71,12 @@ public class AuthenticationService {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
 
+
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .role(user.getRole())
+                .authorities(user.getAuthorities())
                 .build();
     }
 
@@ -95,6 +100,8 @@ public class AuthenticationService {
                 var authResponse = AuthenticationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
+                        .role(user.getRole())
+                        .authorities(user.getAuthorities())
                         .build();
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }

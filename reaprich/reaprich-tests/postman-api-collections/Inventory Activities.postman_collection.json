@@ -541,7 +541,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"addWarehouseInventoryItemsRequests\":[\r\n        {\r\n            \"item\":\"{{item_id}}\",\r\n            \"warehouse\":\"3522a1ae-16cb-4e7e-933c-c6fa34353cad\",\r\n            \"batchNumber\":\"1234\",\r\n            \"mfgDate\":\"2023-12-12T18:29:59.000+00:00\",\r\n            \"expDate\":\"2024-12-12T18:29:59.000+00:00\",\r\n            \"state\":\"IN_COMPANY\",\r\n            \"quantity\":2\r\n        }\r\n    ]\r\n}\r\n",
+					"raw": "{\r\n    \"addWarehouseInventoryItemsRequests\":[\r\n        {\r\n            \"item\": {\"id\":\"{{item_id}}\" },\r\n            \"outlet\": { \"id\": \"{{OUTLET_ID}}\"},\r\n            \"batchNumber\":\"1234\",\r\n            \"mfgDate\":\"2023-12-12T18:29:59.000+00:00\",\r\n            \"expDate\":\"2024-12-12T18:29:59.000+00:00\",\r\n            \"state\":\"IN_COMPANY\",\r\n            \"quantity\":2\r\n        }\r\n    ]\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"

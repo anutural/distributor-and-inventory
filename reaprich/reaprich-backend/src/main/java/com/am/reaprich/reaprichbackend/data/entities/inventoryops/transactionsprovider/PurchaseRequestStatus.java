@@ -3,7 +3,8 @@ package com.am.reaprich.reaprichbackend.data.entities.inventoryops.transactionsp
 public enum PurchaseRequestStatus {
     PLACED,
     CANCELED,
-    ACCEPTED,
+    DELIVERY_ACCEPTED,
+    DELIVERY_REJECTED,
     REJECTED,
     PROCESSING,
     DELIVERED

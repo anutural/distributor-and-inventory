@@ -62,16 +62,33 @@ public class InventoryService {
         return WarehouseInventoryResponse.builder().warehouseInventoryItem(optionalWarehouseInventory.get()).build();
     }
 
-    public WarehouseInventoryCollectionResponse getInventoryItems(String warehouseID) {
+    public Map<String, List<WarehouseInventory>> getInventoryItems(String warehouseID) {
         Iterable<WarehouseInventory> warehouseInventoryItems = this.warehouseInventoryRepository.findByWarehouse(warehouseID);
 
-        return WarehouseInventoryCollectionResponse
-                .builder()
-                .inventoryItems(
-                        StreamSupport
-                                .stream(warehouseInventoryItems.spliterator(), false)
-                                .collect(Collectors.toList())).build();
+//        return WarehouseInventoryCollectionResponse
+//                .builder()
+//                .inventoryItems(
+//                        StreamSupport
+//                                .stream(warehouseInventoryItems.spliterator(), false)
+//                                .collect(Collectors.toList())).build();
+        return getInvetoryItemsGroupedByItemID(warehouseInventoryItems);
     }
+
+    public Map<String, List<WarehouseInventory>> getCompanyInvetoryItems() {
+        Iterable<WarehouseInventory> inCompanyInvetoryItems = this.warehouseInventoryRepository.findByState(ItemState.IN_COMPANY.getValue());
+        return getInvetoryItemsGroupedByItemID(inCompanyInvetoryItems);
+    }
+
+    private Map<String, List<WarehouseInventory>> getInvetoryItemsGroupedByItemID(Iterable<WarehouseInventory> warehouseInventoryItems) {
+        Map<String, List<WarehouseInventory>> map = new HashMap<String, List<WarehouseInventory>>();
+
+        map = StreamSupport.stream(warehouseInventoryItems.spliterator(), false)
+                .collect(Collectors.groupingBy(x-> x.getItem().getId(), HashMap::new, Collectors.toCollection(ArrayList::new)));
+
+        return map;
+    }
+
+
 
     public AddWarehouseInvetoryItemsResponse addItemsInWarehouse(AddWarehouseInventoryItemsRequestCollection warehouseInventoryItems) {
         final String PQMN = "addItemsInWarehouse";
@@ -90,7 +107,7 @@ public class InventoryService {
             }
             catch (Exception ex) {
                 logger.error(ex.toString());
-                logger.info(ex.getStackTrace().toString());
+                Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
                 notInsertedItems.add(addWarehouseInventoryItemsRequest.getItem().getId());
                 errors.add(ex.getMessage());
                 continue;
@@ -143,4 +160,6 @@ public class InventoryService {
             }
         }
     }
+
+
 }

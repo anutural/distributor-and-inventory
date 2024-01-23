@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 @RestController
@@ -29,6 +30,24 @@ public class InventoryWebServiceController {
     @Autowired
     private InventoryService inventoryService;
 
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public ResponseEntity<ItemProvider> getItemProviderData() {
+        final String PQMN  = "getItemProviderData";
+        logger.info(PQMN + " - Start");
+        try {
+            logger.info("Returning the item provider information");
+            return ResponseEntity.ok(this.itemService.getProviderData());
+        }
+        catch (Exception ex) {
+            logger.error(ex.toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
+            return getItemProviderResponseEntityForException(ex);
+        }
+        finally {
+            logger.info(PQMN + " - End");
+        }
+    }
+
     @RequestMapping(path = "/item", method = RequestMethod.GET)
     public ResponseEntity<ItemResponse> getItem(@RequestParam String id) {
         final String PQMN  = "getItem";
@@ -38,7 +57,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getItemResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -54,7 +73,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getItemCollectionResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -66,11 +85,14 @@ public class InventoryWebServiceController {
         final String PQMN  = "getWarehouseItems";
         logger.info(PQMN + " - Start");
         try {
-            return ResponseEntity.ok(this.inventoryService.getInventoryItems(warehouseID));
+            return ResponseEntity.ok(
+                    WarehouseInventoryCollectionResponse.builder()
+                            .inventoryItems(this.inventoryService.getInventoryItems(warehouseID))
+                            .build());
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getWarehouseInventoryCollectionResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -95,7 +117,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getItemOfferResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -126,7 +148,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -146,7 +168,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -154,60 +176,51 @@ public class InventoryWebServiceController {
     }
 
     @RequestMapping(path = "/item/packingtype", method = RequestMethod.POST)
-    public ResponseEntity<IdResponse> addPackingType(@RequestBody PackingType packingType) {
+    public ResponseEntity<ItemProvider> addPackingType(@RequestBody PackingType packingType) {
         final String PQMN  = "addPackingType";
         logger.info(PQMN + " - Start");
         try {
             this.itemService.addPackingType(packingType);
-            return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
-                    .builder()
-                    .id(packingType.getId())
-                    .build());
+            return ResponseEntity.status(HttpStatus.CREATED).body(this.itemService.getProviderData());
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
-            return getErrorMsgResponseEntityForException(ex);
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
+            return getItemProviderResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/item/category", method = RequestMethod.POST)
-    public ResponseEntity<IdResponse> addCategory(@RequestBody Category category) {
+    public ResponseEntity<ItemProvider> addCategory(@RequestBody Category category) {
         final String PQMN  = "addCategory";
         logger.info(PQMN + " - Start");
         try {
             this.itemService.addCategory(category);
-            return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
-                    .builder()
-                    .id(category.getId())
-                    .build());
+            return ResponseEntity.status(HttpStatus.CREATED).body(this.itemService.getProviderData());
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
-            return getErrorMsgResponseEntityForException(ex);
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
+            return getItemProviderResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
         }
     }
 
     @RequestMapping(path = "/item/subcategory", method = RequestMethod.POST)
-    public ResponseEntity<IdResponse> addSubCategory(@RequestBody Subcategory subcategory) {
+    public ResponseEntity<ItemProvider> addSubCategory(@RequestBody Subcategory subcategory) {
         final String PQMN  = "addSubCategory";
         logger.info(PQMN + " - Start");
         try {
             this.itemService.addSubcategory(subcategory);
-            return ResponseEntity.status(HttpStatus.CREATED).body(IdResponse
-                    .builder()
-                    .id(subcategory.getId())
-                    .build());
+            return ResponseEntity.status(HttpStatus.CREATED).body(this.itemService.getProviderData());
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
-            return getErrorMsgResponseEntityForException(ex);
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
+            return getItemProviderResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
         }
@@ -228,7 +241,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -247,7 +260,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -280,7 +293,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -300,7 +313,7 @@ public class InventoryWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getErrorMsgResponseEntityForException(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -322,6 +335,13 @@ public class InventoryWebServiceController {
             status = HttpStatus.BAD_REQUEST;
         }
         return status;
+    }
+
+    private ResponseEntity<ItemProvider> getItemProviderResponseEntityForException(Exception ex) {
+        return ResponseEntity.status(getHTTPStatus(ex)).body(
+                ItemProvider.builder()
+                        .error(getErrorMessage(ex))
+                        .build());
     }
 
     private ResponseEntity<IdResponse > getErrorMsgResponseEntityForException(Exception ex) {

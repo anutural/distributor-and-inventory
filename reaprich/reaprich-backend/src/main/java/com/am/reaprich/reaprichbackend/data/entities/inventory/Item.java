@@ -56,4 +56,10 @@ public class Item {
     @Column(name = "THUMBNAIL")
     private String thumbnailLink;
 
+    public double getPriceForOutletType(OutletType outletType) {
+        if (this.getItemPrices().containsKey(outletType.getId())) {
+            return this.getItemPrices().get(outletType.getId());
+        }
+        return this.getReatilPrice();
+    }
 }

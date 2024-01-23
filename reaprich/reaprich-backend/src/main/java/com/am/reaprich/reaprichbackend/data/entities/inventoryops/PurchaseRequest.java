@@ -1,22 +1,28 @@
 package com.am.reaprich.reaprichbackend.data.entities.inventoryops;
 
+import com.am.reaprich.reaprichbackend.business.pojo.inventoryops.PRRequest;
+import com.am.reaprich.reaprichbackend.business.service.inventory.InventoryOpsService;
+import com.am.reaprich.reaprichbackend.business.service.usermanagement.ActorService;
+import com.am.reaprich.reaprichbackend.data.entities.actors.Outlet;
+import com.am.reaprich.reaprichbackend.data.entities.inventoryops.transactionsprovider.CartEntryStatus;
 import com.am.reaprich.reaprichbackend.data.entities.inventoryops.transactionsprovider.PurchaseRequestStatus;
 import com.am.reaprich.reaprichbackend.data.entities.inventoryops.transactionsprovider.PurchaseRequestType;
+import com.am.reaprich.reaprichbackend.data.entities.inventoryops.transactionsprovider.PRQntPriceHolder;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
 @Table(name = "PURCHASE_REQUEST")
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
 public class PurchaseRequest {
     @Id
     @Column(name = "ID")
@@ -28,21 +34,30 @@ public class PurchaseRequest {
     @Column(name = "PURCHASE_REQUEST_TYPE")
     private PurchaseRequestType purchaseRequestType;
 
-    @Column(name = "REQUEST_FROM")
-    private String requestFromID;
+    @ManyToOne
+    @JoinColumn(name = "REQUEST_FROM")
+    private Outlet requestFrom;
 
-    @Column(name = "REQUEST_TO")
-    private String requestToID;
+    @ManyToOne
+    @JoinColumn(name = "REQUEST_TO")
+    private Outlet requestTo;
 
-    @ElementCollection
-    @MapKeyColumn(name="ITEM")
-    @Column(name="REQUESTED_QUANTITY")
-    @CollectionTable(name="PURCHASE_REQUEST_ITEMS", joinColumns=@JoinColumn(name="REQUEST_ID"))
-    Map<String, Integer> requestedItems;
+    @OneToMany(mappedBy = "purchaseRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PRQntPriceHolder> PRQntPriceHolders;
+
+    public void setPRQntPriceHolders(List<PRQntPriceHolder> PRQntPriceHolders) {
+        for (PRQntPriceHolder PRQntPriceHolder : PRQntPriceHolders) {
+            PRQntPriceHolder.setPurchaseRequest(this);
+        }
+        this.PRQntPriceHolders = PRQntPriceHolders;
+    }
 
     @Column(name = "STATUS")
     private PurchaseRequestStatus status;
 
     @Column(name = "NOTE")
     private String note;
+
+    @Column(name = "IS_UNKNOWN")
+    private boolean isUnknown;
 }

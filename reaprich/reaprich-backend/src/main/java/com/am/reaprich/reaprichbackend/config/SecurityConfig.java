@@ -59,7 +59,9 @@ public class SecurityConfig {
                 .antMatchers( "/v1/inventoryops/purchaserequest/cancel").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
                 .antMatchers( "/v1/inventoryops/itemstransfer/accept").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
 
-
+                .antMatchers( "/v1/inventoryops/cart").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers( "/v1/inventoryops/itemincart").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers( "/v1/inventoryops/itemfromcart").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
 
                 .antMatchers(GET, "/v1/user/**").hasAnyRole(ADMIN.name(),TD.name())
                 //.antMatchers(POST, "/v1/user/**").hasAnyRole(ADMIN.name())
@@ -113,6 +115,11 @@ public class SecurityConfig {
                 .antMatchers(POST, "/v1/inventoryops/purchaserequest").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
                 .antMatchers(PUT, "/v1/inventoryops/purchaserequest/cancel").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
                 .antMatchers(PUT, "/v1/inventoryops/itemstransfer/accept").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+
+                .antMatchers(GET, "/v1/inventoryops/cart").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(POST, "/v1/inventoryops/itemincart").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(PUT, "/v1/inventoryops/itemincart").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
+                .antMatchers(PUT, "/v1/inventoryops/itemfromcart").hasAnyRole(SP_OUTLET.name(), OUTLET.name(), ADMIN.name())
 
                 .antMatchers("/v1/user/**").hasAnyRole(ADMIN.name())
                 .antMatchers("/v1/provider/**").hasAnyRole(ADMIN.name())

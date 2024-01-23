@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.Arrays;
+
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.POST})
@@ -37,12 +39,12 @@ public class SelfManagementWebSericeController {
         }
         catch (IllegalArgumentException ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getOutletDetailRespForBadRequestError(ex);
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return  getOutletDetailRespForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -60,7 +62,7 @@ public class SelfManagementWebSericeController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return  getTDDetailRespForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -79,12 +81,12 @@ public class SelfManagementWebSericeController {
         }
         catch (IllegalArgumentException ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getOutletDetailRespForBadRequestError(ex);
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return  getOutletDetailRespForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -103,7 +105,7 @@ public class SelfManagementWebSericeController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return  getTDDetailRespForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -121,12 +123,12 @@ public class SelfManagementWebSericeController {
         }
         catch (IllegalArgumentException ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return  ResponseEntity.internalServerError().body(ex.getMessage());
         } finally {
             logger.info(PQMN + " - End");

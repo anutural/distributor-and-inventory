@@ -11,6 +11,7 @@ import com.am.reaprich.reaprichbackend.data.repositories.inventory.ItemRepositor
 import com.am.reaprich.reaprichbackend.data.repositories.inventory.inventoryprovider.CategoryRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.inventory.inventoryprovider.PackingTypeRepository;
 import com.am.reaprich.reaprichbackend.data.repositories.inventory.inventoryprovider.SubcategoryRepository;
+import com.sun.xml.bind.v2.runtime.reflect.Lister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,14 @@ public class ItemService {
     @Autowired
     private ItemOfferRepository itemOfferRepository;
 
+    public ItemProvider getProviderData() throws Exception{
+        return ItemProvider.builder()
+                .categories(getAllCategories())
+                .subcategories(getAllSubcategories())
+                .packingTypes(getAllPackingTypes())
+                .build();
+    }
+
     public Item getItem(String id) throws Exception{
         Optional<Item> optionalItem = this.itemRepository.findById(id);
 
@@ -49,6 +58,9 @@ public class ItemService {
         return ItemCollectionResponse.builder().items(new ItemFilter().doFilter(this.itemRepository, allItemRequest)).build();
     }
 
+    public Iterable<Category> getAllCategories() {
+        return this.categoryRepository.findAll();
+    }
     private Category getCategoryById(String categoryID) {
         Optional<Category> optionalCategory = this.categoryRepository.findById(categoryID);
         if (optionalCategory.isEmpty()) {
@@ -57,6 +69,9 @@ public class ItemService {
         return optionalCategory.get();
     }
 
+    private Iterable<Subcategory> getAllSubcategories() {
+        return this.subcategoryRepository.findAll();
+    }
     private Subcategory getSubcategoryById(String subcategoryID) {
         Optional<Subcategory> optionalSubcategory = this.subcategoryRepository.findById(subcategoryID);
         if (optionalSubcategory.isEmpty()) {
@@ -65,6 +80,9 @@ public class ItemService {
         return optionalSubcategory.get();
     }
 
+    private Iterable<PackingType> getAllPackingTypes() {
+        return this.packingTypeRepository.findAll();
+    }
     private PackingType getPackingTypeById(String packingTypeId) {
         Optional<PackingType> optionalPackingType = this.packingTypeRepository.findById(packingTypeId);
         if (optionalPackingType.isEmpty()) {

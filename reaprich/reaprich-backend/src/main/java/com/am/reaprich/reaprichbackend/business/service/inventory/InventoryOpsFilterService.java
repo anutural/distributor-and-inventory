@@ -12,6 +12,7 @@ import com.am.reaprich.reaprichbackend.data.repositories.inventoryops.PurchaseRe
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.cfg.annotations.reflection.internal.XMLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,9 @@ import java.util.stream.StreamSupport;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class InventoryOpsFilterService {
+    @Autowired
     private PurchaseRequestRepository purchaseRequestRepository;
+    @Autowired
     private ItemTransferRepository itemTransferRepository;
 
     public List<PurchaseRequest> getAllPurchaseRequestsByFilter (AllPurchaseRequestsReq allPurchaseRequestsReq) throws  Exception{

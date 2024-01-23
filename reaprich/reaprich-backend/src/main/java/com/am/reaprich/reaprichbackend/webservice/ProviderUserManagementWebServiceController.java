@@ -18,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.POST})
 @RequestMapping("/v1/provider")
@@ -45,7 +47,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -62,7 +64,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -80,7 +82,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -97,7 +99,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -114,7 +116,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -131,7 +133,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -149,7 +151,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");
@@ -166,7 +168,7 @@ public class ProviderUserManagementWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getUserManagementProviderForInternalServerError(ex);
         }finally {
             logger.info(PQMN + " - End");

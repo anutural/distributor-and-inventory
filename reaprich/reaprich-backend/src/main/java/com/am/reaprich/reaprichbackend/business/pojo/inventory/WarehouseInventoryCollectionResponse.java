@@ -7,12 +7,13 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class WarehouseInventoryCollectionResponse {
-    List<WarehouseInventory> inventoryItems;
+    Map<String,List<WarehouseInventory>> inventoryItems;
     String error;
 }

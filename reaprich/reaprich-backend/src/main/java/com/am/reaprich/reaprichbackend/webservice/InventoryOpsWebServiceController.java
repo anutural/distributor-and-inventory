@@ -3,6 +3,7 @@ package com.am.reaprich.reaprichbackend.webservice;
 import com.am.reaprich.reaprichbackend.business.pojo.IdResponse;
 import com.am.reaprich.reaprichbackend.business.pojo.inventoryops.*;
 import com.am.reaprich.reaprichbackend.business.service.inventory.InventoryOpsService;
+import com.am.reaprich.reaprichbackend.data.entities.inventoryops.CartEntry;
 import com.am.reaprich.reaprichbackend.data.entities.inventoryops.ItemTransfer;
 import com.am.reaprich.reaprichbackend.data.entities.inventoryops.PurchaseRequest;
 import com.am.reaprich.reaprichbackend.data.entities.inventoryops.transactionsprovider.PurchaseRequestStatus;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.InsufficientResourcesException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -24,7 +27,7 @@ public class InventoryOpsWebServiceController {
     private InventoryOpsService inventoryOpsService;
 
     @GetMapping("/purchaserequest")
-    public ResponseEntity<PurchaseRequestResponse> getPurchaseRequest(String purchaseRequestID) {
+    public ResponseEntity<PurchaseRequestResponse> getPurchaseRequest(@RequestParam  String purchaseRequestID) {
         final String PQMN  = "getPurchaseRequest";
         logger.info(PQMN + " - Start");
         try {
@@ -36,7 +39,7 @@ public class InventoryOpsWebServiceController {
                             .build());
         } catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getPurchaseRequestResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -44,7 +47,7 @@ public class InventoryOpsWebServiceController {
     }
 
     @PostMapping("/allpurchaserequests")
-    public ResponseEntity<PurchaseRequestCollectionResponse> getAllPurchaseRequests(AllPurchaseRequestsReq allPurchaseRequestsReq) {
+    public ResponseEntity<PurchaseRequestCollectionResponse> getAllPurchaseRequests(@RequestBody AllPurchaseRequestsReq allPurchaseRequestsReq) {
         final String PQMN  = "getAllPurchaseRequests";
         logger.info(PQMN + " - Start");
         try {
@@ -55,7 +58,7 @@ public class InventoryOpsWebServiceController {
                             .build());
         } catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getPurchaseRequestCollectionResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -63,7 +66,7 @@ public class InventoryOpsWebServiceController {
     }
 
     @GetMapping("/itemstransfer")
-    public ResponseEntity<ItemTransferResponse> getItemTransfer (String itemTransferID) {
+    public ResponseEntity<ItemTransferResponse> getItemTransfer (@RequestParam  String itemTransferID) {
         final String PQMN  = "getItemTransfer";
         logger.info(PQMN + " - Start");
         try {
@@ -75,7 +78,7 @@ public class InventoryOpsWebServiceController {
                             .build());
         } catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getItemTransferResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -83,7 +86,7 @@ public class InventoryOpsWebServiceController {
     }
 
     @PostMapping("/allitemstransfer")
-    public ResponseEntity<ItemTransferCollectionResponse> getAllItemTransfer (AllItemTransferRequest allItemTransferRequest) {
+    public ResponseEntity<ItemTransferCollectionResponse> getAllItemTransfer (@RequestBody AllItemTransferRequest allItemTransferRequest) {
         final String PQMN  = "getAllItemTransfer";
         logger.info(PQMN + " - Start");
         try {
@@ -95,31 +98,92 @@ public class InventoryOpsWebServiceController {
                             .build());
         } catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getItemTransferCollectionResponseEntityForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
         }
     }
 
+    @GetMapping("/cart")
+    public ResponseEntity<CartEntriesResponse> getCart(@RequestParam String outletID) {
+        final String PQMN =  "getCart";
+        logger.info(PQMN + "Start");
+        try {
+            List<CartEntry> cartEntries = this.inventoryOpsService.getCartEntriesForOutlet(outletID);
+            return ResponseEntity.status(HttpStatus.OK).body(CartEntriesResponse.builder().cartEntries(cartEntries).build());
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
+            return  getCartEntriesResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + "End");
+        }
+    }
+
+    @PostMapping("/itemincart")
+    public ResponseEntity<IdResponse> addItemIntoCart(@RequestBody CartEntry cartEntrie) {
+        final String PQMN =  "addItemIntoCart";
+        logger.info(PQMN + "Start");
+        try {
+            String cartEntryID = this.inventoryOpsService.addItemIntoCart(cartEntrie);
+            return ResponseEntity.status(HttpStatus.OK).body(IdResponse.builder().id(cartEntryID).build());
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
+            return  getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + "End");
+        }
+    }
+    @PutMapping("/itemfromcart")
+    public ResponseEntity<IdResponse> removeEntryFromCart(@RequestParam String cartEntryID) {
+        final String PQMN =  "removeEntryFromCart";
+        logger.info(PQMN + "Start");
+        try {
+            this.inventoryOpsService.removeEntryFromCart(cartEntryID);
+            return ResponseEntity.status(HttpStatus.OK).body(IdResponse.builder().id("Success").build());
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
+            return  getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + "End");
+        }
+    }
+    @PutMapping("/itemincart")
+    public ResponseEntity<IdResponse> updateItemInCart(@RequestBody CartEntry cartEntrie) {
+        final String PQMN =  "updateItemInCart";
+        logger.info(PQMN + "Start");
+        try {
+            String id = this.inventoryOpsService.updateItemIntoCart(cartEntrie);
+            return ResponseEntity.status(HttpStatus.OK).body(IdResponse.builder().id(id).build());
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
+            return  getIDResponseForInternalServerError(ex);
+        } finally {
+            logger.info(PQMN + "End");
+        }
+    }
+
 
     @PostMapping("/purchaserequest")
-    public ResponseEntity<IdResponse> addPurchaseRequest(PurchaseRequest purchaseRequest) {
+    public ResponseEntity<IdResponse> addPurchaseRequest(@RequestBody PRRequest prRequest) {
         final String PQMN  = "addPurchaseRequest";
         logger.info(PQMN + " - Start");
-        String id = java.util.UUID.randomUUID().toString();
-        purchaseRequest.setId(id);
         try {
+            PurchaseRequest purchaseRequest = this.inventoryOpsService.generatePurchaseRequest(prRequest);
             this.inventoryOpsService.addPurchaseRequest(purchaseRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     IdResponse
                             .builder()
-                            .id(id)
+                            .id(purchaseRequest.getId())
                             .build());
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return  getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -127,12 +191,12 @@ public class InventoryOpsWebServiceController {
     }
 
     @PostMapping("/itemstransfer")
-    public ResponseEntity<IdResponse> addItemTransfer(ItemTransfer itemTransfer) {
+    public ResponseEntity<IdResponse> addItemTransfer(@RequestBody ItemTransfer itemTransfer) {
         final String PQMN  = "addItemTransfer";
         logger.info(PQMN + " - Start");
         String id = java.util.UUID.randomUUID().toString();
         itemTransfer.setId(id);
-        itemTransfer.setUnknown(false);
+
         try {
             this.inventoryOpsService.addItemTransfer(itemTransfer);
             return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -143,7 +207,7 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return  getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -151,7 +215,7 @@ public class InventoryOpsWebServiceController {
     }
 
     @PostMapping("/itemstransfertounknown")
-    public ResponseEntity<IdResponse> addItemTransferToUnknown(ItemTransfer itemTransfer) {
+    public ResponseEntity<IdResponse> addItemTransferToUnknown(@RequestBody ItemTransfer itemTransfer) {
         final String PQMN  = "addItemTransferToUnknown";
         logger.info(PQMN + " - Start");
         String id = java.util.UUID.randomUUID().toString();
@@ -167,7 +231,7 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return  getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -175,7 +239,7 @@ public class InventoryOpsWebServiceController {
     }
 
     @PutMapping("/purchaserequest/cancel")
-    public ResponseEntity<IdResponse> cancelPurchaseRequest(String purchaseRequestID) {
+    public ResponseEntity<IdResponse> cancelPurchaseRequest(@RequestBody String purchaseRequestID) {
         final String PQMN  = "cancelPurchaseRequest";
         logger.info(PQMN + " - Start");
         try {
@@ -188,40 +252,22 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
         }
     }
 
-    @PutMapping("/itemstransfer/reject")
-    public ResponseEntity<IdResponse> rejectItemTransfer(String itemTransferID) {
+    @PutMapping("/itemstransfer/updatestatus")
+    public ResponseEntity<IdResponse> updateItemTransferStatus(@RequestBody ItemTransferUpdateStatusRequest itemTransferUpdateStatusRequest) {
         final String PQMN  = "rejectItemTransfer";
         logger.info(PQMN + " - Start");
         try {
-            this.inventoryOpsService.rejectItemTransfer(itemTransferID);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    IdResponse
-                            .builder()
-                            .id("Success")
-                            .build());
-        }
-        catch (Exception ex) {
-            logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
-            return getIDResponseForInternalServerError(ex);
-        } finally {
-            logger.info(PQMN + " - End");
-        }
-    }
+            this.inventoryOpsService.updatePurchaseRequestStatusInItemTransfer(
+                    itemTransferUpdateStatusRequest.getItemTransferID()
+                    , itemTransferUpdateStatusRequest.getPurchaseRequestStatus());
 
-    @PutMapping("/itemstransfer/accept")
-    public ResponseEntity<IdResponse> acceptItemTransfer(String itemTransferID) {
-        final String PQMN  = "acceptItemTransfer";
-        logger.info(PQMN + " - Start");
-        try {
-            this.inventoryOpsService.acceptItemTransfer(itemTransferID);
             return ResponseEntity.status(HttpStatus.OK).body(
                     IdResponse
                             .builder()
@@ -230,7 +276,7 @@ public class InventoryOpsWebServiceController {
         }
         catch (Exception ex) {
             logger.error(ex.toString());
-            logger.info(ex.getStackTrace().toString());
+            Arrays.stream(ex.getStackTrace()).iterator().forEachRemaining(x -> logger.error(x.toString()));
             return getIDResponseForInternalServerError(ex);
         } finally {
             logger.info(PQMN + " - End");
@@ -239,7 +285,7 @@ public class InventoryOpsWebServiceController {
 
     private String getErrorMessage(Exception ex) {
         String error = "Something went wrong";
-        if (ex.getClass() == IllegalArgumentException.class) {
+        if (ex.getClass() == IllegalArgumentException.class || ex.getClass() == InsufficientResourcesException.class) {
             error = ex.getMessage();
         }
         return error;
@@ -248,6 +294,8 @@ public class InventoryOpsWebServiceController {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (ex.getClass() == IllegalArgumentException.class) {
             status = HttpStatus.BAD_REQUEST;
+        } else if (ex.getClass() == InsufficientResourcesException.class) {
+            status = HttpStatus.NOT_ACCEPTABLE;
         }
         return status;
     }
@@ -290,6 +338,15 @@ public class InventoryOpsWebServiceController {
     private ResponseEntity<PurchaseRequestCollectionResponse> getPurchaseRequestCollectionResponseEntityForInternalServerError(Exception ex) {
         return ResponseEntity.status(getHTTPStatus(ex)).body(
                 PurchaseRequestCollectionResponse
+                        .builder()
+                        .error(getErrorMessage(ex))
+                        .build()
+        );
+    }
+
+    private ResponseEntity<CartEntriesResponse> getCartEntriesResponseForInternalServerError(Exception ex) {
+        return ResponseEntity.status(getHTTPStatus(ex)).body(
+                CartEntriesResponse
                         .builder()
                         .error(getErrorMessage(ex))
                         .build()

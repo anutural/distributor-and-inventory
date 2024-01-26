@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
-  images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+  //images = "../../assets/images/home-image-1.png";
+   images = [944, 1011, 984].map((n) => `../../assets/images/home-image-1.png`);
 
 }

@@ -1,0 +1,105 @@
+<form class="item-form" [formGroup]="addItemForm" #formMine="ngForm" (ngSubmit)="onAddItem(formMine.value)">
+
+    <h1>Add Item</h1>
+
+    <table class="item-full-width" cellspacing="0">
+        <tr>
+            <td>
+                <mat-form-field class="item-full-width">
+                    <mat-label>Item Name</mat-label>
+                    <input matInput placeholder="Item Name"  class="form-control"  formControlName="name" />
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="outlet-full-width" formGroupName="packingType">
+                    <mat-label>Packing Type</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let pt of itemProviderInfo.packingTypes" [value]="pt.id">{{
+                            pt.packingType }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <mat-form-field class="outlet-full-width" formGroupName="category">
+                    <mat-label>Category</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let category of itemProviderInfo.categories" [value]="category.id">{{
+                            category.category }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="outlet-full-width" formGroupName="subcategory">
+                    <mat-label>Sub Category</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let subcategory of itemProviderInfo.subcategories" [value]="subcategory.id">{{
+                            subcategory.subcategory }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </tr>
+
+        <tr>                         
+                <div class="item-full-width" formGroupName="itemPrices">
+                    <mat-label>Item Prices</mat-label>
+                    <mat-form-field class="item-full-width">
+                        <mat-label>GL</mat-label>
+                        <input matInput placeholder="130" formControlName="gl" />
+                    </mat-form-field>
+                    <mat-form-field class="item-full-width">
+                        <mat-label>PL</mat-label>
+                        <input matInput placeholder="120" formControlName="pl" />
+                    </mat-form-field>
+                    <mat-form-field class="item-full-width">
+                        <mat-label>SL</mat-label>
+                        <input matInput placeholder="120" formControlName="sl" />
+                    </mat-form-field>
+                </div>                        
+        </tr>
+
+        <tr>
+            <td>
+                <mat-form-field class="item-full-width">
+                    <mat-label>Retail Price</mat-label>
+                    <input matInput class="form-control" formControlName="reatilPrice"  placeholder="Retail Price">
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="item-full-width">
+                    <mat-label>Picture Link</mat-label>
+                    <input matInput class="form-control" formControlName="pictureLink" placeholder="Picture Link" >
+                </mat-form-field>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+            <mat-form-field class="item-full-width">
+                <mat-label>Thumbnail Link</mat-label>
+                <input matInput placeholder="Thumbnail Link" class="form-control" formControlName="thumbnailLink">
+            </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="item-full-width">
+                    <mat-label>GST Price</mat-label>
+                    <input matInput class="form-control" formControlName="gstprice"  placeholder="GST Price">
+                </mat-form-field>   
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <!-- <button mat-stroked-button (click)="openPopUpForCustomerAddress()" type="button">Add Item
+                    Address</button> -->
+
+            </td>
+        </tr>
+
+    </table>
+    <hr>
+    <pre></pre>
+    <button class="item-full-width" mat-raised-button color="warn" >Add Item</button>
+</form>

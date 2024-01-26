@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAccessToken, IOutlet, IOutletType } from '../data-type';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { IAccessToken, IOutlet, IOutletType } from '../data-type';
 export class OutletService {
 
   accessTokenObject: IAccessToken | undefined;
-
+  m_hostURL = environment.hostURL;
   constructor(private http: HttpClient) { }
 
   getOutletTypes() {
@@ -30,7 +31,7 @@ export class OutletService {
 
     //the post request
     return await this.http.post<IOutlet[]>(
-      'http://localhost:8080/v1/user/actor/outlet', data, httpOptions
+      this.m_hostURL + 'user/actor/outlet', data, httpOptions
     )
   }
 
@@ -54,8 +55,7 @@ export class OutletService {
       "filter":"",
       "subFilter":""
     }
- 
-    console.warn("myData : ", data);
-    return this.http.post<IOutlet[]>('http://localhost:8080/v1/user/actor/alloutlets', data ,httpOptions);
+    
+    return this.http.post<IOutlet[]>(this.m_hostURL + 'user/actor/alloutlets', data ,httpOptions);
   }
 }

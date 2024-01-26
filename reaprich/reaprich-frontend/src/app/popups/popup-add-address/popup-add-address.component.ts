@@ -13,6 +13,7 @@ import { CustomerService } from 'src/app/services/customer.service';
 })
 export class PopupAddAddressComponent {
   addressForm!: FormGroup;
+
   
   constructor(public dialogRef: MatDialogRef<PopupAddAddressComponent>, 
     @Inject(MAT_DIALOG_DATA) public dataPassed, 
@@ -49,13 +50,9 @@ export class PopupAddAddressComponent {
     
     let addUUID = this.getFromLocalStorage(this.dataPassed.addUuidVal)
     if(addUUID){
-      this.customerService.getCustomerByUUID(addUUID).subscribe((result => {
+      this.customerService.getCustomerAddressByUUID(addUUID).subscribe((result => {
         if(result) {
           let servResp = result as IAddressServerResponse;  
-          console.warn('servResp.address.dist', servResp.address.dist)
-          //this.addressForm = servResp.address
-          console.warn('myres', servResp.address)
-
           let destrictResp = result.address.dist as IDistrict;
           let zoneResp = result.address.zone as IZone;
           let stateResp = result.address.state as IState;

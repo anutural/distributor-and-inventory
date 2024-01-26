@@ -1,0 +1,59 @@
+<form [formGroup]="kycDetailForm" (ngSubmit)="addWarehouseInventoryItems(kycDetailForm.value)">
+    <h1 mat-dialog-title>Add Warehouse Item ({{dataPassed.outletName}})</h1>
+
+    
+    <div mat-dialog-content>
+        <table class="outlet-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width" formGroupName="item">
+                        <mat-label>Select Item</mat-label>
+                        <mat-select formControlName="id" >
+                            <mat-option *ngFor="let item of itemList" [value]="item.id">{{ item.name }}</mat-option>
+                        </mat-select>  
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Batch Number</mat-label>
+                        <input matInput formControlName="batchNumber" class="form-control">
+                    </mat-form-field>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>MFG Date</mat-label>
+                        <input matInput formControlName="mfgDate" class="form-control">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Exp Date</mat-label>                        
+                        <input matInput formControlName="expDate" class="form-control">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>State</mat-label>
+                        <input matInput formControlName="state" class="form-control">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="outlet-full-width">
+                        <mat-label>Quantity</mat-label>
+                        <input matInput formControlName="quantity" class="form-control">
+                    </mat-form-field>
+                </td>
+            </tr>                 
+        </table>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary" type="submit" > Save</button>
+        <button mat-raised-button color="warn" type="button" (click)="closePopUp()">Close</button>
+        <!-- <button  mat-raised-button color="accent" [mat-dialog-close] = "closeMessage">Cancel</button> -->
+    </div>
+</form>

@@ -18,9 +18,9 @@ export class CustomerEditComponent {
   ngOnInit(): void {
     let customerId = this.route.snapshot.paramMap.get('id');
     console.warn(customerId);
-    customerId && this.customerService.getCustomer(customerId).subscribe((data) => {      
-      this.customerData = data;
-    })
+    // customerId && this.customerService.getCustomer(customerId).subscribe((data) => {      
+    //   //this.customerData = data;
+    // })
   }
 
   submit(customer:ICustomer){    

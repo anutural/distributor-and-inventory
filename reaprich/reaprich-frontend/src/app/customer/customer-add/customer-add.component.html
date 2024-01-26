@@ -1,17 +1,17 @@
 <form class="customer-form" [formGroup]="addCustomerForm" #formMine="ngForm" (ngSubmit)="onAddCustomer(formMine.value)">
 
-    <h1>Add New Customer</h1>
+    <h1>Add/Update Customer</h1>
 
     <table class="customer-full-width" cellspacing="0">
         <tr>
             <td>
-                <mat-form-field class="customer-full-width" formGroupName="Actor_Type">
+                <mat-form-field class="customer-full-width" formGroupName="actorType">
                     <mat-label>Actor Type (disabled)</mat-label>
                     <input matInput value="Customer" formControlName="id" />
                 </mat-form-field>
             </td>
             <td>
-                <mat-form-field formGroupName="Customer_Type">
+                <mat-form-field formGroupName="customerType">
                     <mat-label>Customer Type</mat-label>
                     <mat-select formControlName="id">
                         <mat-option *ngFor="let customerType of providerInfo.customerType" [value]="customerType.id">{{
@@ -26,13 +26,13 @@
             <td>
                 <mat-form-field class="customer-full-width">
                     <mat-label>First Name</mat-label>
-                    <input matInput class="form-control" formControlName="Customer_F_Name">
+                    <input matInput class="form-control" formControlName="firstName">
                 </mat-form-field>
             </td>
             <td>
                 <mat-form-field class="customer-full-width">
                     <mat-label>Last Name</mat-label>
-                    <input matInput class="form-control" formControlName="Customer_L_Name">
+                    <input matInput class="form-control" formControlName="lastName">
                 </mat-form-field>
             </td>
         </tr>
@@ -40,7 +40,7 @@
         <tr>
             <mat-form-field class="customer-full-width">
                 <mat-label>Contact Number</mat-label>
-                <input matInput class="form-control" formControlName="Customer_Contact_Number">
+                <input matInput class="form-control" formControlName="contactNumber">
             </mat-form-field>
         </tr>
         <tr>
@@ -57,5 +57,5 @@
     </table>
     <hr>
     <pre></pre>
-    <button type="submit" class="customer-full-width" mat-raised-button color="warn">Add Customer</button>
+    <button class="customer-full-width" mat-raised-button color="warn" >Add Customer</button>
 </form>

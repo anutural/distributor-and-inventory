@@ -10,9 +10,20 @@ import { UserService } from '../services/user.service';
 })
 export class HeaderComponent {
   menuType: string = 'default';
+  isUserLoggedIn : boolean = false;
   
 
-  constructor(private route : Router, private customerService : CustomerService, private userService: UserService){}
+  constructor(private route : Router, private customerService : CustomerService, private userService: UserService){
+    this.userService.isUserLoggedIn.subscribe((result) => {      
+      if (result) {
+        this.isUserLoggedIn = true;
+      }
+      else
+      {
+        this.isUserLoggedIn = false;        
+      }
+    });
+  }
 
 
   ngOnInit(): void {    
@@ -21,7 +32,8 @@ export class HeaderComponent {
         
         if(localStorage.getItem('usersreaprich'))
         {
-          this.menuType = 'admin';          
+          this.menuType = 'admin';  
+          this.isUserLoggedIn = true;        
         }
         else{
           this.menuType = 'default';
@@ -31,6 +43,7 @@ export class HeaderComponent {
   }
 
   logout(){
+    this.isUserLoggedIn = false;  
     localStorage.removeItem('usersreaprich');  
     localStorage.removeItem('providerInfo');
     this.route.navigate(['/']);    

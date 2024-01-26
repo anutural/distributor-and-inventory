@@ -1,0 +1,158 @@
+<h1>Add Location</h1>
+
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup" >
+        <form [formGroup]="firstFormGroup" (ngSubmit)="onAddCountry(formMine.value)" #formMine="ngForm">
+            <p class="error-p">{{errorMessage}}</p>
+            <ng-template matStepLabel>Add Country</ng-template>
+            <div>
+                <mat-form-field>
+                    <mat-label>Country ID</mat-label>
+                    <input matInput formControlName="id" placeholder="Ex. IND" required>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>Country Name</mat-label>
+                    <input matInput formControlName="name" placeholder="Ex. India, Sri Lanka!" required>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup"  (ngSubmit)="onAddState(formMineSecond.value)" #formMineSecond="ngForm">
+            <ng-template matStepLabel>Add State</ng-template>
+
+            <div>
+                <mat-form-field class="outlet-full-width" formGroupName="country">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let country of providerInfo.addCountryList" [value]="country.id">{{
+                            country.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field>
+                    <mat-label>State ID</mat-label>
+                    <input matInput formControlName="id" placeholder="Ex. IND" required>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field>
+                    <mat-label>State Name</mat-label>
+                    <input matInput formControlName="name" placeholder="Ex. Rajasthan, Gujarat" required>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup" >
+        <form [formGroup]="thirdFormGroup"   (ngSubmit)="onAddZone(formMineThird.value)" #formMineThird="ngForm">
+            <ng-template matStepLabel>Add Zone</ng-template>
+            <div>
+                <mat-form-field class="outlet-full-width" formGroupName="country">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let country of providerInfo.addCountryList" [value]="country.id">{{
+                            country.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="outlet-full-width" formGroupName="state">
+                    <mat-label>State</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let state of providerInfo.addStateList" [value]="state.id">{{
+                            state.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field>
+                    <mat-label>Zone ID</mat-label>
+                    <input matInput formControlName="id" placeholder="Ex. IND" required>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field>
+                    <mat-label>Zone Name</mat-label>
+                    <input matInput formControlName="name" placeholder="Ex. North Gujarat" required>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="fourthFormGroup" >
+        <form [formGroup]="fourthFormGroup" (ngSubmit)="onAddDistrict(formMineFourth.value)" #formMineFourth="ngForm">
+            <ng-template matStepLabel>Add District</ng-template>
+            <div>
+                <mat-form-field class="outlet-full-width" formGroupName="country">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let country of providerInfo.addCountryList" [value]="country.id">{{
+                            country.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="outlet-full-width" formGroupName="state">
+                    <mat-label>State</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let state of providerInfo.addStateList" [value]="state.id">{{
+                            state.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="outlet-full-width" formGroupName="zone">
+                    <mat-label>Zone</mat-label>
+                    <mat-select formControlName="id">
+                        <mat-option *ngFor="let zone of providerInfo.addZoneList" [value]="zone.id">{{
+                            zone.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field>
+                    <mat-label>District ID</mat-label>
+                    <input matInput formControlName="id" placeholder="Ex. VDR" required>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field>
+                    <mat-label>District Name</mat-label>
+                    <input matInput formControlName="name" placeholder="Ex. Vadodara" required>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>Your details are saved successfully. Click on Reset to add another.</p>
+        <div>
+            <!-- <button mat-button matStepperPrevious>Back</button> -->
+            <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+    </mat-step>
+</mat-stepper>

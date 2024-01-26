@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IAccessToken, IAddress, IAddressServerResponse, ICustomer } from '../data-type';
+import { IAccessToken, IAddress, IAddressServerResponse, ICustomer, ICustomerResponse, ICustomerServerResponse } from '../data-type';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { IAccessToken, IAddress, IAddressServerResponse, ICustomer } from '../da
 
 export class CustomerService {
   accessTokenObject: IAccessToken | undefined;
-
+  m_hostURL = environment.hostURL;
   constructor(private http: HttpClient) { }
 
   async addCustomer(data: ICustomer){
@@ -22,13 +23,50 @@ export class CustomerService {
          headers: headers
        };    
     return await this.http.post<ICustomer[]>(
-      'http://localhost:8080/v1/user/actor/customer', data, httpOptions
+      this.m_hostURL + 'user/actor/customer', data, httpOptions
     )
   }
 
-  customerList(){
-    return this.http.get<ICustomer[]>('http://localhost:3000/customers');
+  async editCustomer(data: ICustomer){
+    //read the token from local storage.
+    this.accessTokenObject = JSON.parse(localStorage.getItem("usersreaprich") ?? "access_token") as IAccessToken;
+    //header
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this.accessTokenObject.access_token);
+    headers = headers.append('Content-Type', 'application/json; charset=utf-8');
+    const httpOptions = {
+      headers: headers
+    };    
+ return await this.http.put<ICustomer[]>(
+   this.m_hostURL + 'user/actor/customer', data, httpOptions
+ )
+}  
+
+  customerList() {
+    //read the token from local storage.
+    this.accessTokenObject = JSON.parse(localStorage.getItem("usersreaprich") ?? "access_token") as IAccessToken;
+
+
+    //header
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this.accessTokenObject.access_token);
+    headers = headers.append('Content-Type', 'application/json; charset=utf-8');
+
+    const httpOptions = {
+      headers: headers
+    };
+
+
+    const data: JSON = <JSON><unknown>{
+      "actorFilterBy": "NONE",
+      "filter": "",
+      "subFilter": ""
+    }
+    
+    return this.http.post<ICustomerResponse>(this.m_hostURL + 'user/actor/allcustomers', data, httpOptions);
+
   }
+  
 
   
   deleteCustomer(id: number) {    
@@ -36,14 +74,23 @@ export class CustomerService {
   }
 
   getCustomer(id: string) {
-    return this.http.get<ICustomer>(`http://localhost:3000/customer`);
+    //read the token from local storage.
+     this.accessTokenObject = JSON.parse(localStorage.getItem("usersreaprich") ?? "access_token") as IAccessToken;
+     //header
+     let headers = new HttpHeaders();
+     headers = headers.set('Authorization', 'Bearer ' + this.accessTokenObject.access_token);
+     headers = headers.append('Content-Type', 'application/json; charset=utf-8');
+     const httpOptions = {
+       headers: headers
+     };         
+    return this.http.get<ICustomerServerResponse>(this.m_hostURL + 'user/actor/customer?customerID=' + id, httpOptions);            
   }
 
   updateCustomer(customer: ICustomer){
     return this.http.put<ICustomer>(`http://localhost:3000/customers/${customer.id}`, customer);
   }
 
-  getCustomerByUUID(custAddId : string){
+  getCustomerAddressByUUID(custAddId : string){
     //read the token from local storage.
      this.accessTokenObject = JSON.parse(localStorage.getItem("usersreaprich") ?? "access_token") as IAccessToken;
      //header
@@ -53,7 +100,7 @@ export class CustomerService {
      const httpOptions = {
        headers: headers
      };    
-    return this.http.get<IAddressServerResponse>('http://localhost:8080/v1/user/address?addressID=' + custAddId, httpOptions);
-    //return this.http.get<ICustomer>('http://localhost:3000/customers');
+    return this.http.get<IAddressServerResponse>(this.m_hostURL + 'user/address?addressID=' + custAddId, httpOptions);    
   }
+
 }

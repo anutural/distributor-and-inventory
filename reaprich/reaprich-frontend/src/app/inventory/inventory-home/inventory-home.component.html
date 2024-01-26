@@ -1,0 +1,13 @@
+<h1>Inventory Home</h1>
+
+<div>
+    <div>
+        <mat-grid-list cols="4" rowHeight="1:2">
+            <mat-grid-tile (click)="clickAddItemDetails($event)">Item Details</mat-grid-tile>
+            <mat-grid-tile (click)="clickAddItem($event)">Item</mat-grid-tile>
+            <mat-grid-tile (click)="clickWarehouse($event)">Warehouse</mat-grid-tile>
+            <mat-grid-tile (click)="clickOrders($event)">Orders</mat-grid-tile>
+        </mat-grid-list>
+    </div>    
+</div>
+

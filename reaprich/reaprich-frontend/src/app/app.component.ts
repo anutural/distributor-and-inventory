@@ -9,8 +9,6 @@ import { CommonService } from './services/common.service';
 export class AppComponent {
   title = 'reaprich-frontend';
 
-  constructor(private commonService : CommonService){
-    console.warn('here at start');
-    commonService.getProviderInfo();
+  constructor(private commonService : CommonService){            
   }
 }

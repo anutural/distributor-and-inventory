@@ -1,0 +1,7 @@
+mat-grid-tile {
+    background: lightseagreen;
+    font-size: x-large;
+    color: azure;
+    cursor: pointer
+    /* height: 200px; */
+  }

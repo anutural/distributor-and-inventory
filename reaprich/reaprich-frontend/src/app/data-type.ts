@@ -13,28 +13,27 @@ export interface ISignUp{
 
 export interface ICustomer{
     id: string, // PK
-    Actor_Type: {id : string | undefined}, //FK
-    Customer_Type: {id : string | undefined}, //FK
-    Customer_F_Name: string,
-    Customer_L_Name: string,
-    Customer_Contact_Number: string,
-    Customer_Add: {id : string | undefined}
+    actorType: {id : string | undefined}, //FK
+    customerType: {id : string | undefined}, //FK
+    firstName: string,
+    lastName: string,
+    contactNumber: string,
+    address: {id : string | undefined}
 }
 
 
 export interface ITeamDev {
     id: string,//PK
-    Actor_Type: {id : string | undefined}, //FK
-    TD_F_Name: string,
-    TD_L_Name: string,
-    TD_Contact_No: number,
-    TD_PAN: string,
-    TD_KYC :  {id : string | undefined}
-    TD_Add:  {id : string | undefined}
-    TD_Bank:  {id : string | undefined}
-    Email : string,
-    Password: string,
-    Status: string
+    actorType: {id : string | undefined}, //FK
+    firstName: string,
+    lastName: string,
+    contactNumber: number,
+    PAN: string,
+    KYC :  {id : string | undefined}
+    address:  {id : string | undefined}
+    bankDetails:  {id : string | undefined}
+    email : string,
+    password: string,
 }
 
 
@@ -63,6 +62,21 @@ export interface IOutlet{
 
 export interface IOutletServerResponse{
     outlets : IOutlet[],
+    error : ""
+}
+
+export interface ICustomerResponse{
+    customers : ICustomer[],
+    error : ""
+}
+
+export interface ICustomerServerResponse{
+    customer : ICustomer,
+    error : ""
+}
+
+export interface ITeamDevServerResponse{
+    teamdevs : ITeamDev[],
     error : ""
 }
 
@@ -140,15 +154,17 @@ export interface IAadhar{
 export interface IDistrict{
     id: string,
     name: string,
-    zone: IZoneList    
+    zone: {id : string | undefined}, 
 }
 export interface IZone{
     id: string,    
     name: string,    
+    state: {id : string | undefined},
 }
 export interface IState{
     id: string,    
     name: string,    
+    country: {id : string | undefined},
 }
 export interface ICountry{
     id: string,    
@@ -229,6 +245,12 @@ export interface IProviderInfo{
     error : string | null
 }
 
+export interface IItemInfo{
+    categories: IItemCategory[],
+    packingTypes: IPackingType[],
+    subcategories: IItemSubCategory[],    
+}
+
 export interface IAccessToken {
     access_token : string;
 }
@@ -242,6 +264,71 @@ export interface IServerResponsePut {
 export interface IAddressServerResponse{
     address : IAddress,
     error : ""
+}
+
+export interface IItemCategory
+{
+    id : string,
+    category : string
+}
+
+export interface IItemSubCategory
+{
+    id : string,
+    category: {id : string | undefined},
+    subcategory : string
+}
+
+export interface IPackingType
+{
+    id : string,
+    packingType : string,
+    quantityInGrams : string,
+    container : string
+}
+
+export interface IItem
+{
+    id : string,
+    name : string,
+    packingType : {id : string | undefined},
+    category: {id : string | undefined},
+    subcategory: {id : string | undefined},
+    itemPrices: {gl : string | undefined,sl : string | undefined,pl : string | undefined},
+    retailPrice : string,
+    pictureLink : string,
+    thumbnailLink : string,
+    gstprice : string
+}
+
+
+export interface IAllItemsListServerResponse{
+    items : IItem[],
+    error : ""
+}
+
+export interface IItemWarehouse {    
+        item: { id: string | undefined },
+        outlet: { id: string | undefined },
+        batchNumber: string,
+        mfgDate: string,
+        expDate: string,
+        state: string,
+        quantity: string    
+}
+
+export interface IItemWarehouseCollection {
+    addWarehouseInventoryItemsRequests : IItemWarehouse[]
+}
+
+export interface IItemWarehouseServerResponse {
+    inventoryItems: IInventoryItems[]
+}
+
+export interface IInventoryItems {
+    itemId: {            
+        wareHouseItems: IItemWarehouse[]
+    }
 }
 
 

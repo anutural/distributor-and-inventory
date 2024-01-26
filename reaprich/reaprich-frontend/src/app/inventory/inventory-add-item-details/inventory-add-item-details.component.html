@@ -1,0 +1,91 @@
+<h1>Add Details!</h1>
+
+
+<mat-stepper orientation="vertical" [linear]="false" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup" (ngSubmit)="onAddCategory(formMine.value)" #formMine="ngForm">
+      <ng-template matStepLabel>Add Item Category</ng-template>
+      <div>
+        <mat-form-field>
+          <mat-label>Category ID</mat-label>
+          <input matInput formControlName="id" placeholder="category1" required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Category Name</mat-label>
+          <input matInput formControlName="category" placeholder="Category 1" required>
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup" (ngSubmit)="onAddSubCategory(formMineCategory.value)"
+      #formMineCategory="ngForm">
+      <ng-template matStepLabel>Add Item Sub Category</ng-template>
+
+      <mat-form-field class="outlet-full-width" formGroupName="category">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="id">
+          <mat-option *ngFor="let category of itemProviderInfo.categories" [value]="category.id">{{
+            category.category }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <mat-form-field>
+          <mat-label>Sub Category ID</mat-label>
+          <input matInput formControlName="id" placeholder="subcategory1" required>
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <mat-label>Subcategory</mat-label>
+        <input matInput formControlName="subcategory" placeholder="subcategory 1" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup">
+    <form [formGroup]="thirdFormGroup" (ngSubmit)="onAddPackingType(formMinePacking.value)" #formMinePacking="ngForm">
+      <ng-template matStepLabel>Add Packing Type</ng-template>
+      <mat-form-field>
+        <mat-label>Packing ID</mat-label>
+        <input matInput formControlName="id" placeholder="packingid1" required>
+      </mat-form-field>
+      <div>
+        <mat-form-field>
+          <mat-label>Packing Type</mat-label>
+          <input matInput formControlName="packingType" placeholder="packing type1" required>
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <mat-label>Quantity In Grams</mat-label>
+        <input matInput formControlName="quantityInGrams" placeholder="500" required>
+      </mat-form-field>
+      <div>
+        <mat-form-field>
+          <mat-label>Container</mat-label>
+          <input matInput formControlName="container" placeholder="container" required>
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>

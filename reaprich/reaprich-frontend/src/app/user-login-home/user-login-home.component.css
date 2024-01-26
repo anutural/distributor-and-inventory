@@ -1,4 +1,4 @@
-.btn-override{
+/* .btn-override{
     height: 150px;
     width: 150px;
     margin-left: 50px;
@@ -15,4 +15,12 @@
     align-items: center;
     text-align: center;
     min-height: 50vh;
-}
+} */
+
+mat-grid-tile {
+    background: lightseagreen;
+    font-size: x-large;
+    color: azure;
+    cursor: pointer
+    /* height: 200px; */
+  }

@@ -11,6 +11,17 @@ import { OutletHomeComponent } from './outlet/outlet-home/outlet-home.component'
 import { TeamdevHomeComponent } from './teamdev/teamdev-home/teamdev-home.component';
 import { OutletAddComponent } from './outlet/outlet-add/outlet-add.component';
 import { TeamdevAddComponent } from './teamdev/teamdev-add/teamdev-add.component';
+import { AddLocationComponent } from './admin/add-location/add-location.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
+import { InventoryHomeComponent } from './inventory/inventory-home/inventory-home.component';
+import { InventoryAddItemDetailsComponent } from './inventory/inventory-add-item-details/inventory-add-item-details.component';
+import { InventoryAddItemComponent } from './inventory/inventory-add-item/inventory-add-item.component';
+import { WarehouseHomeComponent } from './inventory/warehouse-home/warehouse-home.component';
+import { AddItemWarehouseComponent } from './inventory/add-item-warehouse/add-item-warehouse.component';
+import { OrdersHomeComponent } from './orders/orders-home/orders-home.component';
+import { OrdersViewItemsComponent } from './orders/orders-view-items/orders-view-items.component';
+import { OrdersCheckoutComponent } from './orders/orders-checkout/orders-checkout.component';
+import { OrdersItemsgridComponent } from './orders/orders-itemsgrid/orders-itemsgrid.component';
 
 
 const routes: Routes = [
@@ -29,7 +40,7 @@ const routes: Routes = [
   },
   {
     path:'customer-edit/:id',
-    component : CustomerEditComponent,
+    component : CustomerAddComponent,
     canActivate : [AuthGuard]
   },
   {
@@ -59,6 +70,61 @@ const routes: Routes = [
   {
     path:'teamdev-add',
     component : TeamdevAddComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path:'admin-add-location',
+    component : AddLocationComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'contact-us',
+    component: ContactUsComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'inventory-home',
+    component: InventoryHomeComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'inventory-add-item-details',
+    component: InventoryAddItemDetailsComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'inventory-add-item',
+    component: InventoryAddItemComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'warehouse-home',
+    component: WarehouseHomeComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'add-item-warehouse/:id/:name',
+    component: AddItemWarehouseComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'orders-home',
+    component: OrdersHomeComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'orders-view-items',
+    component: OrdersViewItemsComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'orders-checkout',
+    component: OrdersCheckoutComponent,
+    canActivate : [AuthGuard]
+  },
+  {
+    path: 'orders-itemsgrid',
+    component: OrdersItemsgridComponent,
     canActivate : [AuthGuard]
   },
 ]

@@ -4,6 +4,7 @@
 
 
 <div *ngIf="outletList.length > 0" class="outlet-list">
+    <h1>Outlet List</h1>
     <mat-form-field>
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Patel Brothers" #input>

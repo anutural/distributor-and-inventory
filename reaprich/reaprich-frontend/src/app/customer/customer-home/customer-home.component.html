@@ -11,42 +11,33 @@
         <table mat-table [dataSource]="dataSource" matSort>
 
             <!-- ID Column -->
-            <ng-container matColumnDef="Customer_Type">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer Type </th>
-                <td mat-cell *matCellDef="let row"> {{row.Customer_Type}} </td>
-            </ng-container>
 
             <!-- Progress Column -->
-            <ng-container matColumnDef="Customer_F_Name">
+            <ng-container matColumnDef="firstName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
-                <td mat-cell *matCellDef="let row"> {{row.Customer_F_Name}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.firstName}} </td>
             </ng-container>
 
             <!-- Name Column -->
-            <ng-container matColumnDef="Customer_L_Name">
+            <ng-container matColumnDef="lastName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-                <td mat-cell *matCellDef="let row"> {{row.Customer_L_Name}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.lastName}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Customer_Contact_Number">
+            <ng-container matColumnDef="contactNumber">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact Number </th>
-                <td mat-cell *matCellDef="let row"> {{row.Customer_Contact_Number}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.contactNumber}} </td>
             </ng-container>
-
-            <ng-container matColumnDef="TD_Add">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> TD Add </th>
-                <td mat-cell *matCellDef="let row"> {{row.TD_Add}} </td>
-            </ng-container>
+           
 
             <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
                 <td mat-cell *matCellDef="let row">
                     <fa-icon [icon]="icon" class="link_cursor" (click)="deleteCustomer(row.id)"></fa-icon>
-                    <fa-icon [icon]="iconEdit" class="link_cursor" (click)="deleteCustomer(row.id)"></fa-icon>
+                    <fa-icon [icon]="iconEdit" class="link_cursor" (click)="editCustomer(row.id)"></fa-icon>
                 </td>
 
             </ng-container>
-
 
 
             <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

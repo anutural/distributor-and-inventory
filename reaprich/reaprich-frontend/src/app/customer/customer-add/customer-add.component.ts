@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ICustomer, IProviderInfo } from 'src/app/data-type';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { IAddress, ICustomer, ICustomerResponse, ICustomerServerResponse, IProviderInfo } from 'src/app/data-type';
 import { CustomerService } from 'src/app/services/customer.service';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupAddAddressComponent } from 'src/app/popups/popup-add-address/popup-add-address.component';
+import { filter, first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-customer-add',
@@ -19,32 +20,80 @@ export class CustomerAddComponent {
   customerAddressUUID : string | undefined;
   rightIconForModal= faCheck;
   wrongIconForModal= faXmark;  
+  customerID : string | undefined;
+  isUpdateCustomer : boolean = false;
 
-  constructor(private customerService: CustomerService, private route: Router, private dialogRef: MatDialog) {
+  constructor(private customerService: CustomerService, private route: Router, private dialogRef: MatDialog, 
+    private activatedRoute : ActivatedRoute,
+    private formBuilder : FormBuilder) {
 
-    this.addCustomerForm = new FormGroup({
-      Actor_Type: new FormGroup({
+    this.addCustomerForm = new FormGroup({      
+      actorType: new FormGroup({
         id: new FormControl({ value: 'Customer', disabled: true })
       }),
-      Customer_Type: new FormGroup({
+      customerType: new FormGroup({
         id: new FormControl()
       }),      
-      Customer_F_Name: new FormControl(),
-      Customer_L_Name: new FormControl(),
-      Customer_Contact_Number: new FormControl(),
-      Customer_Add: new FormGroup({
-        id: new FormControl()
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      contactNumber: new FormControl('', Validators.required),
+      address: new FormGroup({
+        id: new FormControl()        
       })
     });
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     let providerInfo = this.getFromLocalStorage('providerInfo');
     if (providerInfo) {
       this.providerInfo = JSON.parse(providerInfo);
     }
     this.customerAddressUUID = this.getFromLocalStorage('customerAddressUUID') as string;
+
+    let customerId = this.activatedRoute.snapshot.paramMap.get('id');
+    
+    this.customerService.getCustomer(customerId).subscribe((result => {
+      if (result) {
+        let servResp = result as ICustomerServerResponse;
+        let addResp = servResp.customer.address as IAddress;
+        let custTypeResp = servResp.customer.customerType as IAddress;
+        if (addResp){
+          this.customerAddressUUID = addResp.id;
+          this.saveToLocalStorage("customerAddressUUID", addResp.id);
+          this.isUpdateCustomer = true;
+        }
+        if(addResp.id)
+        {
+          this.customerID = addResp.id;
+        }
+        console.warn("addresp:", addResp);
+        this.addCustomerForm = this.formBuilder.group({
+          firstName: servResp.customer.firstName,
+          lastName: servResp.customer.lastName,
+          contactNumber: servResp.customer.contactNumber,
+          // address: this.formBuilder.group({
+          //   id: addResp.id            
+          // }),
+          customerType: this.formBuilder.group({
+            id: custTypeResp.id            
+          })
+        })
+      }
+    })
+    );
+
+
+    
+
+    this.route.events
+    .pipe(
+      filter((e) => e instanceof NavigationEnd),
+      first()
+    )
+    .subscribe(() => {
+      this.removeLocalStorage();
+    });
   }
 
 
@@ -60,22 +109,47 @@ export class CustomerAddComponent {
       return;
     }
 
+    if(this.customerID){
+      customerObject.id = this.customerID;
+      console.warn('customer id set for -', this.customerID)
+    }
+
     let customer = {
       id: "Customer",
     };
 
-    customerObject.Actor_Type = customer;
+    customerObject.actorType = customer;
 
-    customerObject.Customer_Add = { id: this.customerAddressUUID };    
+    customerObject.address = { id: this.customerAddressUUID };    
 
-    console.warn('prepare object - ' , customerObject);
-    (await this.customerService.addCustomer(customerObject)).subscribe((result: any) => {
-      if (result) {
-        alert("Customer Added Successfully!");
+    console.warn('customer object -', customerObject);
+    
+    if (!this.isUpdateCustomer) {
+      (await this.customerService.addCustomer(customerObject)).subscribe((result: any) => {
+        if (result) {
+          alert("Customer Added Successfully!");
+          this.removeLocalStorage();
+          this.route.navigate([`\customer-home`]);
+        }
+      }, err => {
+        alert("Unable to add customer at this time. Please connect to support.");   
+        this.removeLocalStorage();     
+        this.route.navigate([`\customer-home`]);
+      });
+    }
+    else {
+      (await this.customerService.editCustomer(customerObject)).subscribe((result: any) => {
+        if (result) {
+          alert("Customer Added Successfully!");
+          this.removeLocalStorage();
+          this.route.navigate([`\customer-home`]);
+        }
+      },err => {
+        alert("Unable to update customer at this time. Please connect to support.");
         this.removeLocalStorage();
         this.route.navigate([`\customer-home`]);
-      }
-    });
+      });
+    }
             
   }
 
